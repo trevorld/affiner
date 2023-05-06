@@ -1,0 +1,12 @@
+LICENSE.md
+README.Rmd
+README.html
+Rakefile
+codecov.yml
+_pkgdown.yml
+^pkgdown$
+^\.github$
+^raw-data$
+^cran-comments.md$
+^tmp$
+^codecov\.yml$

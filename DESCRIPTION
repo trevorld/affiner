@@ -1,0 +1,29 @@
+Package: affiner
+Type: Package
+Title: A finer way to render 3D objects in 'grid' using affine transformations
+Version: 0.1.0-1
+Authors@R: c(person("Trevor L", "Davis", role = c("aut", "cre"),
+                    email = "trevor.l.davis@gmail.com",
+                    comment = c(ORCID = "0000-0001-6341-4639")))
+Description: Translate, rotate, dilate, and project 2D and 3D points.  Use the 'grid's "affine transformation" feature to render textured flat surfaces.
+URL: https://trevorldavis.com/R/affiner/
+BugReports: https://github.com/trevorld/affiner/issues
+License: MIT + file LICENSE
+Imports:
+    grDevices,
+    grid,
+    R6,
+    utils
+Suggests:
+    gridpattern,
+    knitr,
+    rlang,
+    rmarkdown,
+    stats,
+    testthat (>= 3.0.0),
+    vdiffr
+VignetteBuilder: knitr, rmarkdown
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3

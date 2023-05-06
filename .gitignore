@@ -1,0 +1,5 @@
+README.html
+pkgdown
+*.swp
+tmp
+raw-data/*jpeg
