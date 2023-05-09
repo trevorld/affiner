@@ -4,11 +4,11 @@
 \name{affiner-package}
 \alias{affiner}
 \alias{affiner-package}
-\title{affiner: A finer way to render 3D objects in 'grid' using affine transformations}
+\title{affiner: A finer way to render 3D illustrated objects in 'grid' using affine transformations}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Translate, rotate, dilate, and project 2D and 3D points. Use the 'grid's "affine transformation" feature to render textured flat surfaces.
+Dilate, permute, project, reflect, rotate, shear, and translate 2D and 3D points. Supports parallel projections including oblique projections such as the cabinet projection as well as axonometric projections such as the isometric projection. Use 'grid's "affine transformation" feature to render illustrated flat surfaces.
 }
 \section{Package options}{
 

@@ -31,7 +31,9 @@ translate2d(vec = coord2d(0, 0), ...)
 \item{mat}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
 The last \strong{column} must be equal to \code{c(0, 0, 1)}.
 If the last \strong{row} is \code{c(0, 0, 1)} you may need to transpose it
-to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.}
+to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
+we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
 
 \item{permutation}{Either "xy" (no permutation) or "yx" (permute x and y axes)}
 

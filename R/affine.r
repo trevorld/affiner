@@ -34,6 +34,8 @@
 #'            The last **column** must be equal to `c(0, 0, 1)`.
 #'            If the last **row** is `c(0, 0, 1)` you may need to transpose it
 #'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+#'            If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
+#'            we'll quietly add a final column/row equal to `c(0, 0, 1)`.
 #' @examples
 #'   p <- coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
 #'
@@ -63,6 +65,10 @@
 #'
 #' @export
 transform2d <- function(mat = diag(3)) {
+    if (all(dim(mat) == c(2, 2))) {
+        mat <- rbind(mat, c(0, 0))
+        mat <- cbind(mat, c(0, 0, 1))
+    }
     validate_transform2d(mat)
     new_transform2d(mat)
 }
@@ -99,11 +105,17 @@ transform2d <- function(mat = diag(3)) {
 #'            The last **column** must be equal to `c(0, 0, 0, 1)`.
 #'            If the last **row** is `c(0, 0, 0, 1)` you may need to transpose it
 #'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+#'            If a 3x3 matrix (such as a 3x3 post-multiplied 3D rotation matrix)
+#'            we'll quietly add a final column/row equal to `c(0, 0, 0, 1)`.
 #' @examples
 #'   p <- coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
 #'
 #' @export
 transform3d <- function(mat = diag(4)) {
+    if (all(dim(mat) == c(3, 3))) {
+        mat <- rbind(mat, c(0, 0, 0))
+        mat <- cbind(mat, c(0, 0, 0, 1))
+    }
     validate_transform3d(mat)
     new_transform3d(mat)
 }

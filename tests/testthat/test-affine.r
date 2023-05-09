@@ -2,7 +2,7 @@ test_that("transform2d()", {
     m <- transform2d(diag(3))
     expect_true(is_transform2d(m))
     expect_equal(m, as_transform2d(m))
-    expect_equal(m, as_transform2d(diag(3)))
+    expect_equal(m, as_transform2d(diag(2)))
 
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
@@ -35,7 +35,7 @@ test_that("transform3d()", {
     expect_error(as_transform3d(t(translate3d(coord3d(1, 2, 3)))))
     expect_error(as_transform3d(m + 2))
     expect_equal(m, as_transform3d(m))
-    expect_equal(m, as_transform3d(diag(4)))
+    expect_equal(m, as_transform3d(diag(3)))
 
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)

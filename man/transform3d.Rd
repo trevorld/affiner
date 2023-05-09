@@ -43,7 +43,9 @@ translate3d(vec = coord3d(0, 0, 0), ...)
 \item{mat}{A 4x4 matrix representing a post-multiplied affine transformation matrix.
 The last \strong{column} must be equal to \code{c(0, 0, 0, 1)}.
 If the last \strong{row} is \code{c(0, 0, 0, 1)} you may need to transpose it
-to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.}
+to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+If a 3x3 matrix (such as a 3x3 post-multiplied 3D rotation matrix)
+we'll quietly add a final column/row equal to \code{c(0, 0, 0, 1)}.}
 
 \item{permutation}{Either "xyz" (no permutation), "xzy" (permute y and z axes),
 "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
