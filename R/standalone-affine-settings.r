@@ -191,14 +191,6 @@ at_height <- function(df) {
     abs(y_ul - y_ll)
 }
 
-at_vp <- function(x, y, width, height, angle, unit = "inches") {
-    grid::viewport(x = grid::unit(x, unit),
-                   y = grid::unit(y, unit),
-                   width = grid::unit(width, unit),
-                   height = grid::unit(height, unit),
-                   angle = angle)
-}
-
 # Convert between Cartesian and polar coordinates
 to_x <- function(t, r) {
     r * cos(pi * t / 180)

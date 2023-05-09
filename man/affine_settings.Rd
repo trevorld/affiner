@@ -36,7 +36,7 @@ If \code{getRversion()} is less than \code{"4.2.0"} will instead be \code{NULL}.
 }
 }
 \description{
-\code{affine_settings} computes \code{grid} group affine transformation feature viewport and transformation
+\code{affine_settings()} computes \code{grid} group affine transformation feature viewport and transformation
 function settings given the (x,y) coordinates of the corners of the
 affine transformed "viewport" one wishes to draw in.
 }
@@ -46,12 +46,12 @@ affine transformed "viewport" one wishes to draw in.
 To avoid taking a dependency on \code{affiner} you may copy the source of \code{affine_settings()}
 into your own package under the permissive Unlicense.  Either use
 \code{usethis::use_standalone("trevorld/affiner", "affine-settings")} or copy the file
-\code{standalone-affine-settings.r} into your \code{R} directory and add \code{grid} and \code{grDevices}
+\code{standalone-affine-settings.r} into your \code{R} directory and add \code{grid}
 to the \code{Imports} of your \code{DESCRIPTION} file.
 }
 
 \seealso{
-Intended for use \code{\link[=affineGrob]{affineGrob()}} or perhaps \code{\link[grid:grid.group]{grid::useGrob()}}.
+Intended for use with \code{\link[=affineGrob]{affineGrob()}} and \code{\link[grid:grid.group]{grid::useGrob()}}.
 See \url{https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html}
 for more information about the group affine transformation feature.
 }
