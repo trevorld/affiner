@@ -167,7 +167,14 @@ Coord2D <- R6Class("coord2d",
            self$transform(shear2d(xy_shear, yx_shear))
        },
        translate = function(vec = coord2d(0, 0), ...) {
-           self$transform(translate2d(vec, ...))
+           if (length(vec) == 1) {
+               self$transform(translate2d(vec, ...))
+           } else {
+               private$apply_any_delayed_transformations()
+               private$mat_xyw[, 1] <- private$mat_xyw[, 1] + vec$x
+               private$mat_xyw[, 2] <- private$mat_xyw[, 2] + vec$y
+               invisible(self)
+           }
        },
        transform = function(mat = transform2d()) {
            if (!is_transform2d(mat))
@@ -276,7 +283,15 @@ Coord3D <- R6Class("coord3d",
            self$transform(shear3d(xy_shear, xz_shear, yx_shear, yz_shear, zx_shear, zy_shear))
        },
        translate = function(vec = coord3d(0, 0, 0), ...) {
-           self$transform(translate3d(vec, ...))
+           if (length(vec) == 1) {
+               self$transform(translate3d(vec, ...))
+           } else {
+               private$apply_any_delayed_transformations()
+               private$mat_xyzw[, 1] <- private$mat_xyzw[, 1] + vec$x
+               private$mat_xyzw[, 2] <- private$mat_xyzw[, 2] + vec$y
+               private$mat_xyzw[, 3] <- private$mat_xyzw[, 3] + vec$z
+               invisible(self)
+           }
        },
        transform = function(mat = transform3d()) {
            if (!is_transform3d(mat))

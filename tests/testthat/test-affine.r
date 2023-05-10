@@ -275,6 +275,10 @@ test_that("translate2d()", {
     p2 <- p0$clone()$translate(angle(90, "degrees"), radius = 2)
     expect_equal(p2$x, x)
     expect_equal(p2$y, y + 2)
+
+    p3 <- p0$clone()$translate(p0)
+    expect_equal(p3$x, x + x)
+    expect_equal(p3$y, y + y)
 })
 
 test_that("translate3d()", {
@@ -289,4 +293,9 @@ test_that("translate3d()", {
     expect_equal(p1$x, x + 2)
     expect_equal(p1$y, y + 3)
     expect_equal(p1$z, z + 1)
+
+    p3 <- p0$clone()$translate(p0)
+    expect_equal(p3$x, x + x)
+    expect_equal(p3$y, y + y)
+    expect_equal(p3$z, z + z)
 })
