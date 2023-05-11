@@ -170,6 +170,8 @@ Coord2D <- R6Class("coord2d",
            if (length(vec) == 1) {
                self$transform(translate2d(vec, ...))
            } else {
+               if (!is_coord2d(vec))
+                   vec <- as_coord2d(vec, ...)
                private$apply_any_delayed_transformations()
                private$mat_xyw[, 1] <- private$mat_xyw[, 1] + vec$x
                private$mat_xyw[, 2] <- private$mat_xyw[, 2] + vec$y
@@ -286,6 +288,8 @@ Coord3D <- R6Class("coord3d",
            if (length(vec) == 1) {
                self$transform(translate3d(vec, ...))
            } else {
+               if (!is_coord3d(vec))
+                   vec <- as_coord3d(vec, ...)
                private$apply_any_delayed_transformations()
                private$mat_xyzw[, 1] <- private$mat_xyzw[, 1] + vec$x
                private$mat_xyzw[, 2] <- private$mat_xyzw[, 2] + vec$y
