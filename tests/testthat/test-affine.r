@@ -171,6 +171,10 @@ test_that("rotate2d()", {
     p2 <- coord2d(x = x, y = y)$rotate(-0.5, "pi-radians")
     expect_equal(p2$x, c(3, 4, 6))
     expect_equal(p2$y, c(-2, -5, -7))
+
+    p3 <- coord2d(x = x, y = y)$rotate(c(90, 0, -90), "degrees")
+    expect_equal(p3$x, c(-3, 5, 6))
+    expect_equal(p3$y, c(2, 4, -7))
 })
 
 test_that("rotate3d()", {

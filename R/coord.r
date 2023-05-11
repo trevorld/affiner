@@ -151,7 +151,18 @@ Coord2D <- R6Class("coord2d",
            self$transform(reflect2d(theta, ...))
        },
        rotate = function(theta = angle(0), ...) {
-           self$transform(rotate2d(theta, ...))
+           if (!is_angle(theta))
+               theta <- as_angle(theta, ...)
+           if (length(theta) == 1) {
+               self$transform(rotate2d(theta, ...))
+           } else {
+               private$apply_any_delayed_transformations()
+               x <- private$mat_xyw[, 1]
+               y <- private$mat_xyw[, 2]
+               private$mat_xyw[, 1] <- x * cos(theta) - y * sin(theta)
+               private$mat_xyw[, 2] <- x * sin(theta) + y * cos(theta)
+               invisible(self)
+           }
        },
        scale = function(x_scale = 1, y_scale = x_scale) {
            if (length(x_scale) == 1 && length(y_scale) == 1) {
@@ -167,11 +178,11 @@ Coord2D <- R6Class("coord2d",
            self$transform(shear2d(xy_shear, yx_shear))
        },
        translate = function(vec = coord2d(0, 0), ...) {
+           if (!is_coord2d(vec))
+               vec <- as_coord2d(vec, ...)
            if (length(vec) == 1) {
                self$transform(translate2d(vec, ...))
            } else {
-               if (!is_coord2d(vec))
-                   vec <- as_coord2d(vec, ...)
                private$apply_any_delayed_transformations()
                private$mat_xyw[, 1] <- private$mat_xyw[, 1] + vec$x
                private$mat_xyw[, 2] <- private$mat_xyw[, 2] + vec$y
@@ -285,11 +296,11 @@ Coord3D <- R6Class("coord3d",
            self$transform(shear3d(xy_shear, xz_shear, yx_shear, yz_shear, zx_shear, zy_shear))
        },
        translate = function(vec = coord3d(0, 0, 0), ...) {
+           if (!is_coord3d(vec))
+               vec <- as_coord3d(vec, ...)
            if (length(vec) == 1) {
                self$transform(translate3d(vec, ...))
            } else {
-               if (!is_coord3d(vec))
-                   vec <- as_coord3d(vec, ...)
                private$apply_any_delayed_transformations()
                private$mat_xyzw[, 1] <- private$mat_xyzw[, 1] + vec$x
                private$mat_xyzw[, 2] <- private$mat_xyzw[, 2] + vec$y
