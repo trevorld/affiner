@@ -30,6 +30,12 @@ test_that("coord3d()", {
     expect_equal(rep_len(p3, 4), coord3d(rep(0, 4), rep(0, 4), rep(0, 4)))
 })
 
+test_that("convex_hull()", {
+    p <- coord2d(x = rnorm(25), y = rnorm(25))
+    expect_equal(convex_hull(p),
+                 p[rev(grDevices::chull(as.list(p)))])
+})
+
 test_that("mean()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)

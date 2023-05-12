@@ -136,6 +136,34 @@ mean.coord3d <- function(x, ...) {
     coord3d(mean(x$x, ...), mean(x$y, ...), mean(x$z, ...))
 }
 
+#' Compute convex hull
+#'
+#' `convex_hull()` is a S3 generic for computing the convex hull of an object.
+#' There is an implemented method supporting [coord2d()] objects
+#' using [grDevices::chull()] to compute the convex hull.
+#'
+#' @param x An object representing object to compute convex hull of such as a [coord2d()] object.
+#' @param ... Further arguments passed to or from other methods.
+#' @return An object of same class as `x` representing just the subset of points on the convex hull.
+#'         The method for [coord2d()] objects returns these points in counter-clockwise order.
+#' @examples
+#' p <- coord2d(x = rnorm(25), y = rnorm(25))
+#' convex_hull(p)$print(usage = FALSE)
+#'
+#' # Equivalent to following caculation using `grDevices::chull()`
+#' all.equal(convex_hull(p),
+#'           p[rev(grDevices::chull(as.list(p)))])
+#' @export
+convex_hull <- function(x, ...) {
+    UseMethod("convex_hull")
+}
+
+#' @rdname convex_hull
+#' @export
+convex_hull.coord2d <- function(x, ...) {
+    x[rev(grDevices::chull(as.list(x)))]
+}
+
 # Group "Summary"
 
 #' @export

@@ -3,17 +3,11 @@ url: "https://trevorldavis.com/R/affiner"
 development:
     mode: auto
 reference:
-    - title: "Angle vectors"
-      desc: "Angle vectors allow users to use whichever angular unit is most convenient for them"
+    - title: "{grid} affine transformation utilities"
+      desc: "Utilities to use the {grid} group affine transformation feature"
       contents:
-        - angle
-        - is_angle
-        - as_angle
-        - angular_unit
-        - is_congruent
-        - sine
-        - arcsine
-        - print.angle
+        - affineGrob
+        - affine_settings
     - title: "2D/3D coordinate objects"
       desc: "2D/3D coordinate objects"
       contents:
@@ -33,16 +27,23 @@ reference:
         - is_transform3d
         - as_transform3d
         - rotate3d_to_AA
-    - title: "Centroids and Euclidean norm"
-      desc: "Compute centroids and Euclidean norms for 2D and 3D coordinates"
+    - title: "Angle vectors"
+      desc: "Angle vectors allow users to use whichever angular unit is most convenient for them"
+      contents:
+        - angle
+        - is_angle
+        - as_angle
+        - angular_unit
+        - is_congruent
+        - sine
+        - arcsine
+        - print.angle
+    - title: "Additional coordinate calculations"
+      desc: "Compute centroids and Euclidean norms for 2D and 3D coordinates as well as convex hulls for 2D coordinates"
       contents:
         - mean.coord2d
         - abs.coord2d
-    - title: "{grid} affine transformation utilities"
-      desc: "Utilities to use the {grid} group affine transformation feature"
-      contents:
-        - affineGrob
-        - affine_settings
+        - convex_hull.coord2d
     - title: "Overall package description"
       desc: "Overall package description including supported package options"
       contents:

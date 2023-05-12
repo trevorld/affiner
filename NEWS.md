@@ -37,7 +37,11 @@ Initial features
   + `is_coord2d()` and `is_coord3d()` test whether objects are `coord2d()` or `coord3d()` objects
   + `as_coord2d()` and `as_coord3d()` cast objects to `coord2d()` or `coord3d()` objects
   + Several mathematical operations are supported
-  + `mean()` computes centroids of coordinates and `abs()` computes Euclidean norm
+  + Additional S3 methods:
+
+    - `abs()` computes Euclidean norm
+    - `convex_hull()` computes convex hull (for `coord2d()` objects)
+    - `mean()` computes centroids of coordinates
 
 * `transform2d()` and `transform3d()` create 2D/3D affine transformation matrices
 
