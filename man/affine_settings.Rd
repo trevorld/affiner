@@ -45,8 +45,8 @@ affine transformed "viewport" one wishes to draw in.
 
 To avoid taking a dependency on \code{affiner} you may copy the source of \code{affine_settings()}
 into your own package under the permissive Unlicense.  Either use
-\code{usethis::use_standalone("trevorld/affiner", "affine-settings")} or copy the file
-\code{standalone-affine-settings.r} into your \code{R} directory and add \code{grid}
+\code{usethis::use_standalone("trevorld/affiner", "standalone-affine-settings.r")} or
+copy the file \code{standalone-affine-settings.r} into your \code{R} directory and add \code{grid}
 to the \code{Imports} of your \code{DESCRIPTION} file.
 }
 

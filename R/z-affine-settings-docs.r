@@ -10,8 +10,8 @@
 #'
 #' To avoid taking a dependency on `affiner` you may copy the source of `affine_settings()`
 #' into your own package under the permissive Unlicense.  Either use
-#' `usethis::use_standalone("trevorld/affiner", "affine-settings")` or copy the file
-#' `standalone-affine-settings.r` into your `R` directory and add `grid`
+#' `usethis::use_standalone("trevorld/affiner", "standalone-affine-settings.r")` or
+#' copy the file `standalone-affine-settings.r` into your `R` directory and add `grid`
 #' to the `Imports` of your `DESCRIPTION` file.
 #'
 #' @param xy An R object with named elements `x` and `y` representing the (x,y) coordinates

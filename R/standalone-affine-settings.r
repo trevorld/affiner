@@ -9,8 +9,8 @@
 # nocov start
 #
 # You may copy this source into your own R package
-# by either using `usethis::use_standalone("trevorld/affiner", "affine-settings")`
-# or simply copying this file into your `R` directory and add `grid` to the `Imports` of
+# by either using `usethis::use_standalone("trevorld/affiner", "standalone-affine-settings.r")`
+# or simply copying this file into your `R` directory and adding `grid` to the `Imports` of
 # your `DESCRIPTION` file.
 
 #' Compute `grid` affine transformation feature viewports and transformation functions
