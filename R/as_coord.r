@@ -207,17 +207,22 @@ as_coord2d.coord3d <- function(x,
 #' @rdname as_coord2d
 #' @export
 as_coord2d.data.frame <- function(x, ...) {
-    if (all(hasName(x, c("x", "y"))))
-        x <- x[, c("x", "y")]
-    Coord2D$new(as_xyw_matrix(x, ...))
+    stopifnot(all(hasName(x, c("x", "y"))))
+    Coord2D$new(as_xyw_matrix(x[, c("x", "y")], ...))
 }
 
 #' @rdname as_coord3d
 #' @export
-as_coord3d.data.frame <- function(x, ...) {
-    if (all(hasName(x, c("x", "y", "z"))))
-        x <- x[, c("x", "y", "z")]
-    Coord3D$new(as_xyzw_matrix(x, ...))
+as_coord3d.data.frame <- function(x, ..., z = NULL) {
+    stopifnot(all(hasName(x, c("x", "y"))),
+              is.null(z) || !hasName(x, "z"))
+    if (!is.null(z))
+        x$z <- z
+    if (hasName(x, "z"))
+        nms <- c("x", "y", "z")
+    else
+        nms <- c("x", "y")
+    Coord3D$new(as_xyzw_matrix(x[, nms], ...))
 }
 
 #' @rdname as_coord2d
@@ -228,8 +233,11 @@ as_coord2d.list <- function(x, ...) {
 
 #' @rdname as_coord3d
 #' @export
-as_coord3d.list <- function(x, ...) {
-    as_coord3d.data.frame(as.data.frame(x, ...))
+as_coord3d.list <- function(x, ..., z = NULL) {
+    if (is.null(z))
+        as_coord3d.data.frame(as.data.frame(x, ...))
+    else
+        as_coord3d.data.frame(as.data.frame(x, ...), z = z)
 }
 
 #' @rdname as_coord2d
@@ -257,7 +265,8 @@ as_coord3d.coord3d <- function(x, ...) {
 }
 
 #' @rdname as_coord3d
-#' @param z Numeric vector of z-coordinates
+#' @param z Numeric vector of z-coordinates to be used
+#'          if `hasName(x, "z")` is `FALSE`.
 #' @export
 as_coord3d.coord2d <- function(x, z = rep_len(0, length(x)), ...) {
     coord3d(x = x$x, y = x$y, z = z)

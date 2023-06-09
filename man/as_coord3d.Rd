@@ -17,9 +17,9 @@ as_coord3d(x, ...)
 
 \method{as_coord3d}{character}(x, ...)
 
-\method{as_coord3d}{data.frame}(x, ...)
+\method{as_coord3d}{data.frame}(x, ..., z = NULL)
 
-\method{as_coord3d}{list}(x, ...)
+\method{as_coord3d}{list}(x, ..., z = NULL)
 
 \method{as_coord3d}{matrix}(x, ...)
 
@@ -40,7 +40,8 @@ radial distances of cylindrical coordinates.}
 \item{inclination}{Spherical coordinates inclination angle aka polar angle.
 \code{x} represents the azimuth aka azimuthal angle.}
 
-\item{z}{Numeric vector of z-coordinates}
+\item{z}{Numeric vector of z-coordinates to be used
+if \code{hasName(x, "z")} is \code{FALSE}.}
 }
 \value{
 A \code{\link[=coord3d]{coord3d()}} object

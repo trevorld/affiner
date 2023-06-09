@@ -60,13 +60,17 @@ coord3d <- function(x = numeric(0), y = numeric(0), z = numeric(0)) {
 as_xyzw_matrix <- function(x) {
     if (!is.matrix(x))
         x <- as.matrix(x)
-    stopifnot(ncol(x) == 3 || ncol(x) == 4,
+    stopifnot(ncol(x) >= 2,
+              ncol(x) <= 4,
               is.numeric(x)
     )
-    if (ncol(x) < 4)
+    if (ncol(x) == 2) {
+        x <- cbind(x, 0, 1)
+    } else if (ncol(x) == 3) {
         x <- cbind(x, 1)
-    else
+    } else {
         stopifnot(all(x[, 4] == 1))
+    }
     colnames(x) <- c("x", "y", "z", "w")
     x
 }
