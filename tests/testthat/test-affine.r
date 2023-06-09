@@ -113,6 +113,8 @@ test_that("project3d()", {
     expect_equal(p4$y, y + scale * sin(alpha) * z)
     expect_equal(p4$z, rep(0, 3))
 
+    p42 <- coord3d(x, y, z)$project(scale = scale, alpha = 60, unit = "degrees")
+
     p5 <- coord3d(x, y, z)$permute("xzy")$project(scale = scale, alpha = alpha)
     expect_equal(p5$x, x + scale * cos(alpha) * y)
     expect_equal(p5$y, z + scale * sin(alpha) * y)
@@ -175,6 +177,10 @@ test_that("rotate2d()", {
     p3 <- coord2d(x = x, y = y)$rotate(c(90, 0, -90), "degrees")
     expect_equal(p3$x, c(-3, 5, 6))
     expect_equal(p3$y, c(2, 4, -7))
+
+    skip_if_not(getRversion() >= "4.3.0")
+    expect_equal(rotate2d(90, "degrees"),
+                 permute2d("yx") %*% scale2d(-1, 1))
 })
 
 test_that("rotate3d()", {
@@ -283,6 +289,9 @@ test_that("translate2d()", {
     p3 <- p0$clone()$translate(p0)
     expect_equal(p3$x, x + x)
     expect_equal(p3$y, y + y)
+
+    expect_equal(translate2d(angle(90, "degrees"), radius = 1),
+                 translate2d(coord2d(0, 1)))
 })
 
 test_that("translate3d()", {
@@ -302,4 +311,7 @@ test_that("translate3d()", {
     expect_equal(p3$x, x + x)
     expect_equal(p3$y, y + y)
     expect_equal(p3$z, z + z)
+
+    expect_equal(translate3d(coord3d(3, 2, 1)),
+                 translate3d(coord2d(3, 2), z = 1))
 })

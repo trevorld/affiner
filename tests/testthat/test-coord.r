@@ -86,9 +86,12 @@ test_that("as_coord2d()", {
     expect_equal(p2$x, x)
     expect_equal(p2$y, z)
 
-    alpha <- angle(60, "degrees")
+    p3 <- as_coord2d(p, "xzy",
+                     normal = "xy-plane",
+                     scale = 0.5,
+                     alpha = 60, unit = "degrees")
     scale <- 0.5
-    p3 <- as_coord2d(p, "xzy", scale = scale, alpha = alpha)
+    alpha <- angle(60, "degrees")
     expect_equal(p3$x, x + scale * cos(alpha) * y)
     expect_equal(p3$y, z + scale * sin(alpha) * y)
 })
@@ -109,6 +112,9 @@ test_that("as_coord3d()", {
     expect_equal(p1, as_coord3d(l))
     m <- as.matrix(as.data.frame(l))
     expect_equal(p1, as_coord3d(m))
+    l <- list(x = x, y = y)
+    expect_equal(coord3d(x, y, 0), as_coord3d(l))
+    expect_equal(coord3d(x, y, z), as_coord3d(l, z = z))
 
     expect_equal(as_coord3d("origin"), coord3d(0, 0, 0))
     expect_equal(as_coord3d("x-axis"), coord3d(1, 0, 0))
@@ -123,10 +129,11 @@ test_that("as_coord3d()", {
     expect_warning(as_coord3d("foobar"))
 
     # spherical coordinates
-    expect_equal(as_coord3d(angle(1 / 3, "pi-radians"), radius = 8, inclination = angle(1 / 6, "pi-radians")),
+    expect_equal(as_coord3d(angle(1 / 3, "pi-radians"), radius = 8,
+                            inclination = 1 / 6, unit = "pi-radians"),
                  coord3d(2, 2 * sqrt(3), 4 * sqrt(3)))
     # cylindrical coordinates
-    expect_equal(as_coord3d(arctangent(-3), radius = sqrt(10), z = 5),
+    expect_equal(as_coord3d(arctangent(-3), radius = sqrt(10), z = "5"),
                  coord3d(1, -3, 5))
 })
 
