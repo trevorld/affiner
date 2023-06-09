@@ -57,6 +57,10 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.cap = "")
 
 ### <a name="logo">Isometric-cube hex logo</a>
 
+* The three visible faces of an isometrically projected cube are parallelograms.  Additionally each projected vertex will match one of the six vertices of a regular hexagon or its center.
+* The `as_coord2d()` method for `angle()` objects lets you compute the regular polygon vertices and center using [polar coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system)
+* Use `affine_settings()` and `affineGrob()`  or `grid.affine()` to render arbitrary "illustrated" grobs within each of these parallelograms.
+
 ```{r hex-logo, fig.width = 4.5, fig.height = 4.5}
 library("affiner")
 library("grid")
@@ -70,7 +74,7 @@ l_xy$right <- xy[c(7, 4, 5, 6)]
 l_xy$top <- xy[c(1, 2, 7, 6)]
 
 gp_border <- gpar(fill = NA, col = "black", lwd = 12)
-vp_define <- viewport(width=unit(3, "inches"), height = unit(3, "inches"))
+vp_define <- viewport(width = unit(3, "inches"), height = unit(3, "inches"))
 
 colors <- c("#D55E00", "#009E73", "#56B4E9")
 spacings <- c(0.25, 0.2, 0.25)
@@ -106,6 +110,19 @@ for (i in 1:3) {
 
 
 ### <a name="dice">Render an "illustrated" d6 dice using oblique and isometric projections</a>
+
+Our high-level strategy for rendering 3D objects is as follows:
+
+* Figure out the "physical" 3D coordinates of the cube face vertices in "inches".  These cube faces will correspond to target "3D viewports" we'll want to render the illustrated cube face grobs into.
+
+  + For my piecepack diagrams I make with [{piecepackr}](https://github.com/trevorld/piecepackr/) I figuratively think as my graphics device as a piece of paper (bottom left corner is the origin)  and calculate the 3D coordinates in inches as if my board game pieces were physically sitting on top of the graphics device (since piecepack tiles are 2 inches by 2 inches this is usually a straightforward calculation).
+  
+* Project these 3D coordinates onto a "physical" xy-plane (corresponding to our graphics device) in "inches" using a parallel projection (in this example we'll do a couple oblique projections and an isometric projection).  Note since all parallel projections are affine transformations we know the projected vertices of a square "3D viewport" will project to the 2D coordinates of a "parallelogram viewport".
+* (If they don't already do so) translate these parallelograms so they lie within the graphics device view (i.e. the "parallelogram viewport" vertices are all in the upper right quadrant of the xy-plane).
+
+  + If you use an oblique projection to the xy-plane with an `alpha` angle between 0 and 90 degrees then any flat faces lying directly on the xy-plane will stay where they are and any flat faces on a parallel higher plane will only be shifted up/right.  So in this case one usually doesn't need to such a translation assuming all your "objects" were placed in the upper quadrant of the xy-plane to begin with.
+
+* Use `affine_settings()` and `grid.affine()` / `affineGrob()` to render the illustrated cube face "grobs" within these affine transformed "parallelogram viewports".  The order these are drawn is important but in this example we manually sorted them ahead of time in an order that worked for our target projections.
 
 ```{r die-faces, fig.width = 4.0, fig.height = 3.0}
 library("affiner")
