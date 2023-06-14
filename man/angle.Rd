@@ -2,9 +2,18 @@
 % Please edit documentation in R/angle.r
 \name{angle}
 \alias{angle}
+\alias{degrees}
+\alias{pi_radians}
+\alias{radians}
 \title{Angle vectors}
 \usage{
 angle(x = numeric(), unit = getOption("affiner_angular_unit", "degrees"))
+
+degrees(x)
+
+pi_radians(x)
+
+radians(x)
 }
 \arguments{
 \item{x}{An angle vector or an object to convert to it (such as a numeric vector)}
@@ -26,6 +35,7 @@ Its "unit" attribute is a standardized string of the specified angular unit.
 }
 \description{
 \code{angle()} creates angle vectors with user specified angular unit.
+those commonly used angular units.
 }
 \examples{
   # Different representations of the "same" angle
@@ -33,6 +43,7 @@ Its "unit" attribute is a standardized string of the specified angular unit.
   angle(pi, "radians")
   angle(0.5, "turns")
   angle(200, "gradians")
+  pi_radians(1)
 
   a1 <- angle(180, "degrees")
   angular_unit(a1)

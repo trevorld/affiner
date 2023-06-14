@@ -122,7 +122,11 @@ test_that("as_angle()", {
     a1 <- angle(180, "degrees")
     expect_equal(a1, (as_angle(a1)))
     expect_equal(a1, (as_angle(a1, "degrees")))
+    expect_equal(a1, degrees(180))
+    expect_equal(a1, degrees(angle(1, "pi-radians")))
     expect_congruent(a1, as_angle(a1, "turns"))
+    expect_congruent(a1, pi_radians(1))
+    expect_congruent(a1, radians(pi))
     expect_false(isTRUE(all.equal(a1, as_angle(a1, "turns"), check.attributes = TRUE)))
     expect_warning(as_angle("foobar"))
 

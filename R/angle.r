@@ -1,6 +1,8 @@
 #' Angle vectors
 #'
 #' `angle()` creates angle vectors with user specified angular unit.
+#` `degrees()`, `radians()`, and `pi_radians()` are convenience wrappers for
+#'  those commonly used angular units.
 #'
 #' @param x An angle vector or an object to convert to it (such as a numeric vector)
 #' @param unit A string of the desired angular unit.  Supports the following strings
@@ -24,6 +26,7 @@
 #'   angle(pi, "radians")
 #'   angle(0.5, "turns")
 #'   angle(200, "gradians")
+#'   pi_radians(1)
 #'
 #'   a1 <- angle(180, "degrees")
 #'   angular_unit(a1)
@@ -46,6 +49,24 @@ new_angle <- function(x, unit) {
     x
 }
 
+#' @rdname angle
+#' @export
+degrees <- function(x) {
+    as_angle(x, "degrees")
+}
+
+#' @rdname angle
+#' @export
+pi_radians <- function(x) {
+    as_angle(x, "pi-radians")
+}
+
+#' @rdname angle
+#' @export
+radians <- function(x) {
+    as_angle(x, "radians")
+}
+
 #' Test whether an object is an angle vector
 #'
 #' `is_angle()` tests whether an object is an angle vector
@@ -61,7 +82,10 @@ is_angle <- function(x) inherits(x, "angle")
 
 standardize_angular_unit <- function(unit) {
     stopifnot(length(unit) == 1L)
-    switch(gsub("[[:punct:]]|[[:space:]]|s$", "", unit),
+    if (unit %in% c("degrees", "pi-radians", "gradians", "radians", "turns"))
+        unit
+    else
+        switch(gsub("[[:punct:]]|[[:space:]]|s$", "", unit),
            degree = "degrees",
            deg = "degrees",
 
