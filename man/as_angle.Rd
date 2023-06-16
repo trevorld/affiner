@@ -5,8 +5,8 @@
 \alias{as_angle.angle}
 \alias{as_angle.character}
 \alias{as_angle.complex}
-\alias{as_angle.coord2d}
-\alias{as_angle.coord3d}
+\alias{as_angle.Coord2D}
+\alias{as_angle.Coord3D}
 \alias{as_angle.numeric}
 \title{Cast to angle vector}
 \usage{
@@ -18,9 +18,9 @@ as_angle(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
 
 \method{as_angle}{complex}(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
 
-\method{as_angle}{coord2d}(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
+\method{as_angle}{Coord2D}(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
 
-\method{as_angle}{coord3d}(
+\method{as_angle}{Coord3D}(
   x,
   unit = getOption("affiner_angular_unit", "degrees"),
   type = c("azimuth", "inclination"),
@@ -56,7 +56,7 @@ An \code{\link[=angle]{angle()}} vector
 \examples{
 as_angle(angle(pi, "radians"), "pi-radians")
 as_angle(complex(real = 0, imaginary = 1), "degrees")
-as_angle(coord2d(x = 0, y = 1), "turns")
+as_angle(as_coord2d(x = 0, y = 1), "turns")
 as_angle(200, "gradians")
 
 }

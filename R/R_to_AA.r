@@ -61,7 +61,7 @@ rotate3d_to_AA <- function(mat = diag(4), unit = getOption("affiner_angular_unit
         e <- -e
         theta <- -theta
     }
-    list(axis = coord3d(e[1], e[2], e[3]),
+    list(axis = as_coord3d(e[1], e[2], e[3]),
          theta = theta)
 }
 

@@ -7,8 +7,9 @@
 \alias{as_coord3d.data.frame}
 \alias{as_coord3d.list}
 \alias{as_coord3d.matrix}
-\alias{as_coord3d.coord3d}
-\alias{as_coord3d.coord2d}
+\alias{as_coord3d.numeric}
+\alias{as_coord3d.Coord3D}
+\alias{as_coord3d.Coord2D}
 \title{Cast to coord3d object}
 \usage{
 as_coord3d(x, ...)
@@ -23,12 +24,14 @@ as_coord3d(x, ...)
 
 \method{as_coord3d}{matrix}(x, ...)
 
-\method{as_coord3d}{coord3d}(x, ...)
+\method{as_coord3d}{numeric}(x, y = rep_len(0, length(x)), z = rep_len(0, length(x)), ...)
 
-\method{as_coord3d}{coord2d}(x, z = rep_len(0, length(x)), ...)
+\method{as_coord3d}{Coord3D}(x, ...)
+
+\method{as_coord3d}{Coord2D}(x, z = rep_len(0, length(x)), ...)
 }
 \arguments{
-\item{x}{An object that can be cast to a \code{\link[=coord3d]{coord3d()}} object
+\item{x}{An object that can be cast to a \link{Coord3D} class object
 such as a matrix or data frame of coordinates.}
 
 \item{...}{Further arguments passed to or from other methods}
@@ -42,12 +45,15 @@ radial distances of cylindrical coordinates.}
 
 \item{z}{Numeric vector of z-coordinates to be used
 if \code{hasName(x, "z")} is \code{FALSE}.}
+
+\item{y}{Numeric vector of y-coordinates to be used
+if \code{hasName(x, "z")} is \code{FALSE}.}
 }
 \value{
-A \code{\link[=coord3d]{coord3d()}} object
+A \link{Coord3D} class object
 }
 \description{
-\code{as_coord3d()} casts to a \code{\link[=coord3d]{coord3d()}} object
+\code{as_coord3d()} casts to a \link{Coord3D} class object
 }
 \examples{
 df <- data.frame(x = sample.int(10, 3),

@@ -1,14 +1,11 @@
-#' 2D coordinate vectors
+#' 2D coordinate vector R6 Class
 #'
-#' `coord2d()` creates an [R6::R6Class()] object representing two-dimensional points
+#' `Coord2D` is an [R6::R6Class()] object representing two-dimensional points
 #' represented by Cartesian Coordinates.
 #'
-#' @param x A numeric vector of x coordinates
-#' @param y A numeric vector of y coordinates
 #' @examples
-#' p <- coord2d(x = rnorm(100, 2), y = rnorm(100, 2))
-#' print(p, usage = TRUE, n = 0)
-#' print(p, usage = FALSE, n = 10)
+#' p <- as_coord2d(x = rnorm(100, 2), y = rnorm(100, 2))
+#' print(p, n = 10)
 #' pc <- mean(p) # Centroid
 #' # method chained affine transformation matrices are auto-pre-multiplied
 #' p$
@@ -18,147 +15,57 @@
 #'   rotate(90, "degrees")
 #'
 #' @export
-coord2d <- function(x = numeric(0), y = numeric(0)) {
-    xyw <- cbind(x, y, rep_len(1, max(length(x), length(y))))
-    Coord2D$new(as_xyw_matrix(xyw))
-}
-
-as_xyw_matrix <- function(x) {
-    if (!is.matrix(x))
-        x <- as.matrix(x)
-    stopifnot(ncol(x) == 2 || ncol(x) == 3,
-              is.numeric(x)
-    )
-    if (ncol(x) < 3)
-        x <- cbind(x, 1)
-    else
-        stopifnot(all(x[, 3] == 1))
-    colnames(x) <- c("x", "y", "w")
-    x
-}
-
-#' 3D coordinate vectors
-#'
-#' `coord3d()` creates an [R6::R6Class()] object representing three-dimensional points
-#' represented by Cartesian Coordinates.
-#'
-#' @param x A numeric vector of x coordinates
-#' @param y A numeric vector of y coordinates
-#' @param z A numeric vector of z coordinates
-#' @examples
-#' p <- coord3d(x = rnorm(100, 2), y = rnorm(100, 2), z = rnorm(100, 2))
-#' print(p, usage = TRUE, n = 0)
-#' print(p, usage = FALSE, n = 10)
-#' pc <- mean(p) # Centroid
-#'
-#' @export
-coord3d <- function(x = numeric(0), y = numeric(0), z = numeric(0)) {
-    xyzw <- cbind(x, y, z, rep_len(1, max(length(x), length(y), length(z))))
-    Coord3D$new(as_xyzw_matrix(xyzw))
-}
-
-as_xyzw_matrix <- function(x) {
-    if (!is.matrix(x))
-        x <- as.matrix(x)
-    stopifnot(ncol(x) >= 2,
-              ncol(x) <= 4,
-              is.numeric(x)
-    )
-    if (ncol(x) == 2) {
-        x <- cbind(x, 0, 1)
-    } else if (ncol(x) == 3) {
-        x <- cbind(x, 1)
-    } else {
-        stopifnot(all(x[, 4] == 1))
-    }
-    colnames(x) <- c("x", "y", "z", "w")
-    x
-}
-
-#' Test whether an object is a coord2d object
-#'
-#' `is_coord2d()` tests whether an object is a coord2d object
-#'
-#' @param x An object
-#' @return A logical value
-#'
-#' @examples
-#' p <- coord2d(x = sample.int(10, 3), y = sample.int(10, 3))
-#' is_coord2d(p)
-#'
-#' @export
-is_coord2d <- function(x) {
-    inherits(x, "coord2d")
-}
-
-#' Test whether an object is a coord3d object
-#'
-#' `is_coord3d()` tests whether an object is a coord3d object
-#'
-#' @param x An object
-#' @return A logical value
-#'
-#' @examples
-#' p <- coord3d(x = sample.int(10, 3),
-#'              y = sample.int(10, 3),
-#'              z = sample.int(10, 3))
-#' is_coord2d(p)
-#'
-#' @export
-is_coord3d <- function(x) {
-    inherits(x, "coord3d")
-}
-
-Coord2D <- R6Class("coord2d",
+Coord2D <- R6Class("Coord2D",
    public = list(
+       #' @param xyw A matrix with three columns representing (homogeneous) coordinates.
+       #'             The first two columns represent x and y coordinates and
+       #'             the last column is all ones.
+       #'             Column names should be "x", "y", and "w".
        initialize = function(xyw) {
            private$mat_xyw <- xyw
            private$mat_trans <- NULL
        },
+       #' @param permutation Either "xy" (no permutation) or "yx" (permute x and y axes)
        permute = function(permutation = c("xy", "yx")) {
            self$transform(permute2d(permutation))
        },
-       print = function(n = NULL, usage = getOption("affiner_print_usage", FALSE)) {
-           msg <- paste0("<", class(self)[1], "[", self$length, "]>")
-           if (usage)
-               msg <- c(msg,
-                        "  Public Methods:",
-                        "    clone()",
-                        '    print(n = NULL, usage = getOption("affiner_print_usage", FALSE))',
-                        "    project(theta = angle(0), ..., scale = 0)",
-                        "    reflect(theta = angle(0), ...)",
-                        "    rotate(theta = angle(0), ...)",
-                        "    scale(x_scale = 1, y_scale = x_scale)",
-                        "    shear(xy_shear = 0, yx_shear = 0)",
-                        "    transform(mat = transform2d())",
-                        "    translate(vec = coord2d(0, 0), ...)",
-                        "  Active Bindings:",
-                        "    x",
-                        "    y",
-                        "    xyw"
-               )
-           if (is.null(n) || n > self$length)
-               n <- self$length
-           if (n > 0) {
-               if (usage) msg <- c(msg, "  Homogeneous Cartesian Coordinates:")
-               cat(msg, sep = "\n")
+       #' @param n Number of coordinates to print.  If `NULL` print all of them.
+       print = function(n = NULL) {
+           if (is.null(n) || n > nrow(private$mat_xyw))
+               n <- nrow(private$mat_xyw)
+           cat("<Coord2D[", nrow(private$mat_xyw), "]>\n", sep = "")
+           if (n > 0)
                print(self$xyw[1:n, ])
-           } else {
-               cat(msg, sep = "\n")
-           }
            invisible(self)
        },
+       #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
+       #'              It represents the angle (from the horizontal axis)
+       #'              of the line going through the origin you wish to project to
+       #'              (e.g. an angle of 0 corresponds to the x-axis and
+       #'              an angle of 90 degrees corresponds to the y-axis).
+       #' @param ... Passed to [project2d()]
+       #' @param scale Oblique projection scale factor.
+       #'              A degenerate `0` value indicates an orthogonal projection.
        project = function(theta = angle(0), ..., scale = 0) {
            self$transform(project2d(theta, ..., scale = scale))
        },
+       #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
+       #'              It represents the angle (from the horizontal axis)
+       #'              of the line going through the origin you wish to reflect across
+       #'              (e.g. an angle of 0 corresponds to the x-axis and
+       #'              an angle of 90 degrees corresponds to the y-axis).
+       #' @param ... Passed to [as_angle()].
        reflect = function(theta = angle(0), ...) {
            self$transform(reflect2d(theta, ...))
        },
+       #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
+       #'              How much to rotate around the origin.
+       #' @param ... Passed to [as_angle()].
        rotate = function(theta = angle(0), ...) {
            if (!is_angle(theta))
                theta <- as_angle(theta, ...)
            if (length(theta) == 1) {
-               self$transform(rotate2d(theta, ...))
+               self$transform(rotate2d(theta))
            } else {
                private$apply_any_delayed_transformations()
                x <- private$mat_xyw[, 1]
@@ -168,6 +75,8 @@ Coord2D <- R6Class("coord2d",
                invisible(self)
            }
        },
+       #' @param x_scale Scaling factor to apply to x coordinates
+       #' @param y_scale Scaling factor to apply to y coordinates
        scale = function(x_scale = 1, y_scale = x_scale) {
            if (length(x_scale) == 1 && length(y_scale) == 1) {
                self$transform(scale2d(x_scale, y_scale))
@@ -178,21 +87,31 @@ Coord2D <- R6Class("coord2d",
                invisible(self)
            }
        },
+       #' @param xy_shear Horizontal shear factor: `x = x + xy_shear * y`
+       #' @param yx_shear Vertical shear factor: `y = yx_shear * x + y`
        shear = function(xy_shear = 0, yx_shear = 0) {
            self$transform(shear2d(xy_shear, yx_shear))
        },
-       translate = function(vec = coord2d(0, 0), ...) {
-           if (!is_coord2d(vec))
-               vec <- as_coord2d(vec, ...)
-           if (length(vec) == 1) {
-               self$transform(translate2d(vec, ...))
+       #' @param x A [Coord2D] object of length one or an object coercible to one by `as_coord2d(x, ...)`].
+       #' @param ... Passed to `as_coord2d(x, ...)` if `x` is not a [Coord2D] object
+       translate = function(x = as_coord2d(0, 0), ...) {
+           if (!is_coord2d(x))
+               x <- as_coord2d(x, ...)
+           if (length(x) == 1) {
+               self$transform(translate2d(x))
            } else {
                private$apply_any_delayed_transformations()
-               private$mat_xyw[, 1] <- private$mat_xyw[, 1] + vec$x
-               private$mat_xyw[, 2] <- private$mat_xyw[, 2] + vec$y
+               private$mat_xyw[, 1] <- private$mat_xyw[, 1] + x$x
+               private$mat_xyw[, 2] <- private$mat_xyw[, 2] + x$y
                invisible(self)
            }
        },
+       #' @param mat A 3x3 matrix representing a post-multiplied affine transformation matrix.
+       #'            The last **column** must be equal to `c(0, 0, 1)`.
+       #'            If the last **row** is `c(0, 0, 1)` you may need to transpose it
+       #'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+       #'            If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
+       #'            we'll quietly add a final column/row equal to `c(0, 0, 1)`.
        transform = function(mat = transform2d()) {
            if (!is_transform2d(mat))
                mat <- as_transform2d(mat)
@@ -204,17 +123,18 @@ Coord2D <- R6Class("coord2d",
        }
     ),
     active = list(
-        # avoid applying any delayed transformations just to know its length
-        length = function() {
-            nrow(private$mat_xyw)
-        },
+        #' @field xyw A three-column matrix representing the homogeneous coordinates.
+        #'             The first two columns are "x" and "y" coordinates
+        #'             and the third column is all ones.
         xyw = function() {
             private$apply_any_delayed_transformations()
             private$mat_xyw
         },
+        #' @field x A numeric vector of x-coordinates.
         x = function() {
             as.vector(self$xyw[, 1])
         },
+        #' @field y A numeric vector of y-coordinates.
         y = function() {
             as.vector(self$xyw[, 2])
         }
@@ -232,57 +152,74 @@ Coord2D <- R6Class("coord2d",
     )
 )
 
-Coord3D <- R6Class("coord3d",
+#' 3D coordinate vector R6 Class
+#'
+#' `Coord3D` is an [R6::R6Class()] object representing three-dimensional points
+#' represented by Cartesian Coordinates.
+#'
+#' @examples
+#' p <- as_coord3d(x = rnorm(100, 2), y = rnorm(100, 2), z = rnorm(100, 2))
+#' print(p, n = 10)
+#' mean(p) # Centroid
+#' @export
+Coord3D <- R6Class("Coord3D",
    public = list(
+       #' @param xyzw A matrix with four columns representing (homogeneous) coordinates.
+       #'             The first three columns represent x, y, and z coordinates and
+       #'             the last column is all ones.
+       #'             Column names should be "x", "y", "z", and "w".
        initialize = function(xyzw) {
            private$mat_xyzw <- xyzw
            private$mat_trans <- NULL
        },
+       #' @param permutation Either "xyz" (no permutation), "xzy" (permute y and z axes),
+       #'                    "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
+       #'                    "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes)
        permute = function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy")) {
            self$transform(permute3d(permutation))
        },
-       print = function(n = NULL, usage = getOption("affiner_print_usage", FALSE)) {
-           msg <- paste0("<", class(self)[1], "[", self$length, "]>")
-           if (usage)
-               msg <- c(msg,
-                        "  Public Methods:",
-                        "    clone()",
-                        '    permute(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))',
-                        '    print(n = NULL, usage = getOption("affiner_print_usage", FALSE))',
-                        '    project(normal = as_coord3d("xy-plane"), ...,  scale = 0, alpha = angle(45, "degrees"))',
-                        '    reflect(normal = as_coord3d("xy-plane"), ...)',
-                        '    rotate(axis = as_coord3d("z-axis"), theta = angle(0), ...)',
-                        "    scale(x_scale = 1, y_scale = x_scale, z_scale = x_scale)",
-                        "    shear(xy_shear = 0, yx_shear = 0, yx_shear = 0, yz_shear = 0,",
-                        "          zx_shear = 0, zy_shear = 0)",
-                        "    transform(mat = transform3d())",
-                        "    translate(vec = coord3d(0, 0, 0), ...)",
-                        "  Active Bindings:",
-                        "    x",
-                        "    y",
-                        "    z",
-                        "    xyzw"
-               )
-           if (is.null(n) || n > self$length)
-               n <- self$length
-           if (n > 0) {
-               if (usage) msg <- c(msg, "  Homogeneous Cartesian Coordinates:")
-               cat(msg, sep = "\n")
+       #' @param n Number of coordinates to print.  If `NULL` print all of them.
+       print = function(n = NULL) {
+           if (is.null(n) || n > nrow(private$mat_xyzw))
+               n <- nrow(private$mat_xyzw)
+           cat("<Coord3D[", nrow(private$mat_xyzw), "]>\n", sep = "")
+           if (n > 0)
                print(self$xyzw[1:n, ])
-           } else {
-               cat(msg, sep = "\n")
-           }
            invisible(self)
        },
+       #' @param normal A [Coord3D] class object representing the vector normal of the plane
+       #'         you wish to reflect across or project to or an object coercible to one using `as_coord3d(normal, ...)`
+       #'         such as "xy-plane", "xz-plane", or "yz-plane".
+       #'         We will also (if necessary) coerce it to a unit vector.
+       #' @param ... Passed to [project3d()].
+       #' @param scale Oblique projection foreshortening scale factor.
+       #'   A (degenerate) `0` value indicates an orthographic projection.
+       #'   A value of `0.5` is used by a \dQuote{cabinet projection}
+       #'   while a value of `1.0` is used by a \dQuote{cavalier projection}.
+       #' @param alpha Oblique projection angle (the angle the third axis is projected going off at).
+       #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
+       #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
        project = function(normal = as_coord3d("xy-plane"), ...,  scale = 0, alpha = angle(45, "degrees")) {
            self$transform(project3d(normal, ..., scale = scale, alpha = alpha))
        },
+       #' @param normal A [Coord3D] class object representing the vector normal of the plane
+       #'         you wish to reflect across or project to or an object coercible to one using `as_coord3d(normal, ...)`
+       #'         such as "xy-plane", "xz-plane", or "yz-plane".
+       #'         We will also (if necessary) coerce it to a unit vector.
+       #' @param ... Passed to [reflect3d()].
        reflect = function(normal = as_coord3d("xy-plane"), ...) {
            self$transform(reflect3d(normal, ...))
        },
+       #' @param axis A [Coord3D] class object or one that can coerced to one by `as_coord3d(axis, ...)`.
+       #'             The `axis` represents the axis to be rotated around.
+       #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
+       #' @param ... Passed to [rotate3d()].
        rotate = function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
            self$transform(rotate3d(axis, theta, ...))
        },
+       #' @param x_scale Scaling factor to apply to x coordinates
+       #' @param y_scale Scaling factor to apply to y coordinates
+       #' @param z_scale Scaling factor to apply to z coordinates
        scale = function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
            if (length(x_scale) == 1 && length(y_scale) == 1 && length(z_scale) == 1) {
                self$transform(scale3d(x_scale, y_scale, z_scale))
@@ -294,24 +231,38 @@ Coord3D <- R6Class("coord3d",
                invisible(self)
            }
        },
+       #' @param xy_shear Shear factor: `x = x + xy_shear * y + xz_shear * z`
+       #' @param xz_shear Shear factor: `x = x + xy_shear * y + xz_shear * z`
+       #' @param yx_shear Shear factor: `y = yx_shear * x + y + yz_shear * z`
+       #' @param yz_shear Shear factor: `y = yx_shear * x + y + yz_shear * z`
+       #' @param zx_shear Shear factor: `z = zx_shear * x + zy_shear * y + z`
+       #' @param zy_shear Shear factor: `z = zx_shear * x + zy_shear * y + z`
        shear = function(xy_shear = 0, xz_shear = 0,
                         yx_shear = 0, yz_shear = 0,
                         zx_shear = 0, zy_shear = 0) {
            self$transform(shear3d(xy_shear, xz_shear, yx_shear, yz_shear, zx_shear, zy_shear))
        },
-       translate = function(vec = coord3d(0, 0, 0), ...) {
-           if (!is_coord3d(vec))
-               vec <- as_coord3d(vec, ...)
-           if (length(vec) == 1) {
-               self$transform(translate3d(vec, ...))
+       #' @param x A [Coord3D] object of length one or an object coercible to one by `as_coord3d(x, ...)`]
+       #' @param ... Passed to `as_coord3d(x, ...)` if `x` is not a [Coord3D] object
+       translate = function(x = as_coord3d(0, 0, 0), ...) {
+           if (!is_coord3d(x))
+               x <- as_coord3d(x, ...)
+           if (length(x) == 1) {
+               self$transform(translate3d(x))
            } else {
                private$apply_any_delayed_transformations()
-               private$mat_xyzw[, 1] <- private$mat_xyzw[, 1] + vec$x
-               private$mat_xyzw[, 2] <- private$mat_xyzw[, 2] + vec$y
-               private$mat_xyzw[, 3] <- private$mat_xyzw[, 3] + vec$z
+               private$mat_xyzw[, 1] <- private$mat_xyzw[, 1] + x$x
+               private$mat_xyzw[, 2] <- private$mat_xyzw[, 2] + x$y
+               private$mat_xyzw[, 3] <- private$mat_xyzw[, 3] + x$z
                invisible(self)
            }
        },
+       #' @param mat A 4x4 matrix representing a post-multiplied affine transformation matrix.
+       #'            The last **column** must be equal to `c(0, 0, 0, 1)`.
+       #'            If the last **row** is `c(0, 0, 0, 1)` you may need to transpose it
+       #'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+       #'            If a 3x3 matrix (such as a 3x3 post-multiplied 3D rotation matrix)
+       #'            we'll quietly add a final column/row equal to `c(0, 0, 0, 1)`.
        transform = function(mat = transform3d()) {
            if (!is_transform3d(mat))
                mat <- as_transform3d(mat)
@@ -323,20 +274,22 @@ Coord3D <- R6Class("coord3d",
        }
     ),
     active = list(
-        # avoid applying any delayed transformations just to know its length
-        length = function() {
-            nrow(private$mat_xyzw)
-        },
+        #' @field xyzw A four-column matrix representing the homogeneous coordinates.
+        #'             The first three columns are "x", "y", and "z" coordinates
+        #'             and the fourth column is all ones.
         xyzw = function() {
             private$apply_any_delayed_transformations()
             private$mat_xyzw
         },
+        #' @field x A numeric vector of x-coordinates.
         x = function() {
             as.vector(self$xyzw[, 1])
         },
+        #' @field y A numeric vector of y-coordinates.
         y = function() {
             as.vector(self$xyzw[, 2])
         },
+        #' @field z A numeric vector of z-coordinates.
         z = function() {
             as.vector(self$xyzw[, 3])
         }

@@ -1,11 +1,11 @@
 #' Cast to coord2d object
 #'
-#' `as_coord2d()` casts to a [coord2d()] object
+#' `as_coord2d()` casts to a [Coord2D] class object
 #'
-#' @param x An object that can be cast to a [coord2d()] object
+#' @param x An object that can be cast to a [Coord2D] class object
 #'          such as a matrix or data frame of coordinates.
 #' @param ... Further arguments passed to or from other methods
-#' @return A [coord2d()] object
+#' @return A [Coord2D] class object
 #' @examples
 #' df <- data.frame(x = sample.int(10, 3),
 #'                  y = sample.int(10, 3))
@@ -17,12 +17,12 @@ as_coord2d <- function(x, ...) {
 
 #' Cast to coord3d object
 #'
-#' `as_coord3d()` casts to a [coord3d()] object
+#' `as_coord3d()` casts to a [Coord3D] class object
 #'
-#' @param x An object that can be cast to a [coord3d()] object
+#' @param x An object that can be cast to a [Coord3D] class object
 #'          such as a matrix or data frame of coordinates.
 #' @param ... Further arguments passed to or from other methods
-#' @return A [coord3d()] object
+#' @return A [Coord3D] class object
 #' @examples
 #' df <- data.frame(x = sample.int(10, 3),
 #'                  y = sample.int(10, 3),
@@ -40,7 +40,7 @@ as_coord2d.angle <- function(x, radius = 1, ...) {
     n <- max(length(x), length(radius))
     x <- rep_len(x, n)
     radius <- rep_len(radius, n)
-    coord2d(radius * cos(x), radius * sin(x))
+    as_coord2d(radius * cos(x), radius * sin(x))
 }
 
 #' @rdname as_coord3d
@@ -60,9 +60,9 @@ as_coord3d.angle <- function(x, radius = 1, inclination = NULL, z = NULL, ...) {
     if (is.null(inclination)) { # cylindrical coordinates
         as_coord3d(as_coord2d(x, radius = radius), z = z)
     } else { # spherical coordinates
-        coord3d(x = radius * sin(inclination) * cos(x),
-                y = radius * sin(inclination) * sin(x),
-                z = radius * cos(inclination))
+        as_coord3d(x = radius * sin(inclination) * cos(x),
+                   y = radius * sin(inclination) * sin(x),
+                   z = radius * cos(inclination))
     }
 }
 
@@ -71,7 +71,7 @@ as_coord3d.angle <- function(x, radius = 1, inclination = NULL, z = NULL, ...) {
 as_coord2d.character <- function(x, ...) {
     xc <- vapply(x, as_coord2d_character_x, double(1), USE.NAMES = FALSE)
     yc <- vapply(x, as_coord2d_character_y, double(1), USE.NAMES = FALSE)
-    p <- coord2d(xc, yc)
+    p <- as_coord2d(xc, yc)
     if (any(is.na(p) & !is.na(x)))
         warning("NAs introduced by coercion")
     p
@@ -99,7 +99,7 @@ as_coord3d.character <- function(x, ...) {
     xc <- vapply(x, as_coord3d_character_x, double(1), USE.NAMES = FALSE)
     yc <- vapply(x, as_coord3d_character_y, double(1), USE.NAMES = FALSE)
     zc <- vapply(x, as_coord3d_character_z, double(1), USE.NAMES = FALSE)
-    p <- coord3d(xc, yc, zc)
+    p <- as_coord3d(xc, yc, zc)
     if (any(is.na(p) & !is.na(x)))
         warning("NAs introduced by coercion")
     p
@@ -153,7 +153,7 @@ as_coord3d_character_z <- function(x) {
 #' @rdname as_coord2d
 #' @export
 as_coord2d.complex <- function(x, ...) {
-    coord2d(Re(x), Im(x))
+    as_coord2d(Re(x), Im(x))
 }
 
 #' @rdname as_coord2d
@@ -161,7 +161,7 @@ as_coord2d.complex <- function(x, ...) {
 #'                    "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
 #'                    "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes).
 #'                    This permutation is applied before the (oblique) projection.
-#' @param normal A [coord3d()] object representing the vector normal of the plane
+#' @param normal A [Coord3D] class object representing the vector normal of the plane
 #'         you wish to project to or an object coercible to one using `as_coord3d(normal, ...)`
 #'         such as "xy-plane", "xz-plane", or "yz-plane".
 #'         We will also (if necessary) coerce it to a unit vector.
@@ -173,7 +173,7 @@ as_coord2d.complex <- function(x, ...) {
 #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
 #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
 #' @export
-as_coord2d.coord3d <- function(x,
+as_coord2d.Coord3D <- function(x,
                                permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
                                ...,
                                normal = as_coord3d("xy-plane"),
@@ -192,8 +192,10 @@ as_coord2d.coord3d <- function(x,
     azimuth <- as_angle(normal, type = "azimuth")
     inclination <- as_angle(normal, type = "inclination")
 
-    z_axis <- coord3d(0, 0, 1)
-    y_axis <- coord3d(0, 1, 0)
+    z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
+                                 dimnames = list(NULL, c("x", "y", "z", "w"))))
+    y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
+                                 dimnames = list(NULL, c("x", "y", "z", "w"))))
     p <- x$
     clone()$
     permute(permutation)$
@@ -201,7 +203,7 @@ as_coord2d.coord3d <- function(x,
     rotate(y_axis, -inclination)$
     shear(xz_shear = scale * cos(alpha),
           yz_shear = scale * sin(alpha))
-    coord2d(p$x, p$y)
+    as_coord2d(p$x, p$y)
 }
 
 #' @rdname as_coord2d
@@ -253,14 +255,64 @@ as_coord3d.matrix <- function(x, ...) {
 }
 
 #' @rdname as_coord2d
+#' @param y Numeric vector of y-coordinates to be used
+#'          if `hasName(x, "z")` is `FALSE`.
 #' @export
-as_coord2d.coord2d <- function(x, ...) {
+as_coord2d.numeric <- function(x, y = rep_len(0, length(x)), ...) {
+    xyw <- cbind(x, y, rep_len(1, max(length(x), length(y))))
+    Coord2D$new(as_xyw_matrix(xyw))
+}
+
+as_xyw_matrix <- function(x) {
+    if (!is.matrix(x))
+        x <- as.matrix(x)
+    stopifnot(ncol(x) == 2 || ncol(x) == 3,
+              is.numeric(x)
+    )
+    if (ncol(x) < 3)
+        x <- cbind(x, 1)
+    else
+        stopifnot(all(x[, 3] == 1))
+    colnames(x) <- c("x", "y", "w")
+    x
+}
+
+#' @rdname as_coord3d
+#' @param y Numeric vector of y-coordinates to be used
+#'          if `hasName(x, "z")` is `FALSE`.
+#' @export
+as_coord3d.numeric <- function(x, y = rep_len(0, length(x)), z = rep_len(0, length(x)), ...) {
+    xyzw <- cbind(x, y, z, rep_len(1, max(length(x), length(y), length(z))))
+    Coord3D$new(as_xyzw_matrix(xyzw))
+}
+
+as_xyzw_matrix <- function(x) {
+    if (!is.matrix(x))
+        x <- as.matrix(x)
+    stopifnot(ncol(x) >= 2,
+              ncol(x) <= 4,
+              is.numeric(x)
+    )
+    if (ncol(x) == 2) {
+        x <- cbind(x, 0, 1)
+    } else if (ncol(x) == 3) {
+        x <- cbind(x, 1)
+    } else {
+        stopifnot(all(x[, 4] == 1))
+    }
+    colnames(x) <- c("x", "y", "z", "w")
+    x
+}
+
+#' @rdname as_coord2d
+#' @export
+as_coord2d.Coord2D <- function(x, ...) {
     Coord2D$new(x$xyw)
 }
 
 #' @rdname as_coord3d
 #' @export
-as_coord3d.coord3d <- function(x, ...) {
+as_coord3d.Coord3D <- function(x, ...) {
     Coord3D$new(x$xyzw)
 }
 
@@ -268,6 +320,6 @@ as_coord3d.coord3d <- function(x, ...) {
 #' @param z Numeric vector of z-coordinates to be used
 #'          if `hasName(x, "z")` is `FALSE`.
 #' @export
-as_coord3d.coord2d <- function(x, z = rep_len(0, length(x)), ...) {
-    coord3d(x = x$x, y = x$y, z = z)
+as_coord3d.Coord2D <- function(x, z = rep_len(0, length(x)), ...) {
+    as_coord3d(x = x$x, y = x$y, z = z)
 }

@@ -2,22 +2,22 @@
 % Please edit documentation in R/coord-methods.r
 \name{norm}
 \alias{norm}
-\alias{abs.coord2d}
-\alias{abs.coord3d}
+\alias{abs.Coord2D}
+\alias{abs.Coord3D}
 \title{Compute Euclidean norm}
 \usage{
-\method{abs}{coord2d}(x)
+\method{abs}{Coord2D}(x)
 
-\method{abs}{coord3d}(x)
+\method{abs}{Coord3D}(x)
 }
 \arguments{
-\item{x}{A \code{\link[=coord2d]{coord2d()}} object or \code{\link[=coord2d]{coord2d()}} object.}
+\item{x}{A \link{Coord2D} class object or \link{Coord2D} class object.}
 }
 \value{
 A numeric vector
 }
 \description{
-\code{abs()} computes the Euclidean norm for \code{\link[=coord2d]{coord2d()}} objects and \code{\link[=coord3d]{coord3d()}} objects.
+\code{abs()} computes the Euclidean norm for \link{Coord2D} class objects and \link{Coord3D} class objects.
 }
 \examples{
   z <- complex(real = 1:4, imaginary = 1:4)
@@ -29,6 +29,6 @@ A numeric vector
   all.equal(abs(p), abs(z))
   all.equal(Mod(p), Mod(z))
 
-  p3 <- coord3d(x = 1:4, y = 1:4, z = 1:4)
+  p3 <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
   abs(p3)
 }

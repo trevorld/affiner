@@ -11,10 +11,10 @@ reference:
     - title: "2D/3D coordinate objects"
       desc: "2D/3D coordinate objects"
       contents:
-        - coord2d
+        - Coord2D
         - is_coord2d
         - as_coord2d
-        - coord3d
+        - Coord3D
         - is_coord3d
         - as_coord3d
     - title: "2D/3D affine transformation matrices"
@@ -41,9 +41,9 @@ reference:
     - title: "Additional coordinate calculations"
       desc: "Compute centroids and Euclidean norms for 2D and 3D coordinates as well as convex hulls for 2D coordinates"
       contents:
-        - mean.coord2d
-        - abs.coord2d
-        - convex_hull.coord2d
+        - mean.Coord2D
+        - abs.Coord2D
+        - convex_hull.Coord2D
     - title: "Overall package description"
       desc: "Overall package description including supported package options"
       contents:

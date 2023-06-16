@@ -18,8 +18,6 @@ The following affiner function arguments may be set globally via \code{\link[bas
 The default for this option is "degrees".}
 \item{affiner_grid_unit}{The default for the \code{unit} argument used by \code{\link[=affine_settings]{affine_settings()}}.
 The default for this option is "inches".}
-\item{affiner_print_usage}{The default for the \code{usage} argument used by \code{\link[=coord2d]{coord2d()}} and \code{\link[=coord3d]{coord3d()}} objects' print method.
-The default for this option is \code{FALSE}.}
 }
 }
 

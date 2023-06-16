@@ -13,17 +13,17 @@
 #' \item{`rotate2d()`}{Rotations around the origin parameterized by an [angle()].}
 #' \item{`scale2d()`}{Scale the x-coordinates and/or the y-coordinates by multiplicative scale factors.}
 #' \item{`shear2d()`}{Shear the x-coordinates and/or the y-coordinates using shear factors.}
-#' \item{`translate2d()`}{Translate the coordinates by a [coord2d()] parameter.}
+#' \item{`translate2d()`}{Translate the coordinates by a [Coord2D] class object parameter.}
 #' }
 #'
 #' `transform2d()` 2D affine transformation matrix objects are meant to be
 #' post-multiplied and therefore should **not** be multiplied in reverse order.
-#' Note the [coord2d()] object methods auto-pre-multiply affine transformations
+#' Note the [Coord2D] class object methods auto-pre-multiply affine transformations
 #' when "method chaining" so pre-multiplying affine transformation matrices
 #' to do a single cumulative transformation instead of a method chain of multiple transformations
 #' will not improve performance as much as as it does in other R packages.
 #'
-#' Two convert a pre-multiplied 2D affine transformation matrix to a post-multiplied one
+#' To convert a pre-multiplied 2D affine transformation matrix to a post-multiplied one
 #' simply compute its transpose using [t()].  To get an inverse transformation matrix
 #' from an existing transformation matrix that does the opposite transformations
 #' simply compute its inverse using [solve()].
@@ -37,16 +37,16 @@
 #'            If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
 #'            we'll quietly add a final column/row equal to `c(0, 0, 1)`.
 #' @examples
-#'   p <- coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
+#'   p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
 #'
 #'   # {affiner} affine transformation matrices are post-multiplied
 #'   # and therefore should **not** go in reverse order
 #'   mat <- transform2d(diag(3)) %*%
-#'            reflect2d(coord2d(-1, 1)) %*%
+#'            reflect2d(as_coord2d(-1, 1)) %*%
 #'            rotate2d(90, "degrees") %*%
 #'            scale2d(1, 2) %*%
 #'            shear2d(0.5, 0.5) %*%
-#'            translate2d(coord2d(-1, -1))
+#'            translate2d(x = -1, y = -1)
 #'   p1 <- p$
 #'     clone()$
 #'     transform(mat)
@@ -55,11 +55,11 @@
 #'   p2 <- p$
 #'     clone()$
 #'     transform(diag(3))$
-#'     reflect(coord2d(-1, 1))$
+#'     reflect(as_coord2d(-1, 1))$
 #'     rotate(90, "degrees")$
 #'     scale(1, 2)$
 #'     shear(0.5, 0.5)$
-#'     translate(coord2d(-1, -1))
+#'     translate(x = -1, y = -1)
 #'
 #'   all.equal(p1, p2)
 #'
@@ -84,17 +84,17 @@ transform2d <- function(mat = diag(3)) {
 #'                    by multiplicative scale factors.}
 #' \item{`shear3d()`}{Shear the x-coordinates and/or the y-coordinates
 #'                    and/or the z-coordinates using shear factors.}
-#' \item{`translate3d()`}{Translate the coordinates by a [coord3d()] parameter.}
+#' \item{`translate3d()`}{Translate the coordinates by a [Coord3D] class object parameter.}
 #' }
 #'
 #' `transform3d()` 3D affine transformation matrix objects are meant to be
 #' post-multiplied and therefore should **not** be multiplied in reverse order.
-#' Note the [coord3d()] object methods auto-pre-multiply affine transformations
+#' Note the [Coord3D] class object methods auto-pre-multiply affine transformations
 #' when "method chaining" so pre-multiplying affine transformation matrices
 #' to do a single cumulative transformation instead of a method chain of multiple transformations
 #' will not improve performance as much as as it does in other R packages.
 #'
-#' Two convert a pre-multiplied 3D affine transformation matrix to a post-multiplied one
+#' To convert a pre-multiplied 3D affine transformation matrix to a post-multiplied one
 #' simply compute its transpose using [t()].  To get an inverse transformation matrix
 #' from an existing transformation matrix that does the opposite transformations
 #' simply compute its inverse using [solve()].
@@ -108,7 +108,27 @@ transform2d <- function(mat = diag(3)) {
 #'            If a 3x3 matrix (such as a 3x3 post-multiplied 3D rotation matrix)
 #'            we'll quietly add a final column/row equal to `c(0, 0, 0, 1)`.
 #' @examples
-#'   p <- coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
+#'   p <- as_coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
+#'
+#'   # {affiner} affine transformation matrices are post-multiplied
+#'   # and therefore should **not** go in reverse order
+#'   mat <- transform3d(diag(4)) %*%
+#'            rotate3d("z-axis", degrees(90)) %*%
+#'            scale3d(1, 2, 1) %*%
+#'            translate3d(x = -1, y = -1, z = -1)
+#'   p1 <- p$
+#'     clone()$
+#'     transform(mat)
+#'
+#'   # The equivalent result appyling affine transformations via method chaining
+#'   p2 <- p$
+#'     clone()$
+#'     transform(diag(4))$
+#'     rotate("z-axis", degrees(90))$
+#'     scale(1, 2, 1)$
+#'     translate(x = -1, y = -1, z = -1)
+#'
+#'   all.equal(p1, p2)
 #'
 #' @export
 transform3d <- function(mat = diag(4)) {
@@ -244,8 +264,10 @@ project3d <- function(normal = as_coord3d("xy-plane"), ...,
     normal <- normal / abs(normal)
     azimuth <- as_angle(normal, type = "azimuth")
     inclination <- as_angle(normal, type = "inclination")
-    z_axis <- coord3d(0, 0, 1)
-    y_axis <- coord3d(0, 1, 0)
+    z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
+                                 dimnames = list(NULL, c("x", "y", "z", "w"))))
+    y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
+                                 dimnames = list(NULL, c("x", "y", "z", "w"))))
     mat <- rotate3d(z_axis, -azimuth) %*%
         rotate3d(y_axis, -inclination) %*%
         shear3d(xz_shear = scale * cos(alpha),
@@ -271,7 +293,7 @@ reflect2d <- function(theta = as_angle("x-axis"), ...) {
 # https://en.wikipedia.org/wiki/Transformation_matrix#Reflection_2
 
 #' @rdname transform3d
-#' @param normal A [coord3d()] object representing the vector normal of the plane
+#' @param normal A [Coord3D] class object representing the vector normal of the plane
 #'         you wish to reflect across or project to or an object coercible to one using `as_coord3d(normal, ...)`
 #'         such as "xy-plane", "xz-plane", or "yz-plane".
 #'         We will also (if necessary) coerce it to a unit vector.
@@ -294,8 +316,8 @@ reflect3d <- function(normal = as_coord3d("xy-plane"), ...) {
 #' @rdname transform2d
 #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
 #'              For `rotate2d()` how much to rotate around the origin.
-#'              For `reflect2d()` it represents the angle (from the horizontal axis)
-#'              of the line going through the origin you wish to reflect across
+#'              For `project2d()` and `reflect2d()` it represents the angle (from the horizontal axis)
+#'              of the line going through the origin you wish to project to or reflect across
 #'              (e.g. an angle of 0 corresponds to the x-axis and
 #'              an angle of 90 degrees corresponds to the y-axis).
 #' @param ... Passed to [as_angle()] or [as_coord2d()].
@@ -316,7 +338,7 @@ rotate2d <- function(theta = angle(0), ...) {
 # Because we do rotation matrix post-multiplication instead of pre-multiplication we usually need to multiply angles
 # in following algorithms by -1
 
-#' @param axis A [coord3d()] object or one that can coerced to one by `as_coord3d(axis, ...)`.
+#' @param axis A [Coord3D] class object or one that can coerced to one by `as_coord3d(axis, ...)`.
 #'             The `axis` represents the axis to be rotated around.
 #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
 #' @rdname transform3d
@@ -403,29 +425,29 @@ shear3d <- function(xy_shear = 0, xz_shear = 0,
 }
 
 #' @rdname transform2d
-#' @param vec A [coord2d()] object of length one or an object coercible to one by [as_coord2d()].
+#' @param x A [Coord2D] object of length one or an object coercible to one by `as_coord2d(x, ...)`].
 #' @export
-translate2d <- function(vec = coord2d(0, 0), ...) {
-    if (!is_coord2d(vec))
-        vec <- as_coord2d(vec, ...)
-    stopifnot(length(vec) == 1)
+translate2d <- function(x = as_coord2d(0, 0), ...) {
+    if (!is_coord2d(x))
+        x <- as_coord2d(x, ...)
+    stopifnot(length(x) == 1)
     mat <- diag(3)
-    mat[3, 1] <- vec$x
-    mat[3, 2] <- vec$y
+    mat[3, 1] <- x$x
+    mat[3, 2] <- x$y
     new_transform2d(mat)
 }
 
 #' @rdname transform3d
-#' @param vec A [coord3d()] object of length one or an object coercible to one by [as_coord3d()].
+#' @param x A [Coord3D] object of length one or an object coercible to one by `as_coord3d(x, ...)`].
 #' @param ... Passed to [as_angle()] or [as_coord3d()].
 #' @export
-translate3d <- function(vec = coord3d(0, 0, 0), ...) {
-    if (!is_coord3d(vec))
-        vec <- as_coord3d(vec, ...)
-    stopifnot(length(vec) == 1)
+translate3d <- function(x = as_coord3d(0, 0, 0), ...) {
+    if (!is_coord3d(x))
+        x <- as_coord3d(x, ...)
+    stopifnot(length(x) == 1)
     mat <- diag(4)
-    mat[4, 1] <- vec$x
-    mat[4, 2] <- vec$y
-    mat[4, 3] <- vec$z
+    mat[4, 1] <- x$x
+    mat[4, 2] <- x$y
+    mat[4, 3] <- x$z
     new_transform3d(mat)
 }

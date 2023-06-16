@@ -2,30 +2,30 @@
 % Please edit documentation in R/coord-methods.r
 \name{convex_hull}
 \alias{convex_hull}
-\alias{convex_hull.coord2d}
+\alias{convex_hull.Coord2D}
 \title{Compute convex hull}
 \usage{
 convex_hull(x, ...)
 
-\method{convex_hull}{coord2d}(x, ...)
+\method{convex_hull}{Coord2D}(x, ...)
 }
 \arguments{
-\item{x}{An object representing object to compute convex hull of such as a \code{\link[=coord2d]{coord2d()}} object.}
+\item{x}{An object representing object to compute convex hull of such as a \link{Coord2D} class object.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }
 \value{
 An object of same class as \code{x} representing just the subset of points on the convex hull.
-The method for \code{\link[=coord2d]{coord2d()}} objects returns these points in counter-clockwise order.
+The method for \link{Coord2D} class objects returns these points in counter-clockwise order.
 }
 \description{
 \code{convex_hull()} is a S3 generic for computing the convex hull of an object.
-There is an implemented method supporting \code{\link[=coord2d]{coord2d()}} objects
+There is an implemented method supporting \link{Coord2D} class objects
 using \code{\link[grDevices:chull]{grDevices::chull()}} to compute the convex hull.
 }
 \examples{
-p <- coord2d(x = rnorm(25), y = rnorm(25))
-convex_hull(p)$print(usage = FALSE)
+p <- as_coord2d(x = rnorm(25), y = rnorm(25))
+print(convex_hull(p))
 
 # Equivalent to following caculation using `grDevices::chull()`
 all.equal(convex_hull(p),

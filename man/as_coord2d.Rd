@@ -5,11 +5,12 @@
 \alias{as_coord2d.angle}
 \alias{as_coord2d.character}
 \alias{as_coord2d.complex}
-\alias{as_coord2d.coord3d}
+\alias{as_coord2d.Coord3D}
 \alias{as_coord2d.data.frame}
 \alias{as_coord2d.list}
 \alias{as_coord2d.matrix}
-\alias{as_coord2d.coord2d}
+\alias{as_coord2d.numeric}
+\alias{as_coord2d.Coord2D}
 \title{Cast to coord2d object}
 \usage{
 as_coord2d(x, ...)
@@ -20,7 +21,7 @@ as_coord2d(x, ...)
 
 \method{as_coord2d}{complex}(x, ...)
 
-\method{as_coord2d}{coord3d}(
+\method{as_coord2d}{Coord3D}(
   x,
   permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
   ...,
@@ -35,10 +36,12 @@ as_coord2d(x, ...)
 
 \method{as_coord2d}{matrix}(x, ...)
 
-\method{as_coord2d}{coord2d}(x, ...)
+\method{as_coord2d}{numeric}(x, y = rep_len(0, length(x)), ...)
+
+\method{as_coord2d}{Coord2D}(x, ...)
 }
 \arguments{
-\item{x}{An object that can be cast to a \code{\link[=coord2d]{coord2d()}} object
+\item{x}{An object that can be cast to a \link{Coord2D} class object
 such as a matrix or data frame of coordinates.}
 
 \item{...}{Further arguments passed to or from other methods}
@@ -50,7 +53,7 @@ such as a matrix or data frame of coordinates.}
 "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes).
 This permutation is applied before the (oblique) projection.}
 
-\item{normal}{A \code{\link[=coord3d]{coord3d()}} object representing the vector normal of the plane
+\item{normal}{A \link{Coord3D} class object representing the vector normal of the plane
 you wish to project to or an object coercible to one using \code{as_coord3d(normal, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".
 We will also (if necessary) coerce it to a unit vector.}
@@ -63,12 +66,15 @@ while a value of \code{1.0} is used by a \dQuote{cavalier projection}.}
 \item{alpha}{Oblique projection angle (the angle the third axis is projected going off at).
 An \code{\link[=angle]{angle()}} object or one coercible to one with \code{as_angle(alpha, ...)}.
 Popular angles are 45 degrees, 60 degrees, and \code{arctangent(2)} degrees.}
+
+\item{y}{Numeric vector of y-coordinates to be used
+if \code{hasName(x, "z")} is \code{FALSE}.}
 }
 \value{
-A \code{\link[=coord2d]{coord2d()}} object
+A \link{Coord2D} class object
 }
 \description{
-\code{as_coord2d()} casts to a \code{\link[=coord2d]{coord2d()}} object
+\code{as_coord2d()} casts to a \link{Coord2D} class object
 }
 \examples{
 df <- data.frame(x = sample.int(10, 3),

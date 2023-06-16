@@ -86,7 +86,7 @@ cotangent <- function(x, unit = getOption("affiner_angular_unit", "degrees")) {
 #' arccotangent(1, "half-turns")
 #'
 #' # `base::atan2(y, x)` computes the angle of the vector from origin to (x, y)
-#' as_angle(coord2d(x = 1, y = 1), "degrees")
+#' as_angle(as_coord2d(x = 1, y = 1), "degrees")
 #' @name inverse-trigonometric-functions
 NULL
 

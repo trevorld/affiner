@@ -432,7 +432,7 @@ from_radians <- function(x, unit = "radians") {
 #' @examples
 #' as_angle(angle(pi, "radians"), "pi-radians")
 #' as_angle(complex(real = 0, imaginary = 1), "degrees")
-#' as_angle(coord2d(x = 0, y = 1), "turns")
+#' as_angle(as_coord2d(x = 0, y = 1), "turns")
 #' as_angle(200, "gradians")
 #'
 #' @export
@@ -477,7 +477,7 @@ as_angle.complex <- function(x, unit = getOption("affiner_angular_unit", "degree
 
 #' @rdname as_angle
 #' @export
-as_angle.coord2d <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+as_angle.Coord2D <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
     unit <- standardize_angular_unit(unit)
     radians <- atan2(x$y, x$x)
     new_angle(from_radians(radians, unit), unit)
@@ -486,7 +486,7 @@ as_angle.coord2d <- function(x, unit = getOption("affiner_angular_unit", "degree
 #' @rdname as_angle
 #' @param type Use "azimuth" to calculate the azimuthal angle and "inclination" to calculate the inclination angle aka polar angle.
 #' @export
-as_angle.coord3d <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
+as_angle.Coord3D <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
                              type = c("azimuth", "inclination"), ...) {
     unit <- standardize_angular_unit(unit)
     type <- match.arg(type)

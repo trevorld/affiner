@@ -67,7 +67,7 @@ library("grid")
 
 xy <- as_coord2d(angle(seq(90, 360 + 90, by = 60), "degrees"),
                  radius = c(rep(0.488, 6), 0))
-xy$translate(coord2d(x = 0.5, y = 0.5))
+xy$translate(x = 0.5, y = 0.5)
 l_xy <- list()
 l_xy$left <- xy[c(2, 3, 4, 7)]
 l_xy$right <- xy[c(7, 4, 5, 6)]
@@ -127,7 +127,7 @@ Our high-level strategy for rendering 3D objects is as follows:
 ```{r die-faces, fig.width = 4.0, fig.height = 3.0}
 library("affiner")
 library("grid")
-xyz_face <- coord3d(x = c(0, 0, 1, 1) - 0.5, y = c(1, 0, 0, 1) - 0.5, z = 0.5)
+xyz_face <- as_coord3d(x = c(0, 0, 1, 1) - 0.5, y = c(1, 0, 0, 1) - 0.5, z = 0.5)
 l_faces <- list() # order faces for our target projections
 l_faces$bottom <- xyz_face$clone()$
                     rotate("z-axis", angle(180, "degrees"))$
@@ -183,7 +183,7 @@ draw_die <- function(l_xy, l_face_grobs) {
     min_x <- min(vapply(l_xy, function(x) min(x$x), numeric(1)))
     min_y <- min(vapply(l_xy, function(x) min(x$y), numeric(1)))
     l_xy <- lapply(l_xy, function(xy) {
-        xy$translate(coord2d(-min_x + 0.5, -min_y + 0.5))
+        xy$translate(x = -min_x + 0.5, y = -min_y + 0.5)
     })
     grid.newpage()
     vp_define <- viewport(width = unit(1, "inches"), height = unit(1, "inches"))

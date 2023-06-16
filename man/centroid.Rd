@@ -2,30 +2,30 @@
 % Please edit documentation in R/coord-methods.r
 \name{centroid}
 \alias{centroid}
-\alias{mean.coord2d}
-\alias{mean.coord3d}
+\alias{mean.Coord2D}
+\alias{mean.Coord3D}
 \title{Compute centroids of coordinates}
 \usage{
-\method{mean}{coord2d}(x, ...)
+\method{mean}{Coord2D}(x, ...)
 
-\method{mean}{coord3d}(x, ...)
+\method{mean}{Coord3D}(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link[=coord2d]{coord2d()}} object or \code{\link[=coord3d]{coord3d()}} object}
+\item{x}{A \link{Coord2D} object or \link{Coord3D} object}
 
 \item{...}{Passed to \code{\link[base:mean]{base::mean()}}}
 }
 \value{
-A \code{\link[=coord2d]{coord2d()}} or \code{\link[=coord3d]{coord3d()}} object of length one
+A \link{Coord2D} or \link{Coord3D} class object of length one
 }
 \description{
-\code{mean()}computes controids for for \code{\link[=coord2d]{coord2d()}} and \code{\link[=coord3d]{coord3d()}} objects
+\code{mean()}computes centroids for for \link{Coord2D} and \link{Coord3D} class objects
 }
 \examples{
- p <- coord2d(x = 1:4, y = 1:4)
- mean(p)$print(usage = FALSE)
- (sum(p) / length(p))$print(usage = FALSE) # less efficient alternative
+ p <- as_coord2d(x = 1:4, y = 1:4)
+ print(mean(p))
+ print(sum(p) / length(p)) # less efficient alternative
 
- p <- coord3d(x = 1:4, y = 1:4, z = 1:4)
- mean(p)$print(usage = FALSE)
+ p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
+ print(mean(p))
 }

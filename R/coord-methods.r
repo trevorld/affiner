@@ -1,35 +1,35 @@
 #' @export
-`[.coord2d` <- function(x, i) {
+`[.Coord2D` <- function(x, i) {
     Coord2D$new(x$xyw[i, , drop = FALSE])
 }
 
 #' @export
-`[.coord3d` <- function(x, i) {
+`[.Coord3D` <- function(x, i) {
     Coord3D$new(x$xyzw[i, , drop = FALSE])
 }
 
 #' @export
-as.complex.coord2d <- function(x, ...) {
+as.complex.Coord2D <- function(x, ...) {
     complex(real = x$x, imaginary = x$y)
 }
 
 #' @export
-as.data.frame.coord2d <- function(x, ...) {
+as.data.frame.Coord2D <- function(x, ...) {
     as.data.frame(x$xyw)
 }
 
 #' @export
-as.data.frame.coord3d <- function(x, ...) {
+as.data.frame.Coord3D <- function(x, ...) {
     as.data.frame(x$xyzw)
 }
 
 #' @export
-as.matrix.coord2d <- function(x, ...) {
+as.matrix.Coord2D <- function(x, ...) {
     x$xyw
 }
 
 #' @export
-as.matrix.coord3d <- function(x, ...) {
+as.matrix.Coord3D <- function(x, ...) {
     x$xyzw
 }
 
@@ -50,7 +50,7 @@ cross_matrix <- function(x) {
 # (oblique) scalar projection onto a (unit) vector parameterized by its (polar) [angle()]
 
 #' @export
-as.double.coord2d <- function(x, theta = angle(0), ..., op_scale = 0) {
+as.double.Coord2D <- function(x, theta = angle(0), ..., op_scale = 0) {
     if (!is_angle(theta))
         theta <- as_angle(theta, ...)
     stopifnot(length(theta) == 1)
@@ -58,24 +58,24 @@ as.double.coord2d <- function(x, theta = angle(0), ..., op_scale = 0) {
 }
 
 #' @export
-length.coord2d <- function(x) {
-    x$length
+length.Coord2D <- function(x) {
+    nrow(x$.__enclos_env__$private$mat_xyw)
 }
 
 #' @export
-length.coord3d <- function(x) {
-    x$length
+length.Coord3D <- function(x) {
+    nrow(x$.__enclos_env__$private$mat_xyzw)
 }
 
 #' @export
-rep.coord2d <- function(x, ..., length.out = NA_integer_) {
+rep.Coord2D <- function(x, ..., length.out = NA_integer_) {
     if (isTRUE(length(x) == length.out)) return(x)
     id <- rep(seq.int(length(x)), ..., length.out = length.out)
     Coord2D$new(x$xyw[id, , drop = FALSE])
 }
 
 #' @export
-rep.coord3d <- function(x, ..., length.out = NA_integer_) {
+rep.Coord3D <- function(x, ..., length.out = NA_integer_) {
     if (isTRUE(length(x) == length.out)) return(x)
     id <- rep(seq.int(length(x)), ..., length.out = length.out)
     Coord3D$new(x$xyzw[id, , drop = FALSE])
@@ -83,8 +83,8 @@ rep.coord3d <- function(x, ..., length.out = NA_integer_) {
 
 #' Compute Euclidean norm
 #'
-#' `abs()` computes the Euclidean norm for [coord2d()] objects and [coord3d()] objects.
-#' @param x A [coord2d()] object or [coord2d()] object.
+#' `abs()` computes the Euclidean norm for [Coord2D] class objects and [Coord3D] class objects.
+#' @param x A [Coord2D] class object or [Coord2D] class object.
 #' @examples
 #'   z <- complex(real = 1:4, imaginary = 1:4)
 #'   p <- as_coord2d(z)
@@ -95,60 +95,60 @@ rep.coord3d <- function(x, ..., length.out = NA_integer_) {
 #'   all.equal(abs(p), abs(z))
 #'   all.equal(Mod(p), Mod(z))
 #'
-#'   p3 <- coord3d(x = 1:4, y = 1:4, z = 1:4)
+#'   p3 <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
 #'   abs(p3)
 #' @return A numeric vector
 #' @name norm
 #' @export
-abs.coord2d <- function(x) {
+abs.Coord2D <- function(x) {
     sqrt(rowSums(x$xyw[, 1:2, drop = FALSE]^2))
 }
 
 #' @rdname norm
 #' @export
-abs.coord3d <- function(x) {
+abs.Coord3D <- function(x) {
     sqrt(rowSums(x$xyzw[, 1:3, drop = FALSE]^2))
 }
 
 #' Compute centroids of coordinates
 #'
-#' `mean()`computes controids for for [coord2d()] and [coord3d()] objects
+#' `mean()`computes centroids for for [Coord2D] and [Coord3D] class objects
 #'
-#' @param x A [coord2d()] object or [coord3d()] object
+#' @param x A [Coord2D] object or [Coord3D] object
 #' @param ... Passed to [base::mean()]
-#' @return A [coord2d()] or [coord3d()] object of length one
+#' @return A [Coord2D] or [Coord3D] class object of length one
 #' @examples
-#'  p <- coord2d(x = 1:4, y = 1:4)
-#'  mean(p)$print(usage = FALSE)
-#'  (sum(p) / length(p))$print(usage = FALSE) # less efficient alternative
+#'  p <- as_coord2d(x = 1:4, y = 1:4)
+#'  print(mean(p))
+#'  print(sum(p) / length(p)) # less efficient alternative
 #'
-#'  p <- coord3d(x = 1:4, y = 1:4, z = 1:4)
-#'  mean(p)$print(usage = FALSE)
+#'  p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
+#'  print(mean(p))
 #' @name centroid
 #' @export
-mean.coord2d <- function(x, ...) {
-    coord2d(mean(x$x, ...), mean(x$y, ...))
+mean.Coord2D <- function(x, ...) {
+    as_coord2d(mean(x$x, ...), mean(x$y, ...))
 }
 
 #' @rdname centroid
 #' @export
-mean.coord3d <- function(x, ...) {
-    coord3d(mean(x$x, ...), mean(x$y, ...), mean(x$z, ...))
+mean.Coord3D <- function(x, ...) {
+    as_coord3d(mean(x$x, ...), mean(x$y, ...), mean(x$z, ...))
 }
 
 #' Compute convex hull
 #'
 #' `convex_hull()` is a S3 generic for computing the convex hull of an object.
-#' There is an implemented method supporting [coord2d()] objects
+#' There is an implemented method supporting [Coord2D] class objects
 #' using [grDevices::chull()] to compute the convex hull.
 #'
-#' @param x An object representing object to compute convex hull of such as a [coord2d()] object.
+#' @param x An object representing object to compute convex hull of such as a [Coord2D] class object.
 #' @param ... Further arguments passed to or from other methods.
 #' @return An object of same class as `x` representing just the subset of points on the convex hull.
-#'         The method for [coord2d()] objects returns these points in counter-clockwise order.
+#'         The method for [Coord2D] class objects returns these points in counter-clockwise order.
 #' @examples
-#' p <- coord2d(x = rnorm(25), y = rnorm(25))
-#' convex_hull(p)$print(usage = FALSE)
+#' p <- as_coord2d(x = rnorm(25), y = rnorm(25))
+#' print(convex_hull(p))
 #'
 #' # Equivalent to following caculation using `grDevices::chull()`
 #' all.equal(convex_hull(p),
@@ -160,41 +160,41 @@ convex_hull <- function(x, ...) {
 
 #' @rdname convex_hull
 #' @export
-convex_hull.coord2d <- function(x, ...) {
+convex_hull.Coord2D <- function(x, ...) {
     x[rev(grDevices::chull(as.list(x)))]
 }
 
 # Group "Summary"
 
 #' @export
-is.na.coord2d <- function(x) is.na(x$x) | is.na(x$y)
+is.na.Coord2D <- function(x) is.na(x$x) | is.na(x$y)
 
 #' @export
-is.na.coord3d <- function(x) is.na(x$x) | is.na(x$y) | is.na(x$z)
+is.na.Coord3D <- function(x) is.na(x$x) | is.na(x$y) | is.na(x$z)
 
 #' @export
-sum.coord2d <- function(..., na.rm = FALSE) {
+sum.Coord2D <- function(..., na.rm = FALSE) {
     l <- list(...)
     if (na.rm)
         l <- lapply(l, function(p) p[!is.na(p)])
     xs <- sum(sapply(l, function(p) sum(p$x)))
     ys <- sum(sapply(l, function(p) sum(p$y)))
-    coord2d(xs, ys)
+    as_coord2d(xs, ys)
 }
 
 #' @export
-sum.coord3d <- function(..., na.rm = FALSE) {
+sum.Coord3D <- function(..., na.rm = FALSE) {
     l <- list(...)
     if (na.rm)
         l <- lapply(l, function(p) p[!is.na(p)])
     xs <- sum(sapply(l, function(p) sum(p$x)))
     ys <- sum(sapply(l, function(p) sum(p$y)))
     zs <- sum(sapply(l, function(p) sum(p$z)))
-    coord3d(xs, ys, zs)
+    as_coord3d(xs, ys, zs)
 }
 
 #' @export
-`+.coord2d` <- function(e1, e2) {
+`+.Coord2D` <- function(e1, e2) {
     if (missing(e2)) {
         e1
     } else {
@@ -203,7 +203,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`+.coord3d` <- function(e1, e2) {
+`+.Coord3D` <- function(e1, e2) {
     if (missing(e2)) {
         e1
     } else {
@@ -212,7 +212,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`-.coord2d` <- function(e1, e2) {
+`-.Coord2D` <- function(e1, e2) {
     if (missing(e2)) {
         e1$clone()$scale(-1)
     } else {
@@ -221,7 +221,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`-.coord3d` <- function(e1, e2) {
+`-.Coord3D` <- function(e1, e2) {
     if (missing(e2)) {
         e1$clone()$scale(-1)
     } else {
@@ -230,7 +230,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`*.coord2d` <- function(e1, e2) {
+`*.Coord2D` <- function(e1, e2) {
     if (is_coord2d(e1) && is_coord2d(e2)) {
         inner_coord2d(e1, e2)
     } else if (is_coord2d(e1) && is.numeric(e2)) {
@@ -246,7 +246,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`*.coord3d` <- function(e1, e2) {
+`*.Coord3D` <- function(e1, e2) {
     if (is_coord3d(e1) && is_coord3d(e2)) {
         inner_coord3d(e1, e2)
     } else if (is_coord3d(e1) && is.numeric(e2)) {
@@ -262,7 +262,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`/.coord2d` <- function(e1, e2) {
+`/.Coord2D` <- function(e1, e2) {
     if (is_coord2d(e1) && is.numeric(e2)) {
         e1$clone()$scale(1 / e2)
     } else {
@@ -274,7 +274,7 @@ sum.coord3d <- function(..., na.rm = FALSE) {
 }
 
 #' @export
-`/.coord3d` <- function(e1, e2) {
+`/.Coord3D` <- function(e1, e2) {
     if (is_coord3d(e1) && is.numeric(e2)) {
         e1$clone()$scale(1 / e2)
     } else {
@@ -336,26 +336,26 @@ minus_coord3d <- function(p1, p2) {
 # Group "Complex"
 
 #' @export
-Re.coord2d <- function(z) {
+Re.Coord2D <- function(z) {
     z$x
 }
 
 #' @export
-Im.coord2d <- function(z) {
+Im.Coord2D <- function(z) {
     z$y
 }
 
 #' @export
-Mod.coord2d <- function(z) {
+Mod.Coord2D <- function(z) {
     sqrt(rowSums(z$xyw[, 1:2, drop = FALSE]^2))
 }
 
 #' @export
-Conj.coord2d <- function(z) {
+Conj.Coord2D <- function(z) {
     complex(real = z$x, imaginary = -z$y)
 }
 
 #' @export
-Arg.coord2d <- function(z) {
+Arg.Coord2D <- function(z) {
     atan2(z$y, z$x)
 }

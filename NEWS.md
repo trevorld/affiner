@@ -7,10 +7,10 @@ Initial features
 * `affineGrob()` and `grid.affine()` provide wrappers around `grid::defineGrob()` and `grid::useGrob()`
 * `affine_settings()` computes `grid` affine transformation feature viewports and transformation functions
 
-  + Available a "standalone" file that can be copied
+  + Available as a "standalone" file that can be copied
     over into other R packages under the permissive [Unlicense](https://unlicense.org/).
 
-* `angle()` creates angle vectors that allow users to use whichever angular unit is most convenient for them:
+* `angle()` creates angle vector S3 classes that allow users to use whichever angular unit is most convenient for them:
 
   + Supports "degrees", "radians", "half-turns" (aka "pi-radians"), (full) "turns", and "gradians".
   + `is_angle()` tests whether the input is an angle vector.
@@ -34,26 +34,26 @@ Initial features
       e.g. `angle(x, "degrees") |> as.numeric("radians")` to cast a numeric vector `x` from degrees to radians.
     - `abs()` will calculate the angle modulo full turns.
 
-* `coord2d()` and `coord3d()` create (Cartesian) coordinate objects
+* `Coord2D` and `Coord3D` are (Cartesian) coordinate R6 classes
 
-  + `is_coord2d()` and `is_coord3d()` test whether objects are `coord2d()` or `coord3d()` objects
-  + `as_coord2d()` and `as_coord3d()` cast objects to `coord2d()` or `coord3d()` objects
-  + Several mathematical operations are supported
+  + `is_coord2d()` and `is_coord3d()` test whether objects are `Coord2D` or `Coord3D` R6 classes
+  + `as_coord2d()` and `as_coord3d()` cast objects to `Coord2D` or `Coord3D` R6 classes
+  + Several mathematical operations are supported for `Coord2D` or `Coord3D` R6 classes
   + Additional S3 methods:
 
     - `abs()` computes Euclidean norm
     - `convex_hull()` computes convex hull (for `coord2d()` objects)
     - `mean()` computes centroids of coordinates
 
-* `transform2d()` and `transform3d()` create 2D/3D affine transformation matrices
+* `transform2d()` and `transform3d()` create 2D/3D affine transformation matrix S3 classes
 
   + `is_transform2d()` and `is_transform3d()` test if `transform2d()` or `transform3d()` objects.
   + `as_transform2d()` and `as_transform3d()` cast objects to `transform2d()` or `transform3d()` objects.
-  + `rotate3d_to_AA()` converts from 3D rotation matrix to axis-angle representation.
   + `permute2d()` and `permute3d()` transformation matrices permutes coordinate axes.
   + `project2d()` and `project3d()` create projection matrices.
   + `reflect2d()` and `reflect3d()` create reflection affine transformation matrices.
   + `rotate2d()` and `rotate3d()` create rotation affine transformation matrices.
+    `rotate3d_to_AA()` converts from 3D rotation matrix to axis-angle representation.
   + `scale2d()` and `scale3d()` create scaling affine transformation matrices.
   + `shear2d()` and `shear3d()` create shearing affine transformation matrices.
   + `translate2d()` and `translate3d()` create translation affine transformation matrices.

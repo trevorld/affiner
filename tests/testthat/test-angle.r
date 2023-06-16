@@ -142,11 +142,11 @@ test_that("as_angle()", {
                  angle(90, "degrees"))
     expect_equal(as_angle(as_coord3d("y-axis"), "degrees", "inclination"),
                  angle(90, "degrees"))
-    expect_equal(as_angle(coord3d(1, 1, -1), "degrees", "azimuth"),
+    expect_equal(as_angle(as_coord3d(1, 1, -1), "degrees", "azimuth"),
                  angle(45, "degrees"))
-    expect_equal(as_angle(coord3d(1, 1, -1), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d(1, 1, -1), "degrees", "inclination"),
                  arccosine(-1 / sqrt(3), "degrees"))
-    expect_equal(as_angle(coord3d(0, 1, -1), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d(0, 1, -1), "degrees", "inclination"),
                  angle(135, "degrees"))
 })
 

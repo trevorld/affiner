@@ -25,7 +25,7 @@ scale2d(x_scale = 1, y_scale = x_scale)
 
 shear2d(xy_shear = 0, yx_shear = 0)
 
-translate2d(vec = coord2d(0, 0), ...)
+translate2d(x = as_coord2d(0, 0), ...)
 }
 \arguments{
 \item{mat}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
@@ -39,8 +39,8 @@ we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
 
 \item{theta}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.
 For \code{rotate2d()} how much to rotate around the origin.
-For \code{reflect2d()} it represents the angle (from the horizontal axis)
-of the line going through the origin you wish to reflect across
+For \code{project2d()} and \code{reflect2d()} it represents the angle (from the horizontal axis)
+of the line going through the origin you wish to project to or reflect across
 (e.g. an angle of 0 corresponds to the x-axis and
 an angle of 90 degrees corresponds to the y-axis).}
 
@@ -57,7 +57,7 @@ A degenerate \code{0} value indicates an orthogonal projection.}
 
 \item{yx_shear}{Vertical shear factor: \code{y = yx_shear * x + y}}
 
-\item{vec}{A \code{\link[=coord2d]{coord2d()}} object of length one or an object coercible to one by \code{\link[=as_coord2d]{as_coord2d()}}.}
+\item{x}{A \link{Coord2D} object of length one or an object coercible to one by \code{as_coord2d(x, ...)}].}
 }
 \value{
 A 3x3 post-multiplied affine transformation matrix with classes "transform2d" and "at_matrix"
@@ -77,32 +77,32 @@ To "flip" across both the x-axis and the y-axis use \code{scale2d(-1)}.}
 \item{\code{rotate2d()}}{Rotations around the origin parameterized by an \code{\link[=angle]{angle()}}.}
 \item{\code{scale2d()}}{Scale the x-coordinates and/or the y-coordinates by multiplicative scale factors.}
 \item{\code{shear2d()}}{Shear the x-coordinates and/or the y-coordinates using shear factors.}
-\item{\code{translate2d()}}{Translate the coordinates by a \code{\link[=coord2d]{coord2d()}} parameter.}
+\item{\code{translate2d()}}{Translate the coordinates by a \link{Coord2D} class object parameter.}
 }
 
 \code{transform2d()} 2D affine transformation matrix objects are meant to be
 post-multiplied and therefore should \strong{not} be multiplied in reverse order.
-Note the \code{\link[=coord2d]{coord2d()}} object methods auto-pre-multiply affine transformations
+Note the \link{Coord2D} class object methods auto-pre-multiply affine transformations
 when "method chaining" so pre-multiplying affine transformation matrices
 to do a single cumulative transformation instead of a method chain of multiple transformations
 will not improve performance as much as as it does in other R packages.
 
-Two convert a pre-multiplied 2D affine transformation matrix to a post-multiplied one
+To convert a pre-multiplied 2D affine transformation matrix to a post-multiplied one
 simply compute its transpose using \code{\link[=t]{t()}}.  To get an inverse transformation matrix
 from an existing transformation matrix that does the opposite transformations
 simply compute its inverse using \code{\link[=solve]{solve()}}.
 }
 \examples{
-  p <- coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
+  p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
 
   # {affiner} affine transformation matrices are post-multiplied
   # and therefore should **not** go in reverse order
   mat <- transform2d(diag(3)) \%*\%
-           reflect2d(coord2d(-1, 1)) \%*\%
+           reflect2d(as_coord2d(-1, 1)) \%*\%
            rotate2d(90, "degrees") \%*\%
            scale2d(1, 2) \%*\%
            shear2d(0.5, 0.5) \%*\%
-           translate2d(coord2d(-1, -1))
+           translate2d(x = -1, y = -1)
   p1 <- p$
     clone()$
     transform(mat)
@@ -111,11 +111,11 @@ simply compute its inverse using \code{\link[=solve]{solve()}}.
   p2 <- p$
     clone()$
     transform(diag(3))$
-    reflect(coord2d(-1, 1))$
+    reflect(as_coord2d(-1, 1))$
     rotate(90, "degrees")$
     scale(1, 2)$
     shear(0.5, 0.5)$
-    translate(coord2d(-1, -1))
+    translate(x = -1, y = -1)
 
   all.equal(p1, p2)
 
