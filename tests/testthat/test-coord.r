@@ -118,14 +118,14 @@ test_that("as_coord3d()", {
 
     expect_equal(as_coord3d("origin"), as_coord3d(0, 0, 0))
     expect_equal(as_coord3d("x-axis"), as_coord3d(1, 0, 0))
-    expect_equal(as_coord3d("yz-plane"), as_coord3d(1, 0, 0))
-    expect_equal(as_coord3d("zy-plane"), as_coord3d(-1, 0, 0))
+    expect_equal(normal3d("yz-plane"), as_coord3d(1, 0, 0))
+    expect_equal(normal3d("zy-plane"), as_coord3d(-1, 0, 0))
     expect_equal(as_coord3d("y-axis"), as_coord3d(0, 1, 0))
-    expect_equal(as_coord3d("xz-plane"), as_coord3d(0, -1, 0))
-    expect_equal(as_coord3d("zx-plane"), as_coord3d(0, 1, 0))
+    expect_equal(normal3d("xz-plane"), as_coord3d(0, -1, 0))
+    expect_equal(normal3d("zx-plane"), as_coord3d(0, 1, 0))
     expect_equal(as_coord3d("z-axis"), as_coord3d(0, 0, 1))
-    expect_equal(as_coord3d("xy-plane"), as_coord3d(0, 0, 1))
-    expect_equal(as_coord3d("yx-plane"), as_coord3d(0, 0, -1))
+    expect_equal(normal3d("xy-plane"), as_coord3d(0, 0, 1))
+    expect_equal(normal3d("yx-plane"), as_coord3d(0, 0, -1))
     expect_warning(as_coord3d("foobar"))
 
     # spherical coordinates
@@ -202,4 +202,31 @@ test_that("print.Coord3D()", {
     p1 <- as_coord3d(x = x, y = y)
     expect_snapshot(print(p1))
     expect_snapshot(print(as_coord3d(numeric(0))))
+})
+
+test_that("cross_product", {
+    x <- as_coord3d(2, 3, 4)
+    y <- as_coord3d(5, 6, 7)
+    expect_equal(cross_product(x, y), as_coord3d(-3, 6, -3))
+})
+
+test_that("normal2d", {
+    expect_equal(normal2d(x = 5, y = 3, normalize = FALSE),
+                 as_coord2d(3, -5))
+    expect_equal(normal2d(angle(0, "degrees")),
+                 as_coord2d(0, -1))
+})
+
+test_that("normal3d", {
+    expect_equal(normal3d("xy-plane"),
+                 as_coord3d(0, 0, 1))
+    expect_equal(normal3d("x-axis", cross = "y-axis"),
+                 as_coord3d(0, 0, 1))
+    expect_equal(normal3d(as_coord3d(2, 0, 0),
+                          cross = as_coord3d(0, 2, 0)),
+                 as_coord3d(0, 0, 1))
+    expect_equal(normal3d(angle(0, "degrees"),
+                          z = 1, radius = 0),
+                 as_coord3d(0, 0, 1))
+    expect_warning(normal3d("foobar"))
 })

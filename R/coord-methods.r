@@ -33,20 +33,6 @@ as.matrix.Coord3D <- function(x, ...) {
     x$xyzw
 }
 
-# "cross" product matrix
-# https://en.wikipedia.org/wiki/Cross_product#Conversion_to_matrix_multiplication
-cross_matrix <- function(x) {
-    stopifnot(is_coord3d(x) && length(x) == 1)
-    m <- matrix(0, nrow = 3, ncol = 3)
-    m[1, 2] <- -x$z
-    m[1, 3] <- x$y
-    m[2, 1] <- x$z
-    m[2, 3] <- -x$x
-    m[3, 1] <- -x$y
-    m[3, 2] <- x$x
-    m
-}
-
 # (oblique) scalar projection onto a (unit) vector parameterized by its (polar) [angle()]
 
 #' @export
@@ -358,4 +344,27 @@ Conj.Coord2D <- function(z) {
 #' @export
 Arg.Coord2D <- function(z) {
     atan2(z$y, z$x)
+}
+
+#' Compute 3D vector cross product
+#'
+#' `cross_product()` computes the cross product of two [Coord3D] class vectors.
+#' @param x A [Coord3D] class vector.
+#' @param y A [Coord3D] class vector.
+#' @return A [Coord3D] class vector
+#' @examples
+#' x <- as_coord3d(2, 3, 4)
+#' y <- as_coord3d(5, 6, 7)
+#' cross_product(x, y)
+#' @export
+cross_product <- function(x, y) {
+    stopifnot(is_coord3d(x), is_coord3d(y))
+    n <- max(length(x), length(y))
+    x <- rep_len(x, n)
+    y <- rep_len(y, n)
+    m <- matrix(1, nrow = n, ncol = 4, dimnames = list(NULL, c("x", "y", "z", "w")))
+    m[, 1] <- x$y * y$z - x$z * y$y
+    m[, 2] <- x$z * y$x - x$x * y$z
+    m[, 3] <- x$x * y$y - x$y * y$x
+    Coord3D$new(m)
 }

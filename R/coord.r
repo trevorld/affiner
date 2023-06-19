@@ -188,7 +188,7 @@ Coord3D <- R6Class("Coord3D",
            invisible(self)
        },
        #' @param normal A [Coord3D] class object representing the vector normal of the plane
-       #'         you wish to reflect across or project to or an object coercible to one using `as_coord3d(normal, ...)`
+       #'         you wish to reflect across or project to or an object coercible to one using `normal3d(normal, ...)`
        #'         such as "xy-plane", "xz-plane", or "yz-plane".
        #'         We will also (if necessary) coerce it to a unit vector.
        #' @param ... Passed to [project3d()].
@@ -199,15 +199,15 @@ Coord3D <- R6Class("Coord3D",
        #' @param alpha Oblique projection angle (the angle the third axis is projected going off at).
        #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
        #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
-       project = function(normal = as_coord3d("xy-plane"), ...,  scale = 0, alpha = angle(45, "degrees")) {
+       project = function(normal = normal3d("xy-plane"), ...,  scale = 0, alpha = angle(45, "degrees")) {
            self$transform(project3d(normal, ..., scale = scale, alpha = alpha))
        },
        #' @param normal A [Coord3D] class object representing the vector normal of the plane
-       #'         you wish to reflect across or project to or an object coercible to one using `as_coord3d(normal, ...)`
+       #'         you wish to reflect across or project to or an object coercible to one using `normal3d(normal, ...)`
        #'         such as "xy-plane", "xz-plane", or "yz-plane".
        #'         We will also (if necessary) coerce it to a unit vector.
        #' @param ... Passed to [reflect3d()].
-       reflect = function(normal = as_coord3d("xy-plane"), ...) {
+       reflect = function(normal = normal3d("xy-plane"), ...) {
            self$transform(reflect3d(normal, ...))
        },
        #' @param axis A [Coord3D] class object or one that can coerced to one by `as_coord3d(axis, ...)`.

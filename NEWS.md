@@ -39,11 +39,21 @@ Initial features
   + `is_coord2d()` and `is_coord3d()` test whether objects are `Coord2D` or `Coord3D` R6 classes
   + `as_coord2d()` and `as_coord3d()` cast objects to `Coord2D` or `Coord3D` R6 classes
   + Several mathematical operations are supported for `Coord2D` or `Coord3D` R6 classes
+
+    + `*` either applies a "dot" product (if multiplying another `Coord2D` or `Coord3D` object)
+          or a "scaling" transformation (if multiplying a numeric value)
+    + `/` applies a "scaling" transformation
+    + Unary `-` applies a "scaling" transformation whereas 
+      binary `-` and `+` apply a "translation" transformation
+
   + Additional S3 methods:
 
     - `abs()` computes Euclidean norm
-    - `convex_hull()` computes convex hull (for `coord2d()` objects)
+    - `convex_hull()` computes convex hull (currently just for `coord2d()` objects)
+    - `cross_product()` computes a cross product between `Coord3D` vectors
     - `mean()` computes centroids of coordinates
+    - `normal2d()` computes `Coord2D` normals
+    - `normal3d()` computes `Coord3D` normals
 
 * `transform2d()` and `transform3d()` create 2D/3D affine transformation matrix S3 classes
 

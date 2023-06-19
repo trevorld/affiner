@@ -109,14 +109,8 @@ as_coord3d_character_x <- function(x) {
     switch(x,
            "origin" = 0,
            "x-axis" = 1,
-           "yz-plane" = 1,
-           "zy-plane" = -1,
            "y-axis" = 0,
-           "xz-plane" = 0,
-           "zx-plane" = 0,
            "z-axis" = 0,
-           "xy-plane" = 0,
-           "yx-plane" = 0,
            NA_real_)
 }
 
@@ -124,14 +118,8 @@ as_coord3d_character_y <- function(x) {
     switch(x,
            "origin" = 0,
            "x-axis" = 0,
-           "yz-plane" = 0,
-           "zy-plane" = 0,
            "y-axis" = 1,
-           "xz-plane" = -1,
-           "zx-plane" = 1,
            "z-axis" = 0,
-           "xy-plane" = 0,
-           "yx-plane" = 0,
            NA_real_)
 }
 
@@ -139,14 +127,8 @@ as_coord3d_character_z <- function(x) {
     switch(x,
            "origin" = 0,
            "x-axis" = 0,
-           "yz-plane" = 0,
-           "zy-plane" = 0,
            "y-axis" = 0,
-           "xz-plane" = 0,
-           "zx-plane" = 0,
            "z-axis" = 1,
-           "xy-plane" = 1,
-           "yx-plane" = -1,
            NA_real_)
 }
 
@@ -162,7 +144,7 @@ as_coord2d.complex <- function(x, ...) {
 #'                    "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes).
 #'                    This permutation is applied before the (oblique) projection.
 #' @param normal A [Coord3D] class object representing the vector normal of the plane
-#'         you wish to project to or an object coercible to one using `as_coord3d(normal, ...)`
+#'         you wish to project to or an object coercible to one using `normal3d(normal, ...)`
 #'         such as "xy-plane", "xz-plane", or "yz-plane".
 #'         We will also (if necessary) coerce it to a unit vector.
 #' @param scale Oblique projection foreshortening scale factor.
@@ -176,11 +158,10 @@ as_coord2d.complex <- function(x, ...) {
 as_coord2d.Coord3D <- function(x,
                                permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
                                ...,
-                               normal = as_coord3d("xy-plane"),
+                               normal = normal3d("xy-plane"),
                                scale = 0,
                                alpha = angle(45, "degrees")) {
-    if (!is_coord3d(normal))
-        normal <- as_coord3d(normal, ...)
+    normal <- normal3d(normal, ...)
     stopifnot(length(normal) == 1)
     if (!is_angle(alpha)) {
         alpha <- as_angle(alpha, ...)
@@ -188,7 +169,6 @@ as_coord2d.Coord3D <- function(x,
     stopifnot(length(alpha) == 1)
     permutation <- match.arg(permutation)
 
-    normal <- normal / abs(normal)
     azimuth <- as_angle(normal, type = "azimuth")
     inclination <- as_angle(normal, type = "inclination")
 

@@ -102,7 +102,7 @@ Column names should be "x", "y", "z", and "w".}
 \subsection{Method \code{project()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Coord3D$project(
-  normal = as_coord3d("xy-plane"),
+  normal = normal3d("xy-plane"),
   ...,
   scale = 0,
   alpha = angle(45, "degrees")
@@ -113,7 +113,7 @@ Column names should be "x", "y", "z", and "w".}
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{normal}}{A \link{Coord3D} class object representing the vector normal of the plane
-you wish to reflect across or project to or an object coercible to one using \code{as_coord3d(normal, ...)}
+you wish to reflect across or project to or an object coercible to one using \code{normal3d(normal, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".
 We will also (if necessary) coerce it to a unit vector.}
 
@@ -136,14 +136,14 @@ Popular angles are 45 degrees, 60 degrees, and \code{arctangent(2)} degrees.}
 \if{latex}{\out{\hypertarget{method-Coord3D-reflect}{}}}
 \subsection{Method \code{reflect()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Coord3D$reflect(normal = as_coord3d("xy-plane"), ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Coord3D$reflect(normal = normal3d("xy-plane"), ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{normal}}{A \link{Coord3D} class object representing the vector normal of the plane
-you wish to reflect across or project to or an object coercible to one using \code{as_coord3d(normal, ...)}
+you wish to reflect across or project to or an object coercible to one using \code{normal3d(normal, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".
 We will also (if necessary) coerce it to a unit vector.}
 

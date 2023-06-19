@@ -251,17 +251,15 @@ project2d <- function(theta = angle(0), ..., scale = 0) {
 #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
 #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
 #' @export
-project3d <- function(normal = as_coord3d("xy-plane"), ...,
+project3d <- function(normal = normal3d("xy-plane"), ...,
                       scale = 0,
                       alpha = angle(45, "degrees")) {
-    if (!is_coord3d(normal))
-        normal <- as_coord3d(normal, ...)
+    normal <- normal3d(normal, ...)
     stopifnot(length(normal) == 1)
     if (!is_angle(alpha)) {
         alpha <- as_angle(alpha, ...)
     }
     stopifnot(length(alpha) == 1)
-    normal <- normal / abs(normal)
     azimuth <- as_angle(normal, type = "azimuth")
     inclination <- as_angle(normal, type = "inclination")
     z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
@@ -294,15 +292,13 @@ reflect2d <- function(theta = as_angle("x-axis"), ...) {
 
 #' @rdname transform3d
 #' @param normal A [Coord3D] class object representing the vector normal of the plane
-#'         you wish to reflect across or project to or an object coercible to one using `as_coord3d(normal, ...)`
+#'         you wish to reflect across or project to or an object coercible to one using `normal3d(normal, ...)`
 #'         such as "xy-plane", "xz-plane", or "yz-plane".
 #'         We will also (if necessary) coerce it to a unit vector.
 #' @export
-reflect3d <- function(normal = as_coord3d("xy-plane"), ...) {
-    if (!is_coord3d(normal))
-        normal <- as_coord3d(normal, ...)
+reflect3d <- function(normal = normal3d("xy-plane"), ...) {
+    normal <- normal3d(normal, ...)
     stopifnot(length(normal) == 1)
-    normal <- normal / abs(normal)
     mat <- diag(4)
     mat[1, 1] <- 1 - 2 * normal$x^2
     mat[1, 2] <- mat[2, 1] <- -2 * normal$x * normal$y
@@ -362,6 +358,20 @@ rotate3d <- function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
     mat <- diag(4)
     mat[1:3, 1:3] <- R
     mat
+}
+
+# "cross" product matrix
+# https://en.wikipedia.org/wiki/Cross_product#Conversion_to_matrix_multiplication
+cross_matrix <- function(x) {
+    stopifnot(is_coord3d(x) && length(x) == 1)
+    m <- matrix(0, nrow = 3, ncol = 3)
+    m[1, 2] <- -x$z
+    m[1, 3] <- x$y
+    m[2, 1] <- x$z
+    m[2, 3] <- -x$x
+    m[3, 1] <- -x$y
+    m[3, 2] <- x$x
+    m
 }
 
 #' @rdname transform2d
