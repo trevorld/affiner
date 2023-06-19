@@ -18,7 +18,8 @@
 #'         As a side effect `grid.affine()` draws to the active graphics device.
 #' @examples
 #' if (require("grid")) {
-#'   grob <- grobTree(circleGrob(gp=gpar(fill="yellow", col="blue")),
+#'   grob <- grobTree(rectGrob(gp = gpar(fill = "blue", col = NA)),
+#'                    circleGrob(gp=gpar(fill="yellow", col = NA)),
 #'                    textGrob("RSTATS", gp=gpar(fontsize=32)))
 #'   grid.newpage()
 #'   pushViewport(viewport(width=unit(4, "in"), height=unit(2, "in")))
@@ -37,6 +38,21 @@
 #'   pushViewport(viewport(width=unit(4, "in"), height=unit(2, "in")))
 #'   grid.draw(affine)
 #'   popViewport()
+#' }
+#' if (require("grid") &&
+#'     getRversion() >= "4.2.0" &&
+#'     isTRUE(dev.capabilities()$transformations)) {
+#'   # Only works if active graphics device supports affine transformations
+#'   # such as `png(type="cairo")` on R 4.2+
+#'   settings <- affine_settings(xy = list(x = c(3/3, 2/3, 0/3, 1/3),
+#'                                         y = c(2/3, 1/3, 1/3, 2/3)),
+#'                               unit = "snpc")
+#'   affine <- affineGrob(grob,
+#'                        vp_define=vp_define,
+#'                        transform = settings$transform,
+#'                        vp_use = settings$vp)
+#'   grid.newpage()
+#'   grid.draw(affine)
 #' }
 #' @seealso See [affine_settings()] for computing good `transform` and `vp_use` settings.
 #'          See <https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html>

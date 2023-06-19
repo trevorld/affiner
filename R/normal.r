@@ -78,7 +78,7 @@ normal3d.default <- function(x, ..., normalize = TRUE) {
     normal3d.Coord3D(as_coord3d(x, ...), ..., normalize = normalize)
 }
 
-#' @rdname as_coord3d
+#' @rdname normal3d
 #' @export
 normal3d.character <- function(x, ..., normalize = TRUE) {
     xc <- vapply(x, normal3d_character_x, double(1), USE.NAMES = FALSE)

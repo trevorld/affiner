@@ -50,6 +50,48 @@ copy the file \code{standalone-affine-settings.r} into your \code{R} directory a
 to the \code{Imports} of your \code{DESCRIPTION} file.
 }
 
+\examples{
+if (require("grid")) {
+  grob <- grobTree(rectGrob(gp = gpar(fill = "blue", col = NA)),
+                   circleGrob(gp=gpar(fill="yellow", col = NA)),
+                   textGrob("RSTATS", gp=gpar(fontsize=32)))
+  grid.newpage()
+  pushViewport(viewport(width=unit(4, "in"), height=unit(2, "in")))
+  grid.draw(grob)
+  popViewport()
+}
+if (require("grid") &&
+    getRversion() >= "4.2.0" &&
+    isTRUE(dev.capabilities()$transformations)) {
+  # Only works if active graphics device supports affine transformations
+  # such as `png(type="cairo")` on R 4.2+
+  vp_define <- viewport(width=unit(2, "in"), height=unit(2, "in"))
+  settings <- affine_settings(xy = list(x = c(1/3, 0/3, 2/3, 3/3),
+                                        y = c(2/3, 1/3, 1/3, 2/3)),
+                              unit = "snpc")
+  affine <- affineGrob(grob,
+                       vp_define=vp_define,
+                       transform = settings$transform,
+                       vp_use = settings$vp)
+  grid.newpage()
+  grid.draw(affine)
+}
+if (require("grid") &&
+    getRversion() >= "4.2.0" &&
+    isTRUE(dev.capabilities()$transformations)) {
+  # Only works if active graphics device supports affine transformations
+  # such as `png(type="cairo")` on R 4.2+
+  settings <- affine_settings(xy = list(x = c(3/3, 2/3, 0/3, 1/3),
+                                        y = c(2/3, 1/3, 1/3, 2/3)),
+                              unit = "snpc")
+  affine <- affineGrob(grob,
+                       vp_define=vp_define,
+                       transform = settings$transform,
+                       vp_use = settings$vp)
+  grid.newpage()
+  grid.draw(affine)
+}
+}
 \seealso{
 Intended for use with \code{\link[=affineGrob]{affineGrob()}} and \code{\link[grid:grid.group]{grid::useGrob()}}.
 See \url{https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html}

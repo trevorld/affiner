@@ -4,6 +4,7 @@
 \alias{normal3d}
 \alias{normal3d.Coord3D}
 \alias{normal3d.default}
+\alias{normal3d.character}
 \title{3D normal vectors}
 \usage{
 normal3d(x, ...)
@@ -11,6 +12,8 @@ normal3d(x, ...)
 \method{normal3d}{Coord3D}(x, cross = NULL, ..., normalize = TRUE)
 
 \method{normal3d}{default}(x, ..., normalize = TRUE)
+
+\method{normal3d}{character}(x, ..., normalize = TRUE)
 }
 \arguments{
 \item{x}{Object to compute a 3D normal vector for

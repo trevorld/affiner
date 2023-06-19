@@ -10,6 +10,9 @@
 #' df <- data.frame(x = sample.int(10, 3),
 #'                  y = sample.int(10, 3))
 #' as_coord2d(df)
+#' as_coord2d(complex(real = 3, imaginary = 2))
+#' as_coord2d(angle(90, "degrees"), radius = 2)
+#' as_coord2d(as_coord3d(1, 2, 2), alpha = degrees(90), scale = 0.5)
 #' @export
 as_coord2d <- function(x, ...) {
     UseMethod("as_coord2d")
@@ -24,10 +27,15 @@ as_coord2d <- function(x, ...) {
 #' @param ... Further arguments passed to or from other methods
 #' @return A [Coord3D] class object
 #' @examples
+#' as_coord3d(x = 1, y = 2, z = 3)
 #' df <- data.frame(x = sample.int(10, 3),
 #'                  y = sample.int(10, 3),
 #'                  z = sample.int(10, 3))
 #' as_coord3d(df)
+#' # Cylindrical coordinates
+#' as_coord3d(degrees(90), z = 1, radius = 1)
+#' # Spherical coordinates
+#' as_coord3d(degrees(90), inclination = degrees(90), radius = 1)
 #' @export
 as_coord3d <- function(x, ...) {
     UseMethod("as_coord3d")

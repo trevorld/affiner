@@ -80,4 +80,7 @@ A \link{Coord2D} class object
 df <- data.frame(x = sample.int(10, 3),
                  y = sample.int(10, 3))
 as_coord2d(df)
+as_coord2d(complex(real = 3, imaginary = 2))
+as_coord2d(angle(90, "degrees"), radius = 2)
+as_coord2d(as_coord3d(1, 2, 2), alpha = degrees(90), scale = 0.5)
 }

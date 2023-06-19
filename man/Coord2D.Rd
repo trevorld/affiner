@@ -16,8 +16,8 @@ p$
   translate(-pc)$
   shear(x = 1, y = 0)$
   reflect("x-axis")$
-  rotate(90, "degrees")
-
+  rotate(90, "degrees")$
+  print(n = 10)
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}

@@ -12,8 +12,8 @@
 #'   translate(-pc)$
 #'   shear(x = 1, y = 0)$
 #'   reflect("x-axis")$
-#'   rotate(90, "degrees")
-#'
+#'   rotate(90, "degrees")$
+#'   print(n = 10)
 #' @export
 Coord2D <- R6Class("Coord2D",
    public = list(
@@ -160,7 +160,13 @@ Coord2D <- R6Class("Coord2D",
 #' @examples
 #' p <- as_coord3d(x = rnorm(100, 2), y = rnorm(100, 2), z = rnorm(100, 2))
 #' print(p, n = 10)
-#' mean(p) # Centroid
+#' pc <- mean(p) # Centroid
+#' # method chained affine transformation matrices are auto-pre-multiplied
+#' p$
+#'   translate(-pc)$
+#'   reflect("xy-plane")$
+#'   rotate("z-axis", degrees(90))$
+#'   print(n = 10)
 #' @export
 Coord3D <- R6Class("Coord3D",
    public = list(

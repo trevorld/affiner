@@ -10,7 +10,13 @@ represented by Cartesian Coordinates.
 \examples{
 p <- as_coord3d(x = rnorm(100, 2), y = rnorm(100, 2), z = rnorm(100, 2))
 print(p, n = 10)
-mean(p) # Centroid
+pc <- mean(p) # Centroid
+# method chained affine transformation matrices are auto-pre-multiplied
+p$
+  translate(-pc)$
+  reflect("xy-plane")$
+  rotate("z-axis", degrees(90))$
+  print(n = 10)
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
