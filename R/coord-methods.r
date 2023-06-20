@@ -33,6 +33,22 @@ as.matrix.Coord3D <- function(x, ...) {
     x$xyzw
 }
 
+#' @export
+c.Coord2D <- function(...) {
+    l <- list(...)
+    stopifnot(all(vapply(l, is_coord2d, logical(1))))
+    m <- do.call(rbind, lapply(l, as.matrix))
+    Coord2D$new(m)
+}
+
+#' @export
+c.Coord3D <- function(...) {
+    l <- list(...)
+    stopifnot(all(vapply(l, is_coord3d, logical(1))))
+    m <- do.call(rbind, lapply(l, as.matrix))
+    Coord3D$new(m)
+}
+
 # (oblique) scalar projection onto a (unit) vector parameterized by its (polar) [angle()]
 
 #' @export

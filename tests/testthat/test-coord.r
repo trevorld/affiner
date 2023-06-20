@@ -187,6 +187,16 @@ test_that("Ops", {
     expect_error(p3 / "foobar")
 })
 
+test_that("c.Coord2D() and c.Coord3D()", {
+    p1 <- as_coord2d(1:4, 1:4)
+    p2 <- as_coord2d(5:8, 5:8)
+    expect_equal(c(p1, p2), as_coord2d(1:8, 1:8))
+
+    p1 <- as_coord3d(1:4, 1:4, 1:4)
+    p2 <- as_coord3d(5:8, 5:8, 5:8)
+    expect_equal(c(p1, p2), as_coord3d(1:8, 1:8, 1:8))
+})
+
 test_that("print.Coord2D()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
