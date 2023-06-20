@@ -286,9 +286,7 @@ inner_coord3d <- function(p1, p2) {
 }
 
 plus_coord2d <- function(p1, p2) {
-    stopifnot(length(p1) == 1 || length(p2) == 1,
-              is_coord2d(p1),
-              is_coord2d(p2))
+    stopifnot(is_coord2d(p1), is_coord2d(p2))
     if (length(p1) == 1)
         p2$clone()$translate(p1)
     else
@@ -296,9 +294,7 @@ plus_coord2d <- function(p1, p2) {
 }
 
 plus_coord3d <- function(p1, p2) {
-    stopifnot(length(p1) == 1 || length(p2) == 1,
-              is_coord3d(p1),
-              is_coord3d(p2))
+    stopifnot(is_coord3d(p1), is_coord3d(p2))
     if (length(p1) == 1)
         p2$clone()$translate(p1)
     else
@@ -306,16 +302,12 @@ plus_coord3d <- function(p1, p2) {
 }
 
 minus_coord2d <- function(p1, p2) {
-    stopifnot(length(p2) == 1,
-              is_coord2d(p1),
-              is_coord2d(p2))
+    stopifnot(is_coord2d(p1), is_coord2d(p2))
     p1$clone()$translate(p2$clone()$scale(-1))
 }
 
 minus_coord3d <- function(p1, p2) {
-    stopifnot(length(p2) == 1,
-              is_coord3d(p1),
-              is_coord3d(p2))
+    stopifnot(is_coord3d(p1), is_coord3d(p2))
     p1$clone()$translate(p2$clone()$scale(-1))
 }
 
