@@ -175,6 +175,24 @@ is.na.Coord2D <- function(x) is.na(x$x) | is.na(x$y)
 is.na.Coord3D <- function(x) is.na(x$x) | is.na(x$y) | is.na(x$z)
 
 #' @export
+is.nan.Coord2D <- function(x) is.nan(x$x) | is.nan(x$y)
+
+#' @export
+is.nan.Coord3D <- function(x) is.nan(x$x) | is.nan(x$y) | is.nan(x$z)
+
+#' @export
+is.finite.Coord2D <- function(x) is.finite(x$x) & is.finite(x$y)
+
+#' @export
+is.finite.Coord3D <- function(x) is.finite(x$x) & is.finite(x$y) & is.finite(x$z)
+
+#' @export
+is.infinite.Coord2D <- function(x) is.infinite(x$x) | is.infinite(x$y)
+
+#' @export
+is.infinite.Coord3D <- function(x) is.infinite(x$x) | is.infinite(x$y) | is.infinite(x$z)
+
+#' @export
 sum.Coord2D <- function(..., na.rm = FALSE) {
     l <- list(...)
     if (na.rm)

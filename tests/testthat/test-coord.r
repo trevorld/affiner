@@ -240,3 +240,16 @@ test_that("normal3d", {
                  as_coord3d(0, 0, 1))
     expect_warning(normal3d("foobar"))
 })
+
+test_that("is functions", {
+    p <- as_coord2d(x = c(2, NaN, Inf, NA_real_), y = 0)
+    expect_equal(is.na(p), c(FALSE, TRUE, FALSE, TRUE))
+    expect_equal(is.nan(p), c(FALSE, TRUE, FALSE, FALSE))
+    expect_equal(is.infinite(p), c(FALSE, FALSE, TRUE, FALSE))
+    expect_equal(is.finite(p), c(TRUE, FALSE, FALSE, FALSE))
+    p <- as_coord3d(x = c(2, NaN, Inf, NA_real_), y = 0, z = 0)
+    expect_equal(is.na(p), c(FALSE, TRUE, FALSE, TRUE))
+    expect_equal(is.nan(p), c(FALSE, TRUE, FALSE, FALSE))
+    expect_equal(is.infinite(p), c(FALSE, FALSE, TRUE, FALSE))
+    expect_equal(is.finite(p), c(TRUE, FALSE, FALSE, FALSE))
+})
