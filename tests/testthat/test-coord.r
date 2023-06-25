@@ -253,3 +253,13 @@ test_that("is functions", {
     expect_equal(is.infinite(p), c(FALSE, FALSE, TRUE, FALSE))
     expect_equal(is.finite(p), c(TRUE, FALSE, FALSE, FALSE))
 })
+
+test_that("range()", {
+    x <- c(2, 5, 7)
+    y <- c(3, 4, 6)
+    z <- c(2, 7, 3)
+    expect_equal(range(as_coord2d(x, y)),
+                 as_coord2d(c(2, 7), c(3, 6)))
+    expect_equal(range(as_coord3d(x, y, z)),
+                 as_coord3d(c(2, 7), c(3, 6), c(2, 7)))
+})

@@ -305,6 +305,22 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
     }
 }
 
+#' @export
+range.Coord2D <- function(..., na.rm = FALSE) {
+    x <- c.Coord2D(...)
+    if (na.rm)
+        x <- x[!is.na(x)]
+    as_coord2d(range(x$x), range(x$y))
+}
+
+#' @export
+range.Coord3D <- function(..., na.rm = FALSE) {
+    x <- c.Coord3D(...)
+    if (na.rm)
+        x <- x[!is.na(x)]
+    as_coord3d(range(x$x), range(x$y), range(x$z))
+}
+
 inner_coord2d <- function(p1, p2) {
     n <- max(length(p1), length(p2))
     p1 <- rep_len(p1, n)
