@@ -57,6 +57,8 @@ test_that("as_coord2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     p1 <- as_coord2d(x = x, y = y)
+    expect_equal(p1 == p1, rep_len(TRUE, 3))
+    expect_equal(p1 != p1, rep_len(FALSE, 3))
 
     expect_equal(p1, as_coord2d(as.data.frame(p1)))
     expect_true(is.matrix(as.matrix(p1)))
@@ -103,6 +105,8 @@ test_that("as_coord3d()", {
     p1 <- as_coord3d(x = x, y = y, z = z)
 
     expect_equal(p1, as_coord3d(as.data.frame(p1)))
+    expect_equal(p1 == p1, rep_len(TRUE, 3))
+    expect_equal(p1 != p1, rep_len(FALSE, 3))
     expect_true(is.matrix(as.matrix(p1)))
     expect_true(is.data.frame(as.data.frame(p1)))
 

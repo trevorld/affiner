@@ -83,35 +83,6 @@ rep.Coord3D <- function(x, ..., length.out = NA_integer_) {
     Coord3D$new(x$xyzw[id, , drop = FALSE])
 }
 
-#' Compute Euclidean norm
-#'
-#' `abs()` computes the Euclidean norm for [Coord2D] class objects and [Coord3D] class objects.
-#' @param x A [Coord2D] class object or [Coord2D] class object.
-#' @examples
-#'   z <- complex(real = 1:4, imaginary = 1:4)
-#'   p <- as_coord2d(z)
-#'   abs(p) # Euclidean norm
-#'   sqrt(p * p) # Less efficient way to calculate same numbers
-#'
-#'   # In {base} R `abs()` calculates Euclidean norm of complex numbers
-#'   all.equal(abs(p), abs(z))
-#'   all.equal(Mod(p), Mod(z))
-#'
-#'   p3 <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
-#'   abs(p3)
-#' @return A numeric vector
-#' @name norm
-#' @export
-abs.Coord2D <- function(x) {
-    sqrt(rowSums(x$xyw[, 1:2, drop = FALSE]^2))
-}
-
-#' @rdname norm
-#' @export
-abs.Coord3D <- function(x) {
-    sqrt(rowSums(x$xyzw[, 1:3, drop = FALSE]^2))
-}
-
 #' Compute centroids of coordinates
 #'
 #' `mean()`computes centroids for for [Coord2D] and [Coord3D] class objects
@@ -211,6 +182,30 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
     ys <- sum(sapply(l, function(p) sum(p$y)))
     zs <- sum(sapply(l, function(p) sum(p$z)))
     as_coord3d(xs, ys, zs)
+}
+
+#' @export
+`==.Coord2D` <- function(e1, e2) {
+    stopifnot(is_coord2d(e1) && is_coord2d(e2))
+    (e1$x == e2$x) & (e1$y == e2$y)
+}
+
+#' @export
+`==.Coord3D` <- function(e1, e2) {
+    stopifnot(is_coord3d(e1) && is_coord3d(e2))
+    (e1$x == e2$x) & (e1$y == e2$y) & (e1$z == e2$z)
+}
+
+#' @export
+`!=.Coord2D` <- function(e1, e2) {
+    stopifnot(is_coord2d(e1) && is_coord2d(e2))
+    (e1$x != e2$x) | (e1$y != e2$y)
+}
+
+#' @export
+`!=.Coord3D` <- function(e1, e2) {
+    stopifnot(is_coord3d(e1) && is_coord3d(e2))
+    (e1$x != e2$x) | (e1$y != e2$y) | (e1$z != e2$z)
 }
 
 #' @export
