@@ -17,6 +17,12 @@ reference:
         - Coord3D
         - is_coord3d
         - as_coord3d
+    - title: "2D line"
+      desc: "2D line objects"
+      contents:
+        - Line2D
+        - as_line2d
+        - is_line2d
     - title: "2D/3D affine transformation matrices"
       desc: "2D/3D affine transformation matrices"
       contents:
@@ -45,6 +51,8 @@ reference:
         - abs.Coord2D
         - convex_hull.Coord2D
         - cross_product
+        - distance2d
+        - distance3d
         - normal2d
         - normal3d
     - title: "Overall package description"

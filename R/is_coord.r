@@ -31,3 +31,17 @@ is_coord2d <- function(x) {
 is_coord3d <- function(x) {
     inherits(x, "Coord3D")
 }
+
+#' Test whether an object has a Line2D class
+#'
+#' `is_line2d()` tests whether an object has a "Line2D" class
+#'
+#' @param x An object
+#' @return A logical value
+#'
+#' @examples
+#' p <- as_line2d(a = 1, b = 2, c = 3)
+#' is_line2d(p)
+#'
+#' @export
+is_line2d <- function(x) inherits(x, "Line2D")
