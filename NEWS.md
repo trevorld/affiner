@@ -56,10 +56,12 @@ Initial features
     - `normal2d()` computes `Coord2D` normals
     - `normal3d()` computes `Coord3D` normals
 
-* `Line2D` R6 class
+* `Line2D` and `Plane3D` R6 classes
 
-  + `is_line2d()` tests whether objects are `Line2D` R6 classes
   + `as_line2d()` costs objects to `Line2D` R6 classes
+  + `as_plane3d()` costs objects to `Plane3D` R6 classes
+  + `is_line2d()` tests whether objects are `Line2D` R6 classes
+  + `is_plane3d()` tests whether objects are `Plane3D` R6 classes
 
 * `transform2d()` and `transform3d()` create 2D/3D affine transformation matrix S3 classes
 

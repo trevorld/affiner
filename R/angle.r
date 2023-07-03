@@ -498,6 +498,19 @@ as_angle.Coord3D <- function(x, unit = getOption("affiner_angular_unit", "degree
 
 #' @rdname as_angle
 #' @export
+as_angle.Line2D <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+    arctangent(x$b / x$a, unit)
+}
+
+#' @rdname as_angle
+#' @export
+as_angle.Plane3D <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
+                             type = c("azimuth", "inclination"), ...) {
+    as_angle.Coord3D(normal3d(x), unit = unit, type = type)
+}
+
+#' @rdname as_angle
+#' @export
 as_angle.numeric <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
     unit <- standardize_angular_unit(unit)
     new_angle(x, unit)

@@ -7,6 +7,8 @@
 \alias{as_angle.complex}
 \alias{as_angle.Coord2D}
 \alias{as_angle.Coord3D}
+\alias{as_angle.Line2D}
+\alias{as_angle.Plane3D}
 \alias{as_angle.numeric}
 \title{Cast to angle vector}
 \usage{
@@ -21,6 +23,15 @@ as_angle(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
 \method{as_angle}{Coord2D}(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
 
 \method{as_angle}{Coord3D}(
+  x,
+  unit = getOption("affiner_angular_unit", "degrees"),
+  type = c("azimuth", "inclination"),
+  ...
+)
+
+\method{as_angle}{Line2D}(x, unit = getOption("affiner_angular_unit", "degrees"), ...)
+
+\method{as_angle}{Plane3D}(
   x,
   unit = getOption("affiner_angular_unit", "degrees"),
   type = c("azimuth", "inclination"),

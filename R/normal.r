@@ -24,6 +24,8 @@ normal2d.Coord2D <- function(x, normalize = TRUE, ...) {
     n
 }
 
+#### normal2d.Line2D
+
 #' @rdname normal2d
 #' @param x Object to compute a 2D normal vector for
 #'          such as a [Coord2D] object or one coercible
@@ -121,4 +123,18 @@ normal3d_character_z <- function(x) {
            "xy-plane" = 1,
            "yx-plane" = -1,
            as_coord3d_character_z(x))
+}
+
+#' @rdname normal2d
+#' @export
+normal2d.Line2D <- function(x, ..., normalize = TRUE) {
+    n <- as_coord2d(x$a, x$b)
+    n$scale(1 / abs(n))
+    n
+}
+
+#' @rdname normal3d
+#' @export
+normal3d.Plane3D <- function(x, ..., normalize = TRUE) {
+    normal3d.Coord3D(as_coord3d(x$a, x$b, x$c), normalize = normalize)
 }

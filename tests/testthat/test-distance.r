@@ -26,6 +26,14 @@ test_that("distance3d()", {
     expect_equal(distance3d(p3, p0),
                  abs(p3))
 
+    pl1 <- as_plane3d(a = 0, b = 2, c = 0, d = 4)
+    expect_equal(distance3d(pl1, p0), 2)
+
+    pl2 <- as_plane3d(a = 0, b = 0, c = 2, d = 4)
+    expect_equal(distance3d(p0, pl2), 2)
+
+    expect_error(distance3d(pl2, "foobar"))
+
     expect_error(distance3d(as_coord2d("origin"), p0))
     expect_error(distance3d(p0, as_coord2d("origin")))
 })

@@ -7,9 +7,9 @@
 distance3d(x, y)
 }
 \arguments{
-\item{x}{Either a \link{Coord3D} class object}
+\item{x}{Either a \link{Coord3D} or \link{Plane3D} class object}
 
-\item{y}{Either a \link{Coord3D} class object}
+\item{y}{Either a \link{Coord3D} or \link{Plane3D} class object}
 }
 \description{
 \code{distance3d()} computes 3D Euclidean distances.

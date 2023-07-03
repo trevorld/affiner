@@ -77,14 +77,12 @@ distance2d_coord2d_line2d <- function(x, y) {
     abs(y$a * x$x + y$b * x$y + y$c) / sqrt(y$a^2 + y$b^2)
 }
 
-is_line2d <- function(x) inherits(x, "Line2D")
-
 #' 3D Euclidean distances
 #'
 #' `distance3d()` computes 3D Euclidean distances.
 #'
-#' @param x Either a [Coord3D] class object
-#' @param y Either a [Coord3D] class object
+#' @param x Either a [Coord3D] or [Plane3D] class object
+#' @param y Either a [Coord3D] or [Plane3D] class object
 #' @examples
 #'   p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
 #'   distance3d(p, as_coord3d("origin"))
@@ -92,6 +90,8 @@ is_line2d <- function(x) inherits(x, "Line2D")
 distance3d <- function(x, y) {
     if (is_coord3d(x)) {
         distance3d_coord3d(x, y)
+    } else if (is_plane3d(x)) {
+        distance3d_plane3d(x, y)
     } else {
         stop(paste("Don't know how to handle", dQuote(class(x)), "class object"))
     }
@@ -100,6 +100,16 @@ distance3d <- function(x, y) {
 distance3d_coord3d <- function(x, y) {
     if (is_coord3d(y)) {
         distance3d_coord3d_coord3d(x, y)
+    } else if (is_plane3d(y)) {
+        distance3d_coord3d_plane3d(x, y)
+    } else {
+        stop(paste("Don't know how to handle", dQuote(class(y)), "class object"))
+    }
+}
+
+distance3d_plane3d <- function(x, y) {
+    if (is_coord3d(y)) {
+        distance3d_coord3d_plane3d(y, x)
     } else {
         stop(paste("Don't know how to handle", dQuote(class(y)), "class object"))
     }
@@ -110,4 +120,11 @@ distance3d_coord3d_coord3d <- function(x, y) {
     x <- rep_len(x, n)
     y <- rep_len(y, n)
     sqrt(rowSums((x$xyzw[, 1:3, drop = FALSE] - y$xyzw[, 1:3, drop = FALSE])^2))
+}
+
+distance3d_coord3d_plane3d <- function(x, y) {
+    n <- max(length(x), length(y))
+    x <- rep_len(x, n)
+    y <- rep_len(y, n)
+    abs(y$a * x$x + y$b * x$y + y$c * x$z + y$d) / sqrt(y$a^2 + y$b^2 + y$c^2)
 }

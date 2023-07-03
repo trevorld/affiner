@@ -49,13 +49,14 @@ c.Coord3D <- function(...) {
     Coord3D$new(m)
 }
 
-# (oblique) scalar projection onto a (unit) vector parameterized by its (polar) [angle()]
+# (oblique) scalar projection onto a (unit) vector parameterized by its line
 
 #' @export
-as.double.Coord2D <- function(x, theta = angle(0), ..., op_scale = 0) {
-    if (!is_angle(theta))
-        theta <- as_angle(theta, ...)
-    stopifnot(length(theta) == 1)
+as.double.Coord2D <- function(x, line = as_line2d("x-axis"), ..., op_scale = 0) {
+    if (!is_line2d(line))
+        line <- as_line2d(line, ...)
+    stopifnot(length(line) == 1, line$c == 0)
+    theta <- as_angle(line)
     x$clone()$rotate(-theta)$shear(xy_shear = op_scale)$x
 }
 

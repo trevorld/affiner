@@ -89,7 +89,7 @@ test_that("as_coord2d()", {
     expect_equal(p2$y, z)
 
     p3 <- as_coord2d(p, "xzy",
-                     normal = "xy-plane",
+                     plane = "xy-plane",
                      scale = 0.5,
                      alpha = 60, unit = "degrees")
     scale <- 0.5
@@ -262,8 +262,8 @@ test_that("range()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     z <- c(2, 7, 3)
-    expect_equal(range(as_coord2d(x, y)),
+    expect_equal(range(as_coord2d(x, y), na.rm = TRUE),
                  as_coord2d(c(2, 7), c(3, 6)))
-    expect_equal(range(as_coord3d(x, y, z)),
+    expect_equal(range(as_coord3d(x, y, z), na.rm = TRUE),
                  as_coord3d(c(2, 7), c(3, 6), c(2, 7)))
 })

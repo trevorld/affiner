@@ -15,9 +15,9 @@ transform2d(mat = diag(3))
 
 permute2d(permutation = c("xy", "yx"))
 
-project2d(theta = angle(0), ..., scale = 0)
+project2d(line = as_line2d("x-axis"), ..., scale = 0)
 
-reflect2d(theta = as_angle("x-axis"), ...)
+reflect2d(line = as_line2d("x-axis"), ...)
 
 rotate2d(theta = angle(0), ...)
 
@@ -37,17 +37,16 @@ we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
 
 \item{permutation}{Either "xy" (no permutation) or "yx" (permute x and y axes)}
 
-\item{theta}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.
-For \code{rotate2d()} how much to rotate around the origin.
-For \code{project2d()} and \code{reflect2d()} it represents the angle (from the horizontal axis)
-of the line going through the origin you wish to project to or reflect across
-(e.g. an angle of 0 corresponds to the x-axis and
-an angle of 90 degrees corresponds to the y-axis).}
+\item{line}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.
+For \code{project2d()} and \code{reflect2d()} it represents the
+the line you wish to project to or reflect across.}
 
 \item{...}{Passed to \code{\link[=as_angle]{as_angle()}} or \code{\link[=as_coord2d]{as_coord2d()}}.}
 
 \item{scale}{Oblique projection scale factor.
 A degenerate \code{0} value indicates an orthogonal projection.}
+
+\item{theta}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.}
 
 \item{x_scale}{Scaling factor to apply to x coordinates}
 

@@ -16,13 +16,13 @@ transform3d(mat = diag(4))
 permute3d(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))
 
 project3d(
-  normal = normal3d("xy-plane"),
+  plane = as_plane3d("xy-plane"),
   ...,
   scale = 0,
   alpha = angle(45, "degrees")
 )
 
-reflect3d(normal = normal3d("xy-plane"), ...)
+reflect3d(plane = as_plane3d("xy-plane"), ...)
 
 rotate3d(axis = as_coord3d("z-axis"), theta = angle(0), ...)
 
@@ -51,10 +51,9 @@ we'll quietly add a final column/row equal to \code{c(0, 0, 0, 1)}.}
 "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
 "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes)}
 
-\item{normal}{A \link{Coord3D} class object representing the vector normal of the plane
-you wish to reflect across or project to or an object coercible to one using \code{normal3d(normal, ...)}
-such as "xy-plane", "xz-plane", or "yz-plane".
-We will also (if necessary) coerce it to a unit vector.}
+\item{plane}{A \link{Plane3D} class object representing the plane
+you wish to reflect across or project to or an object coercible to one using \code{as_plane3d(plane, ...)}
+such as "xy-plane", "xz-plane", or "yz-plane".}
 
 \item{...}{Passed to \code{\link[=as_angle]{as_angle()}} or \code{\link[=as_coord3d]{as_coord3d()}}.}
 

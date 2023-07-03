@@ -25,7 +25,7 @@ as_coord2d(x, ...)
   x,
   permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
   ...,
-  normal = normal3d("xy-plane"),
+  plane = as_plane3d("xy-plane"),
   scale = 0,
   alpha = angle(45, "degrees")
 )
@@ -53,10 +53,9 @@ such as a matrix or data frame of coordinates.}
 "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes).
 This permutation is applied before the (oblique) projection.}
 
-\item{normal}{A \link{Coord3D} class object representing the vector normal of the plane
-you wish to project to or an object coercible to one using \code{normal3d(normal, ...)}
-such as "xy-plane", "xz-plane", or "yz-plane".
-We will also (if necessary) coerce it to a unit vector.}
+\item{plane}{A \link{Plane3D} class object representing the plane
+you wish to project to or an object coercible to one using \code{as_plane3d(plane, ...)}
+such as "xy-plane", "xz-plane", or "yz-plane".}
 
 \item{scale}{Oblique projection foreshortening scale factor.
 A (degenerate) \code{0} value indicates an orthographic projection.

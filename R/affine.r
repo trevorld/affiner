@@ -231,10 +231,11 @@ permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))
 #' @param scale Oblique projection scale factor.
 #'   A degenerate `0` value indicates an orthogonal projection.
 #' @export
-project2d <- function(theta = angle(0), ..., scale = 0) {
-    if (!is_angle(theta))
-        theta <- as_angle(theta, ...)
-    stopifnot(length(theta) == 1)
+project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
+    if (!is_line2d(line))
+        line <- as_line2d(line, ...)
+    stopifnot(length(line) == 1, line$c == 0)
+    theta <- as_angle(line)
     mat <- rotate2d(-theta) %*%
         shear2d(xy_shear = scale) %*%
         scale2d(y_scale = 0) %*%
@@ -251,17 +252,19 @@ project2d <- function(theta = angle(0), ..., scale = 0) {
 #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
 #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
 #' @export
-project3d <- function(normal = normal3d("xy-plane"), ...,
+project3d <- function(plane = as_plane3d("xy-plane"), ...,
                       scale = 0,
                       alpha = angle(45, "degrees")) {
-    normal <- normal3d(normal, ...)
-    stopifnot(length(normal) == 1)
+    if (!is_plane3d(plane))
+        plane <- as_plane3d(plane, ...)
     if (!is_angle(alpha)) {
         alpha <- as_angle(alpha, ...)
     }
-    stopifnot(length(alpha) == 1)
-    azimuth <- as_angle(normal, type = "azimuth")
-    inclination <- as_angle(normal, type = "inclination")
+    stopifnot(length(plane) == 1,
+              plane$d == 0,
+              length(alpha) == 1)
+    azimuth <- as_angle(plane, type = "azimuth")
+    inclination <- as_angle(plane, type = "inclination")
     z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
                                  dimnames = list(NULL, c("x", "y", "z", "w"))))
     y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
@@ -277,11 +280,15 @@ project3d <- function(normal = normal3d("xy-plane"), ...,
 }
 
 #' @rdname transform2d
+#' @param line A [Line2D] object of length one or an object coercible to one by `as_line2d(line, ...)`.
+#'             For `project2d()` and `reflect2d()` it represents the
+#'             the line you wish to project to or reflect across.
 #' @export
-reflect2d <- function(theta = as_angle("x-axis"), ...) {
-    if (!is_angle(theta))
-        theta <- as_angle(theta, ...)
-    stopifnot(length(theta) == 1)
+reflect2d <- function(line = as_line2d("x-axis"), ...) {
+    if (!is_line2d(line))
+        line <- as_line2d(line, ...)
+    stopifnot(length(line) == 1, line$c == 0)
+    theta <- as_angle(line)
     mat <- rotate2d(-theta) %*%
         scale2d(1, -1) %*%
         rotate2d(theta)
@@ -291,14 +298,15 @@ reflect2d <- function(theta = as_angle("x-axis"), ...) {
 # https://en.wikipedia.org/wiki/Transformation_matrix#Reflection_2
 
 #' @rdname transform3d
-#' @param normal A [Coord3D] class object representing the vector normal of the plane
-#'         you wish to reflect across or project to or an object coercible to one using `normal3d(normal, ...)`
+#' @param plane A [Plane3D] class object representing the plane
+#'         you wish to reflect across or project to or an object coercible to one using `as_plane3d(plane, ...)`
 #'         such as "xy-plane", "xz-plane", or "yz-plane".
-#'         We will also (if necessary) coerce it to a unit vector.
 #' @export
-reflect3d <- function(normal = normal3d("xy-plane"), ...) {
-    normal <- normal3d(normal, ...)
-    stopifnot(length(normal) == 1)
+reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
+    if (!is_plane3d(plane))
+        plane <- as_plane3d(plane, ...)
+    stopifnot(length(plane) == 1, plane$d == 0)
+    normal <- normal3d(plane)
     mat <- diag(4)
     mat[1, 1] <- 1 - 2 * normal$x^2
     mat[1, 2] <- mat[2, 1] <- -2 * normal$x * normal$y
@@ -311,11 +319,6 @@ reflect3d <- function(normal = normal3d("xy-plane"), ...) {
 
 #' @rdname transform2d
 #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
-#'              For `rotate2d()` how much to rotate around the origin.
-#'              For `project2d()` and `reflect2d()` it represents the angle (from the horizontal axis)
-#'              of the line going through the origin you wish to project to or reflect across
-#'              (e.g. an angle of 0 corresponds to the x-axis and
-#'              an angle of 90 degrees corresponds to the y-axis).
 #' @param ... Passed to [as_angle()] or [as_coord2d()].
 #' @export
 rotate2d <- function(theta = angle(0), ...) {

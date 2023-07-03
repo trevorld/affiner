@@ -45,3 +45,17 @@ is_coord3d <- function(x) {
 #'
 #' @export
 is_line2d <- function(x) inherits(x, "Line2D")
+
+#' Test whether an object has a Plane3D class
+#'
+#' `is_plane3d()` tests whether an object has a "Plane3D" class
+#'
+#' @param x An object
+#' @return A logical value
+#'
+#' @examples
+#' p <- as_plane3d(a = 1, b = 2, c = 3, 4)
+#' is_plane3d(p)
+#'
+#' @export
+is_plane3d <- function(x) inherits(x, "Plane3D")

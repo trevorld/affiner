@@ -78,6 +78,8 @@ test_that("is_congruent()", {
     expect_congruent(a1, 180)
     expect_congruent(2 * a1, 360)
     expect_congruent(a1 - a2, 0)
+    expect_congruent(a4, as_angle("y-axis", "degrees"))
+    expect_congruent(degrees(0), as_angle("x-axis", "degrees"))
     expect_congruent(angle(1e-9, "half-turns"), angle(-1e-9, "half-turns"))
     expect_false(is_congruent(a1, a4))
     expect_congruent(2, 2)

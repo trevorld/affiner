@@ -104,17 +104,13 @@ Column names should be "x", "y", and "w".}
 \if{latex}{\out{\hypertarget{method-Coord2D-project}{}}}
 \subsection{Method \code{project()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Coord2D$project(theta = angle(0), ..., scale = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Coord2D$project(line = as_line2d("x-axis"), ..., scale = 0)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{theta}}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.
-It represents the angle (from the horizontal axis)
-of the line going through the origin you wish to project to
-(e.g. an angle of 0 corresponds to the x-axis and
-an angle of 90 degrees corresponds to the y-axis).}
+\item{\code{line}}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.}
 
 \item{\code{...}}{Passed to \code{\link[=project2d]{project2d()}}}
 

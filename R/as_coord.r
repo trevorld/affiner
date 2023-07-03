@@ -151,10 +151,9 @@ as_coord2d.complex <- function(x, ...) {
 #'                    "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
 #'                    "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes).
 #'                    This permutation is applied before the (oblique) projection.
-#' @param normal A [Coord3D] class object representing the vector normal of the plane
-#'         you wish to project to or an object coercible to one using `normal3d(normal, ...)`
+#' @param plane A [Plane3D] class object representing the plane
+#'         you wish to project to or an object coercible to one using `as_plane3d(plane, ...)`
 #'         such as "xy-plane", "xz-plane", or "yz-plane".
-#'         We will also (if necessary) coerce it to a unit vector.
 #' @param scale Oblique projection foreshortening scale factor.
 #'   A (degenerate) `0` value indicates an orthographic projection.
 #'   A value of `0.5` is used by a \dQuote{cabinet projection}
@@ -166,19 +165,22 @@ as_coord2d.complex <- function(x, ...) {
 as_coord2d.Coord3D <- function(x,
                                permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
                                ...,
-                               normal = normal3d("xy-plane"),
+                               plane = as_plane3d("xy-plane"),
                                scale = 0,
                                alpha = angle(45, "degrees")) {
-    normal <- normal3d(normal, ...)
-    stopifnot(length(normal) == 1)
+    if (!is_plane3d(plane))
+        plane <- as_plane3d(plane, ...)
     if (!is_angle(alpha)) {
         alpha <- as_angle(alpha, ...)
     }
+    stopifnot(length(plane) == 1,
+              plane$d == 0,
+              length(alpha) == 1)
     stopifnot(length(alpha) == 1)
     permutation <- match.arg(permutation)
 
-    azimuth <- as_angle(normal, type = "azimuth")
-    inclination <- as_angle(normal, type = "inclination")
+    azimuth <- as_angle(plane, type = "azimuth")
+    inclination <- as_angle(plane, type = "inclination")
 
     z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
                                  dimnames = list(NULL, c("x", "y", "z", "w"))))

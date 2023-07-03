@@ -17,12 +17,15 @@ reference:
         - Coord3D
         - is_coord3d
         - as_coord3d
-    - title: "2D line"
-      desc: "2D line objects"
+    - title: "2D lines and 3D planes"
+      desc: "2D line and 3D plane objects"
       contents:
         - Line2D
         - as_line2d
         - is_line2d
+        - Plane3D
+        - as_plane3d
+        - is_plane3d
     - title: "2D/3D affine transformation matrices"
       desc: "2D/3D affine transformation matrices"
       contents:

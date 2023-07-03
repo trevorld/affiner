@@ -38,16 +38,12 @@ Coord2D <- R6Class("Coord2D",
                print(self$xyw[1:n, ])
            invisible(self)
        },
-       #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
-       #'              It represents the angle (from the horizontal axis)
-       #'              of the line going through the origin you wish to project to
-       #'              (e.g. an angle of 0 corresponds to the x-axis and
-       #'              an angle of 90 degrees corresponds to the y-axis).
+       #' @param line A [Line2D] object of length one or an object coercible to one by `as_line2d(line, ...)`.
        #' @param ... Passed to [project2d()]
        #' @param scale Oblique projection scale factor.
        #'              A degenerate `0` value indicates an orthogonal projection.
-       project = function(theta = angle(0), ..., scale = 0) {
-           self$transform(project2d(theta, ..., scale = scale))
+       project = function(line = as_line2d("x-axis"), ..., scale = 0) {
+           self$transform(project2d(line, ..., scale = scale))
        },
        #' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
        #'              It represents the angle (from the horizontal axis)
@@ -193,10 +189,9 @@ Coord3D <- R6Class("Coord3D",
                print(self$xyzw[1:n, ])
            invisible(self)
        },
-       #' @param normal A [Coord3D] class object representing the vector normal of the plane
-       #'         you wish to reflect across or project to or an object coercible to one using `normal3d(normal, ...)`
+       #' @param plane A [Plane3D] class object representing the plane
+       #'         you wish to reflect across or project to or an object coercible to one using `as_plane3d(plane, ...)`
        #'         such as "xy-plane", "xz-plane", or "yz-plane".
-       #'         We will also (if necessary) coerce it to a unit vector.
        #' @param ... Passed to [project3d()].
        #' @param scale Oblique projection foreshortening scale factor.
        #'   A (degenerate) `0` value indicates an orthographic projection.
@@ -205,16 +200,15 @@ Coord3D <- R6Class("Coord3D",
        #' @param alpha Oblique projection angle (the angle the third axis is projected going off at).
        #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
        #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
-       project = function(normal = normal3d("xy-plane"), ...,  scale = 0, alpha = angle(45, "degrees")) {
-           self$transform(project3d(normal, ..., scale = scale, alpha = alpha))
+       project = function(plane = as_plane3d("xy-plane"), ...,  scale = 0, alpha = angle(45, "degrees")) {
+           self$transform(project3d(plane, ..., scale = scale, alpha = alpha))
        },
-       #' @param normal A [Coord3D] class object representing the vector normal of the plane
-       #'         you wish to reflect across or project to or an object coercible to one using `normal3d(normal, ...)`
+       #' @param plane A [Plane3D] class object representing the plane
+       #'         you wish to reflect across or project to or an object coercible to one using `as_plane3d(plane, ...)`
        #'         such as "xy-plane", "xz-plane", or "yz-plane".
-       #'         We will also (if necessary) coerce it to a unit vector.
        #' @param ... Passed to [reflect3d()].
-       reflect = function(normal = normal3d("xy-plane"), ...) {
-           self$transform(reflect3d(normal, ...))
+       reflect = function(plane = as_plane3d("xy-plane"), ...) {
+           self$transform(reflect3d(plane, ...))
        },
        #' @param axis A [Coord3D] class object or one that can coerced to one by `as_coord3d(axis, ...)`.
        #'             The `axis` represents the axis to be rotated around.

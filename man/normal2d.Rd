@@ -4,6 +4,7 @@
 \alias{normal2d}
 \alias{normal2d.Coord2D}
 \alias{normal2d.default}
+\alias{normal2d.Line2D}
 \title{2D normal vectors}
 \usage{
 normal2d(x, ...)
@@ -11,6 +12,8 @@ normal2d(x, ...)
 \method{normal2d}{Coord2D}(x, normalize = TRUE, ...)
 
 \method{normal2d}{default}(x, normalize = TRUE, ...)
+
+\method{normal2d}{Line2D}(x, ..., normalize = TRUE)
 }
 \arguments{
 \item{x}{Object to compute a 2D normal vector for
