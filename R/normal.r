@@ -62,7 +62,7 @@ normal3d.Coord3D <- function(x, cross = NULL, ..., normalize = TRUE) {
     if (!is.null(cross)) {
         if (!is_coord3d(cross))
             cross <- as_coord3d(cross, ...)
-        n <- cross_product(x, cross)
+        n <- cross_product3d(x, cross)
     } else {
         n <- x$clone()
     }

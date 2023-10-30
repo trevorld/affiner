@@ -52,8 +52,8 @@ reference:
       contents:
         - mean.Coord2D
         - abs.Coord2D
-        - convex_hull.Coord2D
-        - cross_product
+        - convex_hull2d.Coord2D
+        - cross_product3d
         - distance2d
         - distance3d
         - normal2d

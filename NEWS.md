@@ -49,8 +49,8 @@ Initial features
   + Additional S3 methods:
 
     - `abs()` computes Euclidean norm
-    - `convex_hull()` computes convex hull (currently just for `coord2d()` objects)
-    - `cross_product()` computes a cross product between `Coord3D` vectors
+    - `convex_hull2d()` computes convex hull (currently just for `coord2d()` objects)
+    - `cross_product3d()` computes a cross product between `Coord3D` vectors
     - `distance2d()` and `distance3d()` computes Euclidean distances
     - `mean()` computes centroids of coordinates
     - `normal2d()` computes `Coord2D` normals
@@ -58,8 +58,8 @@ Initial features
 
 * `Line2D` and `Plane3D` R6 classes
 
-  + `as_line2d()` costs objects to `Line2D` R6 classes
-  + `as_plane3d()` costs objects to `Plane3D` R6 classes
+  + `as_line2d()` casts objects to `Line2D` R6 classes
+  + `as_plane3d()` casts objects to `Plane3D` R6 classes
   + `is_line2d()` tests whether objects are `Line2D` R6 classes
   + `is_plane3d()` tests whether objects are `Plane3D` R6 classes
 

@@ -110,9 +110,9 @@ mean.Coord3D <- function(x, ...) {
     as_coord3d(mean(x$x, ...), mean(x$y, ...), mean(x$z, ...))
 }
 
-#' Compute convex hull
+#' Compute 2D convex hulls
 #'
-#' `convex_hull()` is a S3 generic for computing the convex hull of an object.
+#' `convex_hull2d()` is a S3 generic for computing the convex hull of an object.
 #' There is an implemented method supporting [Coord2D] class objects
 #' using [grDevices::chull()] to compute the convex hull.
 #'
@@ -122,19 +122,19 @@ mean.Coord3D <- function(x, ...) {
 #'         The method for [Coord2D] class objects returns these points in counter-clockwise order.
 #' @examples
 #' p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-#' print(convex_hull(p))
+#' print(convex_hull2d(p))
 #'
 #' # Equivalent to following caculation using `grDevices::chull()`
-#' all.equal(convex_hull(p),
+#' all.equal(convex_hull2d(p),
 #'           p[rev(grDevices::chull(as.list(p)))])
 #' @export
-convex_hull <- function(x, ...) {
-    UseMethod("convex_hull")
+convex_hull2d <- function(x, ...) {
+    UseMethod("convex_hull2d")
 }
 
-#' @rdname convex_hull
+#' @rdname convex_hull2d
 #' @export
-convex_hull.Coord2D <- function(x, ...) {
+convex_hull2d.Coord2D <- function(x, ...) {
     x[rev(grDevices::chull(as.list(x)))]
 }
 
@@ -386,16 +386,16 @@ Arg.Coord2D <- function(z) {
 
 #' Compute 3D vector cross product
 #'
-#' `cross_product()` computes the cross product of two [Coord3D] class vectors.
+#' `cross_product3d()` computes the cross product of two [Coord3D] class vectors.
 #' @param x A [Coord3D] class vector.
 #' @param y A [Coord3D] class vector.
 #' @return A [Coord3D] class vector
 #' @examples
 #' x <- as_coord3d(2, 3, 4)
 #' y <- as_coord3d(5, 6, 7)
-#' cross_product(x, y)
+#' cross_product3d(x, y)
 #' @export
-cross_product <- function(x, y) {
+cross_product3d <- function(x, y) {
     stopifnot(is_coord3d(x), is_coord3d(y))
     n <- max(length(x), length(y))
     x <- rep_len(x, n)

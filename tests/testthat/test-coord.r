@@ -30,9 +30,9 @@ test_that("as_coord3d()", {
     expect_equal(rep_len(p3, 4), as_coord3d(rep(0, 4), rep(0, 4), rep(0, 4)))
 })
 
-test_that("convex_hull()", {
+test_that("convex_hull2d()", {
     p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-    expect_equal(convex_hull(p),
+    expect_equal(convex_hull2d(p),
                  p[rev(grDevices::chull(as.list(p)))])
 })
 
@@ -218,10 +218,10 @@ test_that("print.Coord3D()", {
     expect_snapshot(print(as_coord3d(numeric(0))))
 })
 
-test_that("cross_product", {
+test_that("cross_product3d", {
     x <- as_coord3d(2, 3, 4)
     y <- as_coord3d(5, 6, 7)
-    expect_equal(cross_product(x, y), as_coord3d(-3, 6, -3))
+    expect_equal(cross_product3d(x, y), as_coord3d(-3, 6, -3))
 })
 
 test_that("normal2d", {
