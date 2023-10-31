@@ -11,6 +11,8 @@ test_that("trigonometry functions", {
     expect_equal(arccosine(-1, "degrees"), angle(180, "degrees"))
     expect_equal(arcsine(0, "turns"), angle(0, "turns"))
     expect_equal(arctangent(0, "gradians"), angle(0, "gradians"))
+    expect_equal(arctangent(x=0, y=-1, unit="degrees"), angle(-90, "degrees"))
+    expect_equal(arctangent(x=-1, y=0, unit="degrees"), angle(180, "degrees"))
     expect_equal(arccosecant(-1, "degrees"), angle(180, "degrees"))
     expect_equal(arcsecant(1, "degrees"), angle(90, "degrees"))
     expect_equal(arccotangent(1, "half-turns"), angle(0.25, "half-turns"))

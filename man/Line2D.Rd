@@ -16,11 +16,11 @@ as_line2d(p1, p2)
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y = c = 0}.}
+\item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 
-\item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y = c = 0}.}
+\item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 
-\item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y = c = 0}.}
+\item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -43,11 +43,11 @@ as_line2d(p1, p2)
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y = c = 0}.}
+\item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 
-\item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y = c = 0}.}
+\item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 
-\item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y = c = 0}.}
+\item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 }
 \if{html}{\out{</div>}}
 }

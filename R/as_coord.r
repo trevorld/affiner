@@ -187,13 +187,13 @@ as_coord2d.Coord3D <- function(x,
     y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
                                  dimnames = list(NULL, c("x", "y", "z", "w"))))
     p <- x$
-    clone()$
-    permute(permutation)$
-    rotate(z_axis, -azimuth)$
-    rotate(y_axis, -inclination)$
-    shear(xz_shear = scale * cos(alpha),
-          yz_shear = scale * sin(alpha))
-    as_coord2d(p$x, p$y)
+        clone()$
+        permute(permutation)$
+        rotate(z_axis, -azimuth)$
+        rotate(y_axis, -inclination)$
+        shear(xz_shear = scale * cos(alpha),
+              yz_shear = scale * sin(alpha))
+        as_coord2d(p$x, p$y)
 }
 
 #' @rdname as_coord2d

@@ -76,8 +76,6 @@ test_that("project2d()", {
     expect_equal(p1$x, x)
     expect_equal(p1$y, rep(0, 3))
 
-    expect_equal(as.double(as_coord2d(x, y), line = "x-axis"), p1$x)
-
     p2 <- as_coord2d(x = x, y = y)$project(degrees(90))
     expect_equal(p2$x, rep(0, 3))
     expect_equal(p2$y, y)

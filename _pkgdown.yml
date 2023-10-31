@@ -48,10 +48,11 @@ reference:
         - arcsine
         - print.angle
     - title: "Additional coordinate calculations"
-      desc: "Compute centroids, Euclidean norms, convex hulls, cross products, and vector normals"
+      desc: "Compute centroids, Euclidean norms, axis-aligned ranges, convex hulls, cross products, and vector normals"
       contents:
         - mean.Coord2D
         - abs.Coord2D
+        - range.Coord2D
         - convex_hull2d.Coord2D
         - cross_product3d
         - distance2d

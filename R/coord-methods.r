@@ -49,17 +49,6 @@ c.Coord3D <- function(...) {
     Coord3D$new(m)
 }
 
-# (oblique) scalar projection onto a (unit) vector parameterized by its line
-
-#' @export
-as.double.Coord2D <- function(x, line = as_line2d("x-axis"), ..., op_scale = 0) {
-    if (!is_line2d(line))
-        line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1, line$c == 0)
-    theta <- as_angle(line)
-    x$clone()$rotate(-theta)$shear(xy_shear = op_scale)$x
-}
-
 #' @export
 length.Coord2D <- function(x) {
     nrow(x$.__enclos_env__$private$mat_xyw)
@@ -301,6 +290,20 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
     }
 }
 
+#' Compute axis-aligned ranges
+#'
+#' `range()` computes axis-aligned ranges for
+#' [Coord2D] and [Coord3D] class objects.
+#' @param na.rm logical, indicating if `NA`'s should be omitted
+#' @param ... [Coord2D] or [Coord3D] object(s)
+#' @name bounding_ranges
+#' @return Either a [Coord2D] or [Coord3D] object of length two.
+#'         The first element will have the minimum x/y(/z) coordinates
+#'         and the second element will have the maximum x/y(/z) coordinates
+#'         of the axis-aligned ranges.
+#' @examples
+#' range(as_coord2d(rnorm(5), rnorm(5)))
+#' range(as_coord3d(rnorm(5), rnorm(5), rnorm(5)))
 #' @export
 range.Coord2D <- function(..., na.rm = FALSE) {
     x <- c.Coord2D(...)
@@ -309,6 +312,7 @@ range.Coord2D <- function(..., na.rm = FALSE) {
     as_coord2d(range(x$x), range(x$y))
 }
 
+#' @rdname bounding_ranges
 #' @export
 range.Coord3D <- function(..., na.rm = FALSE) {
     x <- c.Coord3D(...)
@@ -406,3 +410,72 @@ cross_product3d <- function(x, y) {
     m[, 3] <- x$x * y$y - x$y * y$x
     Coord3D$new(m)
 }
+
+# nolint start
+# #' Project onto a 1D line
+# #'
+# #' `as.double.Coord2D()` computes the 1D projection of a [Coord2D] object
+# #' onto a line.  By default will do an orthographic projection onto the x-axis
+# #' but can do oblique projections onto arbitrary lines that pass through the origin.
+# #'
+# #' @param x [Coord2D] object
+# #' @inheritParams project2d
+# #' @param ... Ignored
+# #' @examples
+# #' p <- as_coord2d(rnorm(5), rnorm(5))
+# #' as.numeric(p)
+# #' @return A double vector
+# #' @export
+# as.double.Coord2D <- function(x,
+#                               permutation = c("xy", "yx"),
+#                               ...,
+#                               line = as_line2d("x-axis"),
+#                               scale = 0) {
+#     if (!is_line2d(line))
+#         line <- as_line2d(line, ...)
+#     stopifnot(length(line) == 1, line$c == 0)
+#     permutation <- match.arg(permutation)
+#     theta <- as_angle(line)
+#     x$
+#         clone()$
+#         permute(permutation)$
+#         rotate(-theta)$
+#         shear(xy_shear = scale)$
+#         x
+# }
+#
+# #' Scalar projections
+# #'
+# #' `as.double.Coord2D()` and `as.double.Coord3D()` computes the scalar projections of [Coord2D]
+# #' and [Coord3D] vectors.
+# #' The scalar projection of a vector `x` onto a vector `y` is also
+# #' known as the component of `x` in the direction of `y`.
+# #'
+# #' @param x [Coord2D] or [Coord3D] object
+# #' @param y [Coord2D] or [Coord3D] object of length one to project onto.
+# #' @inheritParams project2d
+# #' @param ... If `y` is not a coordinate vector passed to either [as_coord2d()] or [as_coord3d()].
+# #' @examples
+# #' p2 <- as_coord2d(rnorm(5), rnorm(5))
+# #' as.numeric(p2)
+# #' p3 <- as_coord2d(rnorm(5), rnorm(5), rnorm(5))
+# #' as.numeric(p3)
+# #' @name scalar_projection
+# #' @return A double vector
+# #' @export
+# as.double.Coord2D <- function(x, y = as_coord2d(1, 0), ...) {
+#     if (!is_coord2d(y))
+#         y <- as_coord2d(y, ...)
+#     stopifnot(length(y) == 1)
+#     (x * y) / abs(y)
+# }
+#
+# #' @rdname scalar_projection
+# #' @export
+# as.double.Coord3D <- function(x, y = as_coord3d(1, 0, 0), ...) {
+#     if (!is_coord3d(y))
+#         y <- as_coord3d(y, ...)
+#     stopifnot(length(y) == 1)
+#     (x * y) / abs(y)
+# }
+# nolint end

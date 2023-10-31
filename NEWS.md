@@ -55,6 +55,7 @@ Initial features
     - `mean()` computes centroids of coordinates
     - `normal2d()` computes `Coord2D` normals
     - `normal3d()` computes `Coord3D` normals
+    - `range()` computes axis-aligned ranges
 
 * `Line2D` and `Plane3D` R6 classes
 
