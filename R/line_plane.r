@@ -8,15 +8,15 @@
 #' theta <- degrees(45)
 #' as_line2d(theta, p1)
 #' as_line2d(p1, p2)
-#' @field a Numeric vector that parameterizes the line via the equation `a * x + b * y = c = 0`.
-#' @field b Numeric vector that parameterizes the line via the equation `a * x + b * y = c = 0`.
-#' @field c Numeric vector that parameterizes the line via the equation `a * x + b * y = c = 0`.
+#' @field a Numeric vector that parameterizes the line via the equation `a * x + b * y + c = 0`.
+#' @field b Numeric vector that parameterizes the line via the equation `a * x + b * y + c = 0`.
+#' @field c Numeric vector that parameterizes the line via the equation `a * x + b * y + c = 0`.
 #' @export
 Line2D <- R6Class("Line2D",
    public = list(
-       #' @param a Numeric vector that parameterizes the line via the equation `a * x + b * y = c = 0`.
-       #' @param b Numeric vector that parameterizes the line via the equation `a * x + b * y = c = 0`.
-       #' @param c Numeric vector that parameterizes the line via the equation `a * x + b * y = c = 0`.
+       #' @param a Numeric vector that parameterizes the line via the equation `a * x + b * y + c = 0`.
+       #' @param b Numeric vector that parameterizes the line via the equation `a * x + b * y + c = 0`.
+       #' @param c Numeric vector that parameterizes the line via the equation `a * x + b * y + c = 0`.
        initialize = function(a, b, c) {
            stopifnot(length(a) == length(b) && length(b) == length(c))
            self$a <- a

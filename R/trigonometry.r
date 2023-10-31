@@ -117,10 +117,18 @@ arccosine <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
 }
 
 #' @rdname inverse-trigonometric-functions
+#' @param y A numeric vector or `NULL`.
+#'          If `NULL` (default) we compute the 1-argument arctangent
+#'          else we compute the 2-argument arctangent.
+#'          For positive coordinates `(x, y)` then `arctangent(x = y/x) == arctangent(x = x, y = y)`.
 #' @export
-arctangent <- function(x, unit = getOption("affiner_angular_unit", "degrees")) {
+arctangent <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
+                       y = NULL) {
     unit <- standardize_angular_unit(unit)
-    angle(from_radians(atan(x), unit), unit)
+    if (is.null(y))
+        angle(from_radians(atan(x), unit), unit)
+    else
+        angle(from_radians(atan2(y, x), unit), unit)
 }
 
 #' @rdname inverse-trigonometric-functions

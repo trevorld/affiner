@@ -218,6 +218,29 @@ test_that("print.Coord3D()", {
     expect_snapshot(print(as_coord3d(numeric(0))))
 })
 
+# nolint start
+# test_that("scalar projections", {
+#     x <- c(2, 5, 7)
+#     y <- c(3, 4, 6)
+#     z <- c(4, 9, 3)
+#     p1 <- as_coord2d(x = x, y = y)
+#     expect_equal(as.double(p1), x)
+#
+#     p3 <- as_coord3d(x = x, y = y, z = z)
+#     expect_equal(as.double(p3), x)
+#
+#     y <- as_coord2d(1, -1)
+#     n <- normal2d(as_coord2d(0.5, 0.5))
+#     expect_equal(n * p1,
+#                  as.double(p1, y))
+#
+#     p2 <- as_coord2d(2, 1)
+#     n <- as_coord2d(0, -1)
+#     expect_equal(n * p2,
+#                  as.double(p2, n))
+# })
+# nolint end
+
 test_that("cross_product3d", {
     x <- as_coord3d(2, 3, 4)
     y <- as_coord3d(5, 6, 7)

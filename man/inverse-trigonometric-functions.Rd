@@ -22,7 +22,7 @@ arccosine(
   tolerance = sqrt(.Machine$double.eps)
 )
 
-arctangent(x, unit = getOption("affiner_angular_unit", "degrees"))
+arctangent(x, unit = getOption("affiner_angular_unit", "degrees"), y = NULL)
 
 arcsecant(x, unit = getOption("affiner_angular_unit", "degrees"))
 
@@ -46,6 +46,11 @@ e.g. "half turns" will be treated as equivalent to "halfturn"):
 
 \item{tolerance}{If \code{x} greater than 1 (or less than -1) but is within a \code{tolerance}
 of 1 (or -1) then it will be treated as 1 (or -1)}
+
+\item{y}{A numeric vector or \code{NULL}.
+If \code{NULL} (default) we compute the 1-argument arctangent
+else we compute the 2-argument arctangent.
+For positive coordinates \verb{(x, y)} then \code{arctangent(x = y/x) == arctangent(x = x, y = y)}.}
 }
 \value{
 An \code{\link[=angle]{angle()}} vector
