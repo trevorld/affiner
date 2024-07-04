@@ -3,17 +3,23 @@
 \name{angle}
 \alias{angle}
 \alias{degrees}
+\alias{gradians}
 \alias{pi_radians}
 \alias{radians}
+\alias{turns}
 \title{Angle vectors}
 \usage{
 angle(x = numeric(), unit = getOption("affiner_angular_unit", "degrees"))
 
 degrees(x)
 
+gradians(x)
+
 pi_radians(x)
 
 radians(x)
+
+turns(x)
 }
 \arguments{
 \item{x}{An angle vector or an object to convert to it (such as a numeric vector)}
@@ -35,7 +41,7 @@ Its "unit" attribute is a standardized string of the specified angular unit.
 }
 \description{
 \code{angle()} creates angle vectors with user specified angular unit.
-those commonly used angular units.
+around \code{\link[=as_angle]{as_angle()}} for those angular units.
 }
 \examples{
   # Different representations of the "same" angle

@@ -15,7 +15,7 @@ Initial features
   + Supports "degrees", "radians", "half-turns" (aka "pi-radians"), (full) "turns", and "gradians" units.
   + `is_angle()` tests whether the input is an angle vector.
   + `as_angle()` casts objects to angle vectors.
-  + `degrees()`, `pi_radians()`, and `radians()` are convenience wrappers around
+  + `degrees()`, `gradians()`, `pi_radians()`, `radians()`, and `turns()` are convenience wrappers around
     `as_angle()` for those commonly used angular units.
   + `is_congruent()` is a generic S3 method which tests whether two R objects are "congruent".
     The `is_congruent()` method for angle vectors tests whether two angles are congruent.

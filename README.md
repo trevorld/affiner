@@ -24,7 +24,7 @@
 
 `{affiner}` plans to be an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/trevorld/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
 
-![Polyhedral dice](https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png)
+<img src="https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png" alt="Polyhedral dice">
 
 The current goals are to:
 
@@ -46,7 +46,7 @@ Some particular intended strengths compared to other R geometry packages:
 ## <a name="installation">Installation</a>
 
 
-```r
+``` r
 remotes::install_github("trevorld/affiner")
 ```
 
@@ -61,7 +61,7 @@ remotes::install_github("trevorld/affiner")
 * Use `affine_settings()` and `affineGrob()`  or `grid.affine()` to render arbitrary "illustrated" grobs within each of these parallelograms.
 
 
-```r
+``` r
 library("affiner")
 library("grid")
 
@@ -108,7 +108,7 @@ for (i in 1:3) {
 }
 ```
 
-![](man/figures/README-hex-logo-1.png)
+<img src="man/figures/README-hex-logo-1.png" alt="Isometric-cube hex logo"  />
 
 
 ### <a name="dice">Render an "illustrated" d6 dice using oblique and isometric projections</a>
@@ -127,7 +127,7 @@ Our high-level strategy for rendering 3D objects is as follows:
 * Use `affine_settings()` and `grid.affine()` / `affineGrob()` to render the illustrated cube face "grobs" within these affine transformed "parallelogram viewports".  The order these are drawn is important but in this example we manually sorted them ahead of time in an order that worked for our target projections.
 
 
-```r
+``` r
 library("affiner")
 library("grid")
 xyz_face <- as_coord3d(x = c(0, 0, 1, 1) - 0.5, y = c(1, 0, 0, 1) - 0.5, z = 0.5)
@@ -179,9 +179,9 @@ for (i in 1:6) {
 }
 ```
 
-![](man/figures/README-die-faces-1.png)
+<img src="man/figures/README-die-faces-1.png" alt="The six die faces"  />
 
-```r
+``` r
 # re-order face grobs for our target projections
 # bottom = 6, north = 4, east = 5, west = 2, south = 3, top = 1
 l_face_grobs <- l_face_grobs[c(6, 4, 5, 2, 3, 1)]
@@ -214,9 +214,9 @@ grid.text("Oblique projection\n(onto xy-plane)", y = 0.9,
           gp = gpar(fontsize = 18, face = "bold"))
 ```
 
-![](man/figures/README-projected-die-1.png)
+<img src="man/figures/README-projected-die-1.png" alt="Parallel projection of a die"  />
 
-```r
+``` r
 # oblique projection of dice on xz-plane
 l_xy_oblique2 <- lapply(l_faces, function(xyz) {
     xyz$clone()$
@@ -228,9 +228,9 @@ grid.text("Oblique projection\n(onto xz-plane)", y = 0.9,
           gp = gpar(fontsize = 18, face = "bold"))
 ```
 
-![](man/figures/README-projected-die-2.png)
+<img src="man/figures/README-projected-die-2.png" alt="Parallel projection of a die"  />
 
-```r
+``` r
 # isometric projection
 l_xy_isometric <- lapply(l_faces, function(xyz) {
     xyz$clone()$
@@ -244,7 +244,7 @@ grid.text("Isometric projection", y = 0.9,
           gp = gpar(fontsize = 18, face = "bold"))
 ```
 
-![](man/figures/README-projected-die-3.png)
+<img src="man/figures/README-projected-die-3.png" alt="Parallel projection of a die"  />
 
 ## <a name="related">Related software</a>
 

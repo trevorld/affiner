@@ -24,7 +24,7 @@
 
 `{affiner}` plans to be an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/trevorld/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
 
-![Polyhedral dice](https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png)
+<img src="https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png" alt="Polyhedral dice">
 
 The current goals are to:
 
@@ -61,7 +61,7 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.cap = "")
 * The `as_coord2d()` method for `angle()` objects lets you compute the regular polygon vertices and center using [polar coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system)
 * Use `affine_settings()` and `affineGrob()`  or `grid.affine()` to render arbitrary "illustrated" grobs within each of these parallelograms.
 
-```{r hex-logo, fig.width = 4.5, fig.height = 4.5}
+```{r hex-logo, fig.width = 4.5, fig.height = 4.5, fig.alt = "Isometric-cube hex logo"}
 library("affiner")
 library("grid")
 
@@ -124,7 +124,7 @@ Our high-level strategy for rendering 3D objects is as follows:
 
 * Use `affine_settings()` and `grid.affine()` / `affineGrob()` to render the illustrated cube face "grobs" within these affine transformed "parallelogram viewports".  The order these are drawn is important but in this example we manually sorted them ahead of time in an order that worked for our target projections.
 
-```{r die-faces, fig.width = 4.0, fig.height = 3.0}
+```{r die-faces, fig.width = 4.0, fig.height = 3.0, fig.alt = "The six die faces"}
 library("affiner")
 library("grid")
 xyz_face <- as_coord3d(x = c(0, 0, 1, 1) - 0.5, y = c(1, 0, 0, 1) - 0.5, z = 0.5)
@@ -175,7 +175,7 @@ for (i in 1:6) {
               gp = gpar(fontsize = 18, face = "bold"))
 }
 ```
-```{r projected-die, fig.width = 3.0, fig.height = 3.0}
+```{r projected-die, fig.width = 3.0, fig.height = 3.0, fig.alt = "Parallel projection of a die"}
 # re-order face grobs for our target projections
 # bottom = 6, north = 4, east = 5, west = 2, south = 3, top = 1
 l_face_grobs <- l_face_grobs[c(6, 4, 5, 2, 3, 1)]
