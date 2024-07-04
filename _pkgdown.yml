@@ -2,6 +2,8 @@ destination: "../../websites/R/affiner/"
 url: "https://trevorldavis.com/R/affiner"
 development:
     mode: auto
+template:
+  bootstrap: 5
 reference:
     - title: "{grid} affine transformation utilities"
       desc: "Utilities to use the {grid} group affine transformation feature"
@@ -59,9 +61,10 @@ reference:
         - distance3d
         - normal2d
         - normal3d
-    - title: "Overall package description"
-      desc: "Overall package description including supported package options"
+    - title: "Package options"
+      desc: "Package global options"
       contents:
+        - affiner_options
         - affiner-package
 figures:
   dev: grDevices::png

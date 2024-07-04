@@ -1,8 +1,8 @@
 Package: affiner
 Type: Package
 Title: A finer way to render 3D illustrated objects in 'grid' using affine transformations
-Version: 0.1.0-17
-Authors@R: c(person("Trevor L", "Davis", role = c("aut", "cre"),
+Version: 0.1.0-18
+Authors@R: c(person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")))
 Description: Dilate, permute, project, reflect, rotate, shear, and translate 2D and 3D points.  Supports parallel projections including oblique projections such as the cabinet projection as well as axonometric projections such as the isometric projection.  Use 'grid's "affine transformation" feature to render illustrated flat surfaces.
@@ -21,9 +21,10 @@ Suggests:
     rmarkdown,
     stats,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    withr
 VignetteBuilder: knitr, rmarkdown
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3

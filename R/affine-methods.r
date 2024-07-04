@@ -120,6 +120,7 @@ solve.at_matrix <- function(a, b, ...) {
     m
 }
 
+# S3 method registered for R (>= 4.3.0) in `hooks.r`
 `%*%.at_matrix` <- function(x, y) {
     m <- NextMethod()
     if (is_at_matrix(x) && is_at_matrix(y) && !is_at_matrix(m)) {
