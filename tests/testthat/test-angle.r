@@ -30,6 +30,8 @@ test_that("standardize_angular_unit()", {
 
 test_that("format.angle() and print.angle()", {
     skip_if_not(l10n_info()[["UTF-8"]])
+    skip_if_not_installed("withr")
+    withr::local_options(cli.unicode = TRUE, affiner_angular_unit = "degrees")
     expect_equal(format(angle(180, "degrees")), "180\u00b0")
     expect_equal(format(angle(200, "gradians")), "200 gon")
     expect_equal(format(angle(pi, "radians")), "3.141593 rad")
@@ -37,7 +39,7 @@ test_that("format.angle() and print.angle()", {
     expect_equal(format(angle(0.5, "turns")), "0.5 tr")
     expect_equal(format(angle()), character())
 
-    expect_output(print(angle()), "angle\\(0\\)")
+    expect_output(print(angle()), "<angle<degrees>\\[0\\]>")
     expect_output(print(angle(200, "gradians")), "\\[1\\] 200 gon")
 })
 
@@ -64,6 +66,8 @@ test_that("angular_unit()", {
     angular_unit(a) <- "turns"
     expect_equal(angular_unit(a), "turns")
     expect_equal(as.numeric(a), seq(0, 1, by = 0.25))
+    expect_equal(angular_unit(gradians(0)), "gradians")
+    expect_equal(angular_unit(turns(0)), "turns")
 })
 
 test_that("is_congruent()", {
@@ -121,6 +125,8 @@ test_that("base R trigonometric functions", {
 })
 
 test_that("as_angle()", {
+    skip_if_not_installed("withr")
+    withr::local_options(affiner_options(default = TRUE))
     a1 <- angle(180, "degrees")
     expect_equal(a1, (as_angle(a1)))
     expect_equal(a1, (as_angle(a1, "degrees")))
@@ -132,23 +138,23 @@ test_that("as_angle()", {
     expect_false(isTRUE(all.equal(a1, as_angle(a1, "turns"), check.attributes = TRUE)))
     expect_warning(as_angle("foobar"))
 
-    expect_equal(as_angle(as_coord3d("z-axis"), "degrees", "azimuth"),
+    expect_equal(as_angle(as_coord3d("z-axis"), "degrees", type = "azimuth"),
                  angle(0, "degrees"))
-    expect_equal(as_angle(as_coord3d("z-axis"), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d("z-axis"), "degrees", type = "inclination"),
                  angle(0, "degrees"))
-    expect_equal(as_angle(as_coord3d("x-axis"), "degrees", "azimuth"),
+    expect_equal(as_angle(as_coord3d("x-axis"), "degrees", type = "azimuth"),
                  angle(0, "degrees"))
-    expect_equal(as_angle(as_coord3d("x-axis"), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d("x-axis"), "degrees", type = "inclination"),
                  angle(90, "degrees"))
-    expect_equal(as_angle(as_coord3d("y-axis"), "degrees", "azimuth"),
+    expect_equal(as_angle(as_coord3d("y-axis"), "degrees", type = "azimuth"),
                  angle(90, "degrees"))
-    expect_equal(as_angle(as_coord3d("y-axis"), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d("y-axis"), "degrees", type = "inclination"),
                  angle(90, "degrees"))
-    expect_equal(as_angle(as_coord3d(1, 1, -1), "degrees", "azimuth"),
+    expect_equal(as_angle(as_coord3d(1, 1, -1), "degrees", type = "azimuth"),
                  angle(45, "degrees"))
-    expect_equal(as_angle(as_coord3d(1, 1, -1), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d(1, 1, -1), "degrees", type = "inclination"),
                  arccosine(-1 / sqrt(3), "degrees"))
-    expect_equal(as_angle(as_coord3d(0, 1, -1), "degrees", "inclination"),
+    expect_equal(as_angle(as_coord3d(0, 1, -1), "degrees", type = "inclination"),
                  angle(135, "degrees"))
 })
 

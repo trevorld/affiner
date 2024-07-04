@@ -19,6 +19,12 @@ The default for this option is "degrees".}
 \item{affiner_grid_unit}{The default for the \code{unit} argument used by \code{\link[=affine_settings]{affine_settings()}}.
 The default for this option is "inches".}
 }
+The following \code{cli} options may also be of interest:
+\describe{
+\item{cli.unicode}{Whether UTF-8 character support should be assumed.
+Along with \code{\link[=l10n_info]{l10n_info()}} used to determine the default of the
+\code{use_unicode} argument of \code{\link[=format.angle]{format.angle()}} and \code{\link[=print.angle]{print.angle()}}.}
+}
 }
 
 \seealso{
@@ -30,6 +36,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Trevor L Davis \email{trevor.l.davis@gmail.com} (\href{https://orcid.org/0000-0001-6341-4639}{ORCID})
+\strong{Maintainer}: Trevor L. Davis \email{trevor.l.davis@gmail.com} (\href{https://orcid.org/0000-0001-6341-4639}{ORCID})
 
 }
