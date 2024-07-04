@@ -13,11 +13,11 @@
 
 \method{as.complex}{angle}(x, modulus = 1, ...)
 
-\method{format}{angle}(x, unit = angular_unit(x), ..., use_unicode = l10n_info()[["UTF-8"]])
+\method{format}{angle}(x, unit = angular_unit(x), ..., use_unicode = is_utf8_output())
 
 \method{abs}{angle}(x)
 
-\method{print}{angle}(x, unit = angular_unit(x), ..., use_unicode = l10n_info()[["UTF-8"]])
+\method{print}{angle}(x, unit = angular_unit(x), ..., use_unicode = is_utf8_output())
 }
 \arguments{
 \item{x}{\code{\link[=angle]{angle()}} vector}

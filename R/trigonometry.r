@@ -101,7 +101,7 @@ arcsine <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
     idn1 <- which(x < -1 && x > -1 - tolerance)
     x[idn1] <- -1
     unit <- standardize_angular_unit(unit)
-    angle(from_radians(asin(x), unit), unit)
+    new_angle(from_radians(asin(x), unit), unit)
 }
 
 #' @rdname inverse-trigonometric-functions
@@ -113,7 +113,7 @@ arccosine <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
     idn1 <- which(x < -1 && x > -1 - tolerance)
     x[idn1] <- -1
     unit <- standardize_angular_unit(unit)
-    angle(from_radians(acos(x), unit), unit)
+    new_angle(from_radians(acos(x), unit), unit)
 }
 
 #' @rdname inverse-trigonometric-functions
@@ -126,9 +126,10 @@ arctangent <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
                        y = NULL) {
     unit <- standardize_angular_unit(unit)
     if (is.null(y))
-        angle(from_radians(atan(x), unit), unit)
+        a <- from_radians(atan(x), unit)
     else
-        angle(from_radians(atan2(y, x), unit), unit)
+        a <- from_radians(atan2(y, x), unit)
+    new_angle(a, unit)
 }
 
 #' @rdname inverse-trigonometric-functions

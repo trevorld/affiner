@@ -12,11 +12,11 @@ Initial features
 
 * `angle()` creates angle vector S3 classes that allow users to use whichever angular unit is most convenient for them:
 
-  + Supports "degrees", "radians", "half-turns" (aka "pi-radians"), (full) "turns", and "gradians".
+  + Supports "degrees", "radians", "half-turns" (aka "pi-radians"), (full) "turns", and "gradians" units.
   + `is_angle()` tests whether the input is an angle vector.
   + `as_angle()` casts objects to angle vectors.
-  + `degrees()`, `pi_radians()`, and `radians()` are convenience wrappers for those
-    commonly used angular units.
+  + `degrees()`, `pi_radians()`, and `radians()` are convenience wrappers around
+    `as_angle()` for those commonly used angular units.
   + `is_congruent()` is a generic S3 method which tests whether two R objects are "congruent".
     The `is_congruent()` method for angle vectors tests whether two angles are congruent.
   + `angular_unit()` can be used to get/set the angular unit of angle vectors.
@@ -81,5 +81,6 @@ Initial features
 
   + `affiner_angular_unit`: The default for the `unit` argument used by `angle()` and `as_angle()`.
     The default for this option is "degrees".
-  + `affiner_print_usage`: The default for the `usage` argument used by `coord2d()` and `coord3d()` objects' print method.
-    The default for this option is `TRUE`.
+  + `affiner_grid_unit`: The default for the `unit` argument used by `affine_settings()`.
+    The default for this option is `inches`.
+  + These options can be queried with the convenience function `affiner_options()` (#48).

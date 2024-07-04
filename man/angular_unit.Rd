@@ -21,10 +21,10 @@ angular_unit(x) <- value
 \code{angular_unit()} gets/sets the angular unit of \code{\link[=angle]{angle()}} vectors.
 }
 \examples{
-  a <- angle(seq(0, 360, by = 90), "degrees")
-  angular_unit(a)
-  print(a)
-  angular_unit(a) <- "turns"
-  angular_unit(a)
-  print(a)
+a <- angle(seq(0, 360, by = 90), "degrees")
+angular_unit(a)
+print(a)
+angular_unit(a) <- "turns"
+angular_unit(a)
+print(a)
 }
