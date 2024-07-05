@@ -18,5 +18,4 @@ A logical value
 \examples{
 p <- as_plane3d(a = 1, b = 2, c = 3, 4)
 is_plane3d(p)
-
 }

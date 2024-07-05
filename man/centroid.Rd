@@ -2,24 +2,27 @@
 % Please edit documentation in R/coord-methods.r
 \name{centroid}
 \alias{centroid}
+\alias{mean.Coord1D}
 \alias{mean.Coord2D}
 \alias{mean.Coord3D}
 \title{Compute centroids of coordinates}
 \usage{
+\method{mean}{Coord1D}(x, ...)
+
 \method{mean}{Coord2D}(x, ...)
 
 \method{mean}{Coord3D}(x, ...)
 }
 \arguments{
-\item{x}{A \link{Coord2D} object or \link{Coord3D} object}
+\item{x}{A \link{Coord1D}, \link{Coord2D}, or \link{Coord3D} object}
 
 \item{...}{Passed to \code{\link[base:mean]{base::mean()}}}
 }
 \value{
-A \link{Coord2D} or \link{Coord3D} class object of length one
+A \link{Coord1D}, \link{Coord2D}, or \link{Coord3D} class object of length one
 }
 \description{
-\code{mean()}computes centroids for for \link{Coord2D} and \link{Coord3D} class objects
+\code{mean()}computes centroids for \link{Coord1D}, \link{Coord2D}, and \link{Coord3D} class objects
 }
 \examples{
  p <- as_coord2d(x = 1:4, y = 1:4)

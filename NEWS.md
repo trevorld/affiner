@@ -34,13 +34,13 @@ Initial features
       e.g. `angle(x, "degrees") |> as.numeric("radians")` to cast a numeric vector `x` from degrees to radians.
     - `abs()` will calculate the angle modulo full turns.
 
-* `Coord2D` and `Coord3D` are (Cartesian) coordinate R6 classes
+* `Coord1D`, `Coord2D`, and `Coord3D` are (Cartesian) coordinate R6 classes
 
-  + `is_coord2d()` and `is_coord3d()` test whether objects are `Coord2D` or `Coord3D` R6 classes
-  + `as_coord2d()` and `as_coord3d()` cast objects to `Coord2D` or `Coord3D` R6 classes
-  + Several mathematical operations are supported for `Coord2D` or `Coord3D` R6 classes
+  + `is_coord1d()`, `is_coord2d()`, and `is_coord3d()` test whether objects are `Coord1D`, `Coord2D`, or `Coord3D` R6 classes
+  + `as_coord1d()`, `as_coord2d()`, and `as_coord3d()` cast objects to `Coord1D`, `Coord2D`, or `Coord3D` R6 classes
+  + Several mathematical operations are supported for `Coord1D`, `Coord2D`, or `Coord3D` R6 classes
 
-    + `*` either applies a "dot" product (if multiplying another `Coord2D` or `Coord3D` object)
+    + `*` either applies a "dot" product (if multiplying another `Coord1D`, `Coord2D`, or `Coord3D` object)
           or a "scaling" transformation (if multiplying a numeric value)
     + `/` applies a "scaling" transformation
     + Unary `-` applies a "scaling" transformation whereas 
@@ -49,33 +49,35 @@ Initial features
   + Additional S3 methods:
 
     - `abs()` computes Euclidean norm
-    - `convex_hull2d()` computes convex hull (currently just for `coord2d()` objects)
+    - `convex_hull2d()` computes convex hull (currently just for `Coord2D` vectors)
     - `cross_product3d()` computes a cross product between `Coord3D` vectors
-    - `distance2d()` and `distance3d()` computes Euclidean distances
+    - `distance1d()`, `distance2d()`, and `distance3d()` computes Euclidean distances
     - `mean()` computes centroids of coordinates
     - `normal2d()` computes `Coord2D` normals
     - `normal3d()` computes `Coord3D` normals
     - `range()` computes axis-aligned ranges
 
-* `Line2D` and `Plane3D` R6 classes
+* `Point1D`, `Line2D`, and `Plane3D` R6 classes
 
+  + `as_point1d()` casts objects to `Point1D` R6 classes
   + `as_line2d()` casts objects to `Line2D` R6 classes
   + `as_plane3d()` casts objects to `Plane3D` R6 classes
+  + `is_point1d()` tests whether objects are `Point1D` R6 classes
   + `is_line2d()` tests whether objects are `Line2D` R6 classes
   + `is_plane3d()` tests whether objects are `Plane3D` R6 classes
 
-* `transform2d()` and `transform3d()` create 2D/3D affine transformation matrix S3 classes
+* `transform1d()`, `transform2d()`, and `transform3d()` create 1D/2D/3D affine transformation matrix S3 classes
 
-  + `is_transform2d()` and `is_transform3d()` test if `transform2d()` or `transform3d()` objects.
-  + `as_transform2d()` and `as_transform3d()` cast objects to `transform2d()` or `transform3d()` objects.
+  + `is_transform1d()`,`is_transform2d()`, and `is_transform3d()` test if`transform1d()`, `transform2d()`, or `transform3d()` objects.
+  + `as_transform1d()`, `as_transform2d()`, and `as_transform3d()` cast objects to `transform1d()`, `transform2d()`, or `transform3d()` objects.
   + `permute2d()` and `permute3d()` transformation matrices permutes coordinate axes.
-  + `project2d()` and `project3d()` create projection matrices.
-  + `reflect2d()` and `reflect3d()` create reflection affine transformation matrices.
+  + `project1d()`, `project2d()`, and `project3d()` create projection matrices.
+  + `reflect1d()`, `reflect2d()` and `reflect3d()` create reflection affine transformation matrices.
   + `rotate2d()` and `rotate3d()` create rotation affine transformation matrices.
     `rotate3d_to_AA()` converts from 3D rotation matrix to axis-angle representation.
-  + `scale2d()` and `scale3d()` create scaling affine transformation matrices.
+  + `scale1d()`, `scale2d()`, and `scale3d()` create scaling affine transformation matrices.
   + `shear2d()` and `shear3d()` create shearing affine transformation matrices.
-  + `translate2d()` and `translate3d()` create translation affine transformation matrices.
+  + `translate1d()`, `translate2d()`, and `translate3d()` create translation affine transformation matrices.
 
 * `{affiner}` supports the following options settable by `base::options()`:
 
@@ -83,4 +85,4 @@ Initial features
     The default for this option is "degrees".
   + `affiner_grid_unit`: The default for the `unit` argument used by `affine_settings()`.
     The default for this option is `inches`.
-  + These options can be queried with the convenience function `affiner_options()` (#48).
+  + These options can be queried with the convenience function `affiner_options()`.

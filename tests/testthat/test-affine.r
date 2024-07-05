@@ -1,3 +1,20 @@
+test_that("transform1d()", {
+    m <- transform1d(diag(2L))
+    expect_true(is_transform1d(m))
+    expect_equal(m, as_transform1d(m))
+    expect_equal(m, as_transform1d(diag(1L)))
+    expect_error(as_transform1d(t(translate1d(as_coord1d(1)))))
+    expect_error(as_transform1d(m + 2))
+
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)
+
+    expect_equal(p1, p1$transform()$transform(diag(2L)))
+
+    skip_if_not(getRversion() >= "4.3.0")
+    expect_true(is_transform1d(m %*% m))
+})
+
 test_that("transform2d()", {
     m <- transform2d(diag(3))
     expect_true(is_transform2d(m))
@@ -9,20 +26,6 @@ test_that("transform2d()", {
     p1 <- as_coord2d(x = x, y = y)
 
     expect_equal(p1, p1$transform()$transform(diag(3)))
-})
-
-test_that("at_matrix methods", {
-    m <- transform2d(diag(3))
-    expect_true(is_transform2d(solve(m)))
-    expect_false(is_transform2d(as.matrix(m)))
-    expect_false(is_transform2d(t(m)))
-    expect_false(is_transform2d(m + 2))
-    expect_error(as_transform2d(m + 2))
-    expect_false(is_transform2d(m + m))
-    expect_false(is_transform2d(abs(m)))
-    expect_false(is_transform2d(Re(m)))
-
-    expect_error(as_transform2d(t(translate2d(x = 2, y = 2))))
 
     skip_if_not(getRversion() >= "4.3.0")
     expect_true(is_transform2d(m %*% m))
@@ -48,6 +51,20 @@ test_that("transform3d()", {
     expect_true(is_transform3d(m %*% m))
 })
 
+test_that("at_matrix methods", {
+    m <- transform2d(diag(3))
+    expect_true(is_transform2d(solve(m)))
+    expect_false(is_transform2d(as.matrix(m)))
+    expect_false(is_transform2d(t(m)))
+    expect_false(is_transform2d(m + 2))
+    expect_error(as_transform2d(m + 2))
+    expect_false(is_transform2d(m + m))
+    expect_false(is_transform2d(abs(m)))
+    expect_false(is_transform2d(Re(m)))
+
+    expect_error(as_transform2d(t(translate2d(x = 2, y = 2))))
+})
+
 test_that("permute2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
@@ -67,6 +84,12 @@ test_that("permute3d()", {
     expect_equal(as_coord3d(y, z, x), p$clone()$permute("yzx"))
     expect_equal(as_coord3d(z, x, y), p$clone()$permute("zxy"))
     expect_equal(as_coord3d(z, y, x), p$clone()$permute("zyx"))
+})
+
+test_that("project1d()", {
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)$project(as_coord1d(x=3))
+    expect_equal(p1$x, rep(3, 3))
 })
 
 test_that("project2d()", {
@@ -119,21 +142,47 @@ test_that("project3d()", {
     expect_equal(p5$z, rep(0, 3))
 })
 
+test_that("reflect1d()", {
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)$reflect("origin")
+    expect_equal(p1$x, -x)
+    p2 <- as_coord1d(x = x)$reflect(as_coord1d(x=5))
+    expect_equal(p2$x, c(8, 5, 3))
+})
+
 test_that("reflect2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     p1 <- as_coord2d(x = x, y = y)$reflect("x-axis")
     expect_equal(p1$x, x)
     expect_equal(p1$y, -y)
+    # p1 <- as_coord2d(x = x, y = y)$reflect(as_line2d(a = 0, b = 1, c = 0))
+    # expect_equal(p1$x, x)
+    # expect_equal(p1$y, -y)
+
     p2 <- as_coord2d(x = x, y = y)$reflect("y-axis")
     expect_equal(p2$x, -x)
     expect_equal(p2$y, y)
+    # p2 <- as_coord2d(x = x, y = y)$reflect(as_line2d(a = 1, b = 0, c = 0))
+    # expect_equal(p2$x, -x)
+    # expect_equal(p2$y, y)
+
     p3 <- as_coord2d(x = x, y = y)$reflect(degrees(135))
     expect_equal(p3$x, -y)
     expect_equal(p3$y, -x)
     p4 <- as_coord2d(x = x, y = y)$reflect(as_coord2d(1, 1))
     expect_equal(p4$x, -y)
     expect_equal(p4$y, -x)
+
+    # lh <- as_line2d(a = 0, b = 1, c = -2)
+    # p5 <- as_coord2d(x = x, y = y)$reflect(lh)
+    # expect_equal(p5$x, x)
+    # expect_equal(p5$y, 2 - y)
+
+    # lv <- as_line2d(a = 1, b = 0, c = -2)
+    # p6 <- as_coord2d(x = x, y = y)$reflect(lv)
+    # expect_equal(p6$x, 2 - x)
+    # expect_equal(p6$y, y)
 })
 
 test_that("reflect3d()", {
@@ -218,6 +267,15 @@ test_that("rotate3d()", {
                  tolerance = 1e-6)
 })
 
+test_that("scale1d()", {
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)$scale(2)
+    expect_equal(p1$x, 2 * x)
+
+    p2 <- as_coord1d(x = x)$scale(rep(2, 3))
+    expect_equal(p1, p2)
+})
+
 test_that("scale2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
@@ -270,6 +328,24 @@ test_that("shear3d()", {
     expect_equal(p2$x, x)
     expect_equal(p2$y, y + x)
     expect_equal(p2$z, z + x)
+})
+
+test_that("translate1d()", {
+    x <- c(2, 5, 7)
+    p0 <- as_coord1d(x = x)
+
+    vec <- as_coord1d(x = 2)
+    p1 <- p0$clone()$translate(vec)
+    expect_equal(p1$x, x + 2)
+
+    p2 <- p0$clone()$translate("origin")
+    expect_equal(p2$x, x)
+
+    p3 <- p0$clone()$translate(p0)
+    expect_equal(p3$x, x + x)
+
+    expect_equal(translate1d("origin"),
+                 translate1d(as_coord1d(0)))
 })
 
 test_that("translate2d()", {

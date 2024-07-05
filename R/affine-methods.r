@@ -1,3 +1,18 @@
+#' Test if 1D affine transformation matrix
+#'
+#' `is_transform1d()` tests if object is a [transform1d()] affine transformation matrix
+#'
+#' @param x An object
+#' @return A logical value
+#' @examples
+#' m <- transform1d(diag(2L))
+#' is_transform1d(m)
+#' is_transform1d(diag(2L))
+#' @export
+is_transform1d <- function(x) {
+    inherits(x, "transform1d")
+}
+
 #' Test if 2D affine transformation matrix
 #'
 #' `is_transform2d()` tests if object is a [transform2d()] affine transformation matrix
@@ -5,9 +20,9 @@
 #' @param x An object
 #' @return A logical value
 #' @examples
-#' m <- transform2d(diag(3))
+#' m <- transform2d(diag(3L))
 #' is_transform2d(m)
-#' is_transform2d(diag(3))
+#' is_transform2d(diag(3L))
 #' @export
 is_transform2d <- function(x) {
     inherits(x, "transform2d")
@@ -20,12 +35,27 @@ is_transform2d <- function(x) {
 #' @param x An object
 #' @return A logical value
 #' @examples
-#' m <- transform3d(diag(4))
+#' m <- transform3d(diag(4L))
 #' is_transform3d(m)
-#' is_transform3d(diag(4))
+#' is_transform3d(diag(4L))
 #' @export
 is_transform3d <- function(x) {
     inherits(x, "transform3d")
+}
+
+#' Cast to 1D affine transformation matrix
+#'
+#' `as_transform1d()` casts to a [transform1d()] affine transformation matrix
+#'
+#' @param x An object that can be cast to a
+#' @param ... Further arguments passed to or from other methods
+#' @return A [transform1d()] object
+#' @examples
+#' m <- diag(2L)
+#' as_transform1d(m)
+#' @export
+as_transform1d <- function(x, ...) {
+    UseMethod("as_transform1d")
 }
 
 #' Cast to 2D affine transformation matrix
@@ -36,7 +66,7 @@ is_transform3d <- function(x) {
 #' @param ... Further arguments passed to or from other methods
 #' @return A [transform2d()] object
 #' @examples
-#' m <- diag(3)
+#' m <- diag(3L)
 #' as_transform2d(m)
 #' @export
 as_transform2d <- function(x, ...) {
@@ -51,11 +81,17 @@ as_transform2d <- function(x, ...) {
 #' @param ... Further arguments passed to or from other methods
 #' @return A [transform3d()] object
 #' @examples
-#' m <- diag(4)
+#' m <- diag(4L)
 #' as_transform3d(m)
 #' @export
 as_transform3d <- function(x, ...) {
     UseMethod("as_transform3d")
+}
+
+#' @rdname as_transform1d
+#' @export
+as_transform1d.transform1d <- function(x, ...) {
+    x
 }
 
 #' @rdname as_transform2d
@@ -68,6 +104,12 @@ as_transform2d.transform2d <- function(x, ...) {
 #' @export
 as_transform3d.transform3d <- function(x, ...) {
     x
+}
+
+#' @rdname as_transform1d
+#' @export
+as_transform1d.default <- function(x, ...) {
+    transform1d(as.matrix(x, ...))
 }
 
 #' @rdname as_transform2d

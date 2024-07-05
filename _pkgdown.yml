@@ -10,27 +10,36 @@ reference:
       contents:
         - affineGrob
         - affine_settings
-    - title: "2D/3D coordinate objects"
-      desc: "2D/3D coordinate objects"
+    - title: "1D/2D/3D coordinate objects"
+      desc: "1D/2D/3D coordinate objects"
       contents:
+        - Coord1D
+        - is_coord1d
+        - as_coord1d
         - Coord2D
         - is_coord2d
         - as_coord2d
         - Coord3D
         - is_coord3d
         - as_coord3d
-    - title: "2D lines and 3D planes"
-      desc: "2D line and 3D plane objects"
+    - title: "1D points, 2D lines, and 3D planes"
+      desc: "1D points, 2D line, and 3D plane objects"
       contents:
+        - Point1D
+        - as_point1d
+        - is_point1d
         - Line2D
         - as_line2d
         - is_line2d
         - Plane3D
         - as_plane3d
         - is_plane3d
-    - title: "2D/3D affine transformation matrices"
-      desc: "2D/3D affine transformation matrices"
+    - title: "1D/2D/3D affine transformation matrices"
+      desc: "1D/2D/3D affine transformation matrices"
       contents:
+        - transform1d
+        - is_transform1d
+        - as_transform1d
         - transform2d
         - is_transform2d
         - as_transform2d
@@ -57,6 +66,7 @@ reference:
         - range.Coord2D
         - convex_hull2d.Coord2D
         - cross_product3d
+        - distance1d
         - distance2d
         - distance3d
         - normal2d

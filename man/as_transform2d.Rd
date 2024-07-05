@@ -24,6 +24,6 @@ A \code{\link[=transform2d]{transform2d()}} object
 \code{as_transform2d()} casts to a \code{\link[=transform2d]{transform2d()}} affine transformation matrix
 }
 \examples{
-m <- diag(3)
+m <- diag(3L)
 as_transform2d(m)
 }

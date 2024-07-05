@@ -1,4 +1,9 @@
 #' @export
+`[.Coord1D` <- function(x, i) {
+    Coord1D$new(x$xw[i, , drop = FALSE])
+}
+
+#' @export
 `[.Coord2D` <- function(x, i) {
     Coord2D$new(x$xyw[i, , drop = FALSE])
 }
@@ -14,6 +19,11 @@ as.complex.Coord2D <- function(x, ...) {
 }
 
 #' @export
+as.data.frame.Coord1D <- function(x, ...) {
+    as.data.frame(x$xw)
+}
+
+#' @export
 as.data.frame.Coord2D <- function(x, ...) {
     as.data.frame(x$xyw)
 }
@@ -24,6 +34,11 @@ as.data.frame.Coord3D <- function(x, ...) {
 }
 
 #' @export
+as.matrix.Coord1D <- function(x, ...) {
+    x$xw
+}
+
+#' @export
 as.matrix.Coord2D <- function(x, ...) {
     x$xyw
 }
@@ -31,6 +46,14 @@ as.matrix.Coord2D <- function(x, ...) {
 #' @export
 as.matrix.Coord3D <- function(x, ...) {
     x$xyzw
+}
+
+#' @export
+c.Coord1D <- function(...) {
+    l <- list(...)
+    stopifnot(all(vapply(l, is_coord1d, logical(1))))
+    m <- do.call(rbind, lapply(l, as.matrix))
+    Coord1D$new(m)
 }
 
 #' @export
@@ -50,6 +73,11 @@ c.Coord3D <- function(...) {
 }
 
 #' @export
+length.Coord1D <- function(x) {
+    nrow(x$.__enclos_env__$private$mat_xw)
+}
+
+#' @export
 length.Coord2D <- function(x) {
     nrow(x$.__enclos_env__$private$mat_xyw)
 }
@@ -57,6 +85,13 @@ length.Coord2D <- function(x) {
 #' @export
 length.Coord3D <- function(x) {
     nrow(x$.__enclos_env__$private$mat_xyzw)
+}
+
+#' @export
+rep.Coord1D <- function(x, ..., length.out = NA_integer_) {
+    if (isTRUE(length(x) == length.out)) return(x)
+    id <- rep(seq.int(length(x)), ..., length.out = length.out)
+    Coord1D$new(x$xw[id, , drop = FALSE])
 }
 
 #' @export
@@ -75,11 +110,11 @@ rep.Coord3D <- function(x, ..., length.out = NA_integer_) {
 
 #' Compute centroids of coordinates
 #'
-#' `mean()`computes centroids for for [Coord2D] and [Coord3D] class objects
+#' `mean()`computes centroids for [Coord1D], [Coord2D], and [Coord3D] class objects
 #'
-#' @param x A [Coord2D] object or [Coord3D] object
+#' @param x A [Coord1D], [Coord2D], or [Coord3D] object
 #' @param ... Passed to [base::mean()]
-#' @return A [Coord2D] or [Coord3D] class object of length one
+#' @return A [Coord1D], [Coord2D], or [Coord3D] class object of length one
 #' @examples
 #'  p <- as_coord2d(x = 1:4, y = 1:4)
 #'  print(mean(p))
@@ -88,6 +123,12 @@ rep.Coord3D <- function(x, ..., length.out = NA_integer_) {
 #'  p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
 #'  print(mean(p))
 #' @name centroid
+#' @export
+mean.Coord1D <- function(x, ...) {
+    as_coord1d(mean(x$x, ...))
+}
+
+#' @rdname centroid
 #' @export
 mean.Coord2D <- function(x, ...) {
     as_coord2d(mean(x$x, ...), mean(x$y, ...))
@@ -130,10 +171,16 @@ convex_hull2d.Coord2D <- function(x, ...) {
 # Group "Summary"
 
 #' @export
+is.na.Coord1D <- function(x) is.na(x$x)
+
+#' @export
 is.na.Coord2D <- function(x) is.na(x$x) | is.na(x$y)
 
 #' @export
 is.na.Coord3D <- function(x) is.na(x$x) | is.na(x$y) | is.na(x$z)
+
+#' @export
+is.nan.Coord1D <- function(x) is.nan(x$x)
 
 #' @export
 is.nan.Coord2D <- function(x) is.nan(x$x) | is.nan(x$y)
@@ -142,16 +189,31 @@ is.nan.Coord2D <- function(x) is.nan(x$x) | is.nan(x$y)
 is.nan.Coord3D <- function(x) is.nan(x$x) | is.nan(x$y) | is.nan(x$z)
 
 #' @export
+is.finite.Coord1D <- function(x) is.finite(x$x)
+
+#' @export
 is.finite.Coord2D <- function(x) is.finite(x$x) & is.finite(x$y)
 
 #' @export
 is.finite.Coord3D <- function(x) is.finite(x$x) & is.finite(x$y) & is.finite(x$z)
 
 #' @export
+is.infinite.Coord1D <- function(x) is.infinite(x$x)
+
+#' @export
 is.infinite.Coord2D <- function(x) is.infinite(x$x) | is.infinite(x$y)
 
 #' @export
 is.infinite.Coord3D <- function(x) is.infinite(x$x) | is.infinite(x$y) | is.infinite(x$z)
+
+#' @export
+sum.Coord1D <- function(..., na.rm = FALSE) {
+    l <- list(...)
+    if (na.rm)
+        l <- lapply(l, function(p) p[!is.na(p)])
+    xs <- sum(sapply(l, function(p) sum(p$x)))
+    as_coord1d(xs)
+}
 
 #' @export
 sum.Coord2D <- function(..., na.rm = FALSE) {
@@ -175,6 +237,12 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 }
 
 #' @export
+`==.Coord1D` <- function(e1, e2) {
+    stopifnot(is_coord1d(e1) && is_coord1d(e2))
+    e1$x == e2$x
+}
+
+#' @export
 `==.Coord2D` <- function(e1, e2) {
     stopifnot(is_coord2d(e1) && is_coord2d(e2))
     (e1$x == e2$x) & (e1$y == e2$y)
@@ -187,6 +255,12 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 }
 
 #' @export
+`!=.Coord1D` <- function(e1, e2) {
+    stopifnot(is_coord1d(e1) && is_coord1d(e2))
+    e1$x != e2$x
+}
+
+#' @export
 `!=.Coord2D` <- function(e1, e2) {
     stopifnot(is_coord2d(e1) && is_coord2d(e2))
     (e1$x != e2$x) | (e1$y != e2$y)
@@ -196,6 +270,15 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 `!=.Coord3D` <- function(e1, e2) {
     stopifnot(is_coord3d(e1) && is_coord3d(e2))
     (e1$x != e2$x) | (e1$y != e2$y) | (e1$z != e2$z)
+}
+
+#' @export
+`+.Coord1D` <- function(e1, e2) {
+    if (missing(e2)) {
+        e1
+    } else {
+        plus_coord1d(e1, e2)
+    }
 }
 
 #' @export
@@ -217,6 +300,15 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 }
 
 #' @export
+`-.Coord1D` <- function(e1, e2) {
+    if (missing(e2)) {
+        e1$clone()$scale(-1)
+    } else {
+        minus_coord1d(e1, e2)
+    }
+}
+
+#' @export
 `-.Coord2D` <- function(e1, e2) {
     if (missing(e2)) {
         e1$clone()$scale(-1)
@@ -231,6 +323,22 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
         e1$clone()$scale(-1)
     } else {
         minus_coord3d(e1, e2)
+    }
+}
+
+#' @export
+`*.Coord1D` <- function(e1, e2) {
+    if (is_coord1d(e1) && is_coord1d(e2)) {
+        inner_coord1d(e1, e2)
+    } else if (is_coord1d(e1) && is.numeric(e2)) {
+        e1$clone()$scale(e2)
+    } else if (is.numeric(e1) && is_coord1d(e2)) {
+        e2$clone()$scale(e1)
+    } else {
+        stop(paste("Don't know how to multiply objects of class",
+                   sQuote(class(e1)[1]),
+                   "and class",
+                   sQuote(class(e2)[1])))
     }
 }
 
@@ -267,6 +375,18 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 }
 
 #' @export
+`/.Coord1D` <- function(e1, e2) {
+    if (is_coord1d(e1) && is.numeric(e2)) {
+        e1$clone()$scale(1 / e2)
+    } else {
+        stop(paste("Don't know how to divide objects of class",
+                   sQuote(class(e1)[1]),
+                   "and class",
+                   sQuote(class(e2)[1])))
+    }
+}
+
+#' @export
 `/.Coord2D` <- function(e1, e2) {
     if (is_coord2d(e1) && is.numeric(e2)) {
         e1$clone()$scale(1 / e2)
@@ -293,17 +413,26 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 #' Compute axis-aligned ranges
 #'
 #' `range()` computes axis-aligned ranges for
-#' [Coord2D] and [Coord3D] class objects.
+#' [Coord1D], [Coord2D], and [Coord3D] class objects.
 #' @param na.rm logical, indicating if `NA`'s should be omitted
-#' @param ... [Coord2D] or [Coord3D] object(s)
+#' @param ... [Coord1D], [Coord2D], or [Coord3D] object(s)
 #' @name bounding_ranges
-#' @return Either a [Coord2D] or [Coord3D] object of length two.
+#' @return Either a [Coord1D], [Coord2D], or [Coord3D] object of length two.
 #'         The first element will have the minimum x/y(/z) coordinates
 #'         and the second element will have the maximum x/y(/z) coordinates
 #'         of the axis-aligned ranges.
 #' @examples
 #' range(as_coord2d(rnorm(5), rnorm(5)))
 #' range(as_coord3d(rnorm(5), rnorm(5), rnorm(5)))
+#' @export
+range.Coord1D <- function(..., na.rm = FALSE) {
+    x <- c.Coord1D(...)
+    if (na.rm)
+        x <- x[!is.na(x)]
+    as_coord1d(range(x$x))
+}
+
+#' @rdname bounding_ranges
 #' @export
 range.Coord2D <- function(..., na.rm = FALSE) {
     x <- c.Coord2D(...)
@@ -321,6 +450,13 @@ range.Coord3D <- function(..., na.rm = FALSE) {
     as_coord3d(range(x$x), range(x$y), range(x$z))
 }
 
+inner_coord1d <- function(p1, p2) {
+    n <- max(length(p1), length(p2))
+    p1 <- rep_len(p1, n)
+    p2 <- rep_len(p2, n)
+    p1$x * p2$x
+}
+
 inner_coord2d <- function(p1, p2) {
     n <- max(length(p1), length(p2))
     p1 <- rep_len(p1, n)
@@ -333,6 +469,14 @@ inner_coord3d <- function(p1, p2) {
     p1 <- rep_len(p1, n)
     p2 <- rep_len(p2, n)
     rowSums(p1$xyzw[, 1:3, drop = FALSE] * p2$xyzw[, 1:3, drop = FALSE])
+}
+
+plus_coord1d <- function(p1, p2) {
+    stopifnot(is_coord1d(p1), is_coord1d(p2))
+    if (length(p1) == 1)
+        p2$clone()$translate(p1)
+    else
+        p1$clone()$translate(p2)
 }
 
 plus_coord2d <- function(p1, p2) {
@@ -349,6 +493,11 @@ plus_coord3d <- function(p1, p2) {
         p2$clone()$translate(p1)
     else
         p1$clone()$translate(p2)
+}
+
+minus_coord1d <- function(p1, p2) {
+    stopifnot(is_coord1d(p1), is_coord1d(p2))
+    p1$clone()$translate(p2$clone()$scale(-1))
 }
 
 minus_coord2d <- function(p1, p2) {

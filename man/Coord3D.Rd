@@ -119,7 +119,7 @@ Column names should be "x", "y", "z", and "w".}
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{plane}}{A \link{Plane3D} class object representing the plane
-you wish to reflect across or project to or an object coercible to one using \code{as_plane3d(plane, ...)}
+you wish to project to or an object coercible to one using \code{as_plane3d(plane, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".}
 
 \item{\code{...}}{Passed to \code{\link[=project3d]{project3d()}}.}
@@ -148,7 +148,7 @@ Popular angles are 45 degrees, 60 degrees, and \code{arctangent(2)} degrees.}
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{plane}}{A \link{Plane3D} class object representing the plane
-you wish to reflect across or project to or an object coercible to one using \code{as_plane3d(plane, ...)}
+you wish to reflect across or an object coercible to one using \code{as_plane3d(plane, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".}
 
 \item{\code{...}}{Passed to \code{\link[=reflect3d]{reflect3d()}}.}

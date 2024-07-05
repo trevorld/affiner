@@ -66,8 +66,7 @@ while a value of \code{1.0} is used by a \dQuote{cavalier projection}.}
 An \code{\link[=angle]{angle()}} object or one coercible to one with \code{as_angle(alpha, ...)}.
 Popular angles are 45 degrees, 60 degrees, and \code{arctangent(2)} degrees.}
 
-\item{y}{Numeric vector of y-coordinates to be used
-if \code{hasName(x, "z")} is \code{FALSE}.}
+\item{y}{Numeric vector of y-coordinates to be used.}
 }
 \value{
 A \link{Coord2D} class object

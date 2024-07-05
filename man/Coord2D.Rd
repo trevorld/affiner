@@ -125,19 +125,15 @@ A degenerate \code{0} value indicates an orthogonal projection.}
 \if{latex}{\out{\hypertarget{method-Coord2D-reflect}{}}}
 \subsection{Method \code{reflect()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Coord2D$reflect(theta = angle(0), ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Coord2D$reflect(line = as_line2d("x-axis"), ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{theta}}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.
-It represents the angle (from the horizontal axis)
-of the line going through the origin you wish to reflect across
-(e.g. an angle of 0 corresponds to the x-axis and
-an angle of 90 degrees corresponds to the y-axis).}
+\item{\code{line}}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.}
 
-\item{\code{...}}{Passed to \code{\link[=as_angle]{as_angle()}}.}
+\item{\code{...}}{Passed to \code{\link[=reflect2d]{reflect2d()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -208,7 +204,7 @@ How much to rotate around the origin.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{x}}{A \link{Coord2D} object of length one or an object coercible to one by \code{as_coord2d(x, ...)}].}
+\item{\code{x}}{A \link{Coord2D} object of length one or an object coercible to one by \code{as_coord2d(x, ...)}.}
 
 \item{\code{...}}{Passed to \code{as_coord2d(x, ...)} if \code{x} is not a \link{Coord2D} object}
 }

@@ -1,4 +1,4 @@
-test_that("print.line2d()", {
+test_that("as_line2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     p1 <- as_coord2d(x = x, y = y)
@@ -30,4 +30,8 @@ test_that("print.line2d()", {
 
     expect_true(is_congruent(as_angle(as_line2d(0, 1, 1), "degrees"),
                              as_angle(90, "degrees")))
+
+    pt <- as_point1d(a = 1, b = -1)
+    expect_equal(as_line2d(pt, b = 3),
+                 as_line2d(a = 1, b = 3, c = -1))
 })

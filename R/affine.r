@@ -1,3 +1,64 @@
+#' 1D affine transformation matrices
+#'
+#' `transform1d()`, `reflect1d()`, `scale2d()`,
+#'  and `translate1d()` create 1D affine transformation matrix objects.
+#'
+#' \describe{
+#' \item{`transform1d()`}{User supplied (post-multiplied) affine transformation matrix}.
+#' \item{`reflect1d()`}{Reflections across a point.}
+#' \item{`scale1d()`}{Scale the x-coordinates by multiplicative scale factors.}
+#' \item{`translate1d()`}{Translate the coordinates by a [Coord1D] class object parameter.}
+#' }
+#'
+#' `transform1d()` 1D affine transformation matrix objects are meant to be
+#' post-multiplied and therefore should **not** be multiplied in reverse order.
+#' Note the [Coord1D] class object methods auto-pre-multiply affine transformations
+#' when "method chaining" so pre-multiplying affine transformation matrices
+#' to do a single cumulative transformation instead of a method chain of multiple transformations
+#' will not improve performance as much as as it does in other R packages.
+#'
+#' To convert a pre-multiplied 1D affine transformation matrix to a post-multiplied one
+#' simply compute its transpose using [t()].  To get an inverse transformation matrix
+#' from an existing transformation matrix that does the opposite transformations
+#' simply compute its inverse using [solve()].
+#'
+#' @return A 2x2 post-multiplied affine transformation matrix with classes "transform1d" and "at_matrix"
+#'
+#' @param mat A 2x2 matrix representing a post-multiplied affine transformation matrix.
+#'            The last **column** must be equal to `c(0, 1)`.
+#'            If the last **row** is `c(0, 1)` you may need to transpose it
+#'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
+#'            If a 1x1 matrix we'll quietly add a final column/row equal to `c(0, 1)`.
+#' @examples
+#' p <- as_coord1d(x = sample(1:10, 3))
+#'
+#' # {affiner} affine transformation matrices are post-multiplied
+#' # and therefore should **not** go in reverse order
+#' mat <- transform1d(diag(2)) %*%
+#'          scale1d(2) %*%
+#'          translate1d(x = -1)
+#' p1 <- p$
+#'   clone()$
+#'   transform(mat)
+#'
+#' # The equivalent result appyling affine transformations via method chaining
+#' p2 <- p$
+#'   clone()$
+#'   transform(diag(2))$
+#'   scale(2)$
+#'   translate(x = -1)
+#'
+#' all.equal(p1, p2)
+#' @export
+transform1d <- function(mat = diag(2L)) {
+    if (all(dim(mat) == c(1, 1))) {
+        mat <- rbind(mat, 0)
+        mat <- cbind(mat, c(0, 1))
+    }
+    validate_transform1d(mat)
+    new_transform1d(mat)
+}
+
 #' 2D affine transformation matrices
 #'
 #' `transform2d()`, `project2d()`, `reflect2d()`, `rotate2d()`, `scale2d()`, `shear2d()`,
@@ -5,10 +66,10 @@
 #'
 #' \describe{
 #' \item{`transform2d()`}{User supplied (post-multiplied) affine transformation matrix}.
-#' \item{`project2d()`}{Oblique vector projections onto a unit vector parameterized by its (polar) [angle()] from the x-axis
-#'                      and an oblique projection scale factor.
+#' \item{`project2d()`}{Oblique vector projections onto a line parameterized by
+#'                      an oblique projection scale factor.
 #'                      A (degenerate) scale factor of zero results in an orthogonal projection.}
-#' \item{`reflect2d()`}{Reflections across a line parameterized by its [angle()] from the x-axis.
+#' \item{`reflect2d()`}{Reflections across a line.
 #'                      To "flip" across both the x-axis and the y-axis use `scale2d(-1)`.}
 #' \item{`rotate2d()`}{Rotations around the origin parameterized by an [angle()].}
 #' \item{`scale2d()`}{Scale the x-coordinates and/or the y-coordinates by multiplicative scale factors.}
@@ -37,34 +98,34 @@
 #'            If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
 #'            we'll quietly add a final column/row equal to `c(0, 0, 1)`.
 #' @examples
-#'   p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
+#' p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
 #'
-#'   # {affiner} affine transformation matrices are post-multiplied
-#'   # and therefore should **not** go in reverse order
-#'   mat <- transform2d(diag(3)) %*%
-#'            reflect2d(as_coord2d(-1, 1)) %*%
-#'            rotate2d(90, "degrees") %*%
-#'            scale2d(1, 2) %*%
-#'            shear2d(0.5, 0.5) %*%
-#'            translate2d(x = -1, y = -1)
-#'   p1 <- p$
-#'     clone()$
-#'     transform(mat)
+#' # {affiner} affine transformation matrices are post-multiplied
+#' # and therefore should **not** go in reverse order
+#' mat <- transform2d(diag(3)) %*%
+#'          reflect2d(as_coord2d(-1, 1)) %*%
+#'          rotate2d(90, "degrees") %*%
+#'          scale2d(1, 2) %*%
+#'          shear2d(0.5, 0.5) %*%
+#'          translate2d(x = -1, y = -1)
+#' p1 <- p$
+#'   clone()$
+#'   transform(mat)
 #'
-#'   # The equivalent result appyling affine transformations via method chaining
-#'   p2 <- p$
-#'     clone()$
-#'     transform(diag(3))$
-#'     reflect(as_coord2d(-1, 1))$
-#'     rotate(90, "degrees")$
-#'     scale(1, 2)$
-#'     shear(0.5, 0.5)$
-#'     translate(x = -1, y = -1)
+#' # The equivalent result appyling affine transformations via method chaining
+#' p2 <- p$
+#'   clone()$
+#'   transform(diag(3L))$
+#'   reflect(as_coord2d(-1, 1))$
+#'   rotate(90, "degrees")$
+#'   scale(1, 2)$
+#'   shear(0.5, 0.5)$
+#'   translate(x = -1, y = -1)
 #'
-#'   all.equal(p1, p2)
+#' all.equal(p1, p2)
 #'
 #' @export
-transform2d <- function(mat = diag(3)) {
+transform2d <- function(mat = diag(3L)) {
     if (all(dim(mat) == c(2, 2))) {
         mat <- rbind(mat, c(0, 0))
         mat <- cbind(mat, c(0, 0, 1))
@@ -108,30 +169,30 @@ transform2d <- function(mat = diag(3)) {
 #'            If a 3x3 matrix (such as a 3x3 post-multiplied 3D rotation matrix)
 #'            we'll quietly add a final column/row equal to `c(0, 0, 0, 1)`.
 #' @examples
-#'   p <- as_coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
+#' p <- as_coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
 #'
-#'   # {affiner} affine transformation matrices are post-multiplied
-#'   # and therefore should **not** go in reverse order
-#'   mat <- transform3d(diag(4)) %*%
-#'            rotate3d("z-axis", degrees(90)) %*%
-#'            scale3d(1, 2, 1) %*%
-#'            translate3d(x = -1, y = -1, z = -1)
-#'   p1 <- p$
-#'     clone()$
-#'     transform(mat)
+#' # {affiner} affine transformation matrices are post-multiplied
+#' # and therefore should **not** go in reverse order
+#' mat <- transform3d(diag(4L)) %*%
+#'          rotate3d("z-axis", degrees(90)) %*%
+#'          scale3d(1, 2, 1) %*%
+#'          translate3d(x = -1, y = -1, z = -1)
+#' p1 <- p$
+#'   clone()$
+#'   transform(mat)
 #'
-#'   # The equivalent result appyling affine transformations via method chaining
-#'   p2 <- p$
-#'     clone()$
-#'     transform(diag(4))$
-#'     rotate("z-axis", degrees(90))$
-#'     scale(1, 2, 1)$
-#'     translate(x = -1, y = -1, z = -1)
+#' # The equivalent result appyling affine transformations via method chaining
+#' p2 <- p$
+#'   clone()$
+#'   transform(diag(4L))$
+#'   rotate("z-axis", degrees(90))$
+#'   scale(1, 2, 1)$
+#'   translate(x = -1, y = -1, z = -1)
 #'
-#'   all.equal(p1, p2)
+#' all.equal(p1, p2)
 #'
 #' @export
-transform3d <- function(mat = diag(4)) {
+transform3d <- function(mat = diag(4L)) {
     if (all(dim(mat) == c(3, 3))) {
         mat <- rbind(mat, c(0, 0, 0))
         mat <- cbind(mat, c(0, 0, 0, 1))
@@ -140,12 +201,27 @@ transform3d <- function(mat = diag(4)) {
     new_transform3d(mat)
 }
 
+validate_transform1d <- function(x) {
+    stopifnot(is.matrix(x),
+              all(dim(x) == c(2L, 2L)))
+    if (!all(x[, 2L] == c(0, 1))) {
+        msg <- "The last column must be equal to `c(0, 1)`."
+        if (all(x[2L, ] == c(0, 1))) {
+            stop(paste(msg,
+                       "Do you need to transpose a pre-multiplied affine transformation matrix",
+                       "with `t()` to convert it into a post-multiplied one?"))
+        } else {
+            stop(msg)
+        }
+    }
+}
+
 validate_transform2d <- function(x) {
     stopifnot(is.matrix(x),
               all(dim(x) == c(3, 3)))
-    if (!all(x[, 3] == c(0, 0, 1))) {
+    if (!all(x[, 3L] == c(0, 0, 1))) {
         msg <- "The last column must be equal to `c(0, 0, 1)`."
-        if (all(x[3, ] == c(0, 0, 1))) {
+        if (all(x[3L, ] == c(0, 0, 1))) {
             stop(paste(msg,
                        "Do you need to transpose a pre-multiplied affine transformation matrix",
                        "with `t()` to convert it into a post-multiplied one?"))
@@ -158,9 +234,9 @@ validate_transform2d <- function(x) {
 validate_transform3d <- function(x) {
     stopifnot(is.matrix(x),
               all(dim(x) == c(4, 4)))
-    if (!all(x[, 4] == c(0, 0, 0, 1))) {
+    if (!all(x[, 4L] == c(0, 0, 0, 1))) {
         msg <- "The last column must be equal to `c(0, 0, 0, 1)`."
-        if (all(x[4, ] == c(0, 0, 0, 1))) {
+        if (all(x[4L, ] == c(0, 0, 0, 1))) {
             stop(paste(msg,
                        "Do you need to transpose a pre-multiplied affine transformation matrix",
                        "with `t()` to convert it into a post-multiplied one?"))
@@ -168,6 +244,12 @@ validate_transform3d <- function(x) {
             stop(msg)
         }
     }
+}
+
+new_transform1d <- function(mat) {
+    if (!inherits(mat, "transform1d"))
+        class(mat) <- c("transform1d", "at_matrix", class(matrix()))
+    mat
 }
 
 new_transform2d <- function(mat) {
@@ -188,7 +270,7 @@ new_transform3d <- function(mat) {
 permute2d <- function(permutation = c("xy", "yx")) {
     permutation <- match.arg(permutation)
     mat <- switch(permutation,
-           xy = diag(3),
+           xy = diag(3L),
            yx = matrix(c(0, 1, 0,
                          1, 0, 0,
                          0, 0, 1), byrow = TRUE, ncol = 3, nrow = 3))
@@ -203,7 +285,7 @@ permute2d <- function(permutation = c("xy", "yx")) {
 permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy")) {
     permutation <- match.arg(permutation)
     mat <- switch(permutation,
-           xyz = diag(4),
+           xyz = diag(4L),
            xzy = matrix(c(1, 0, 0, 0,
                           0, 0, 1, 0,
                           0, 1, 0, 0,
@@ -227,6 +309,17 @@ permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))
     new_transform2d(mat)
 }
 
+#' @rdname transform1d
+#' @export
+project1d <- function(point = as_point1d("origin"), ...) {
+    if (!is_point1d(point))
+        point <- as_point1d(point, ...)
+    stopifnot(length(point) == 1L)
+    x <- as_coord1d(point)
+    mat <- scale1d(0) %*% translate1d(x)
+    new_transform1d(mat)
+}
+
 #' @rdname transform2d
 #' @param scale Oblique projection scale factor.
 #'   A degenerate `0` value indicates an orthogonal projection.
@@ -234,7 +327,7 @@ permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))
 project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
     if (!is_line2d(line))
         line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1, line$c == 0)
+    stopifnot(length(line) == 1L, line$c == 0)
     theta <- as_angle(line)
     mat <- rotate2d(-theta) %*%
         shear2d(xy_shear = scale) %*%
@@ -260,9 +353,9 @@ project3d <- function(plane = as_plane3d("xy-plane"), ...,
     if (!is_angle(alpha)) {
         alpha <- as_angle(alpha, ...)
     }
-    stopifnot(length(plane) == 1,
+    stopifnot(length(plane) == 1L,
               plane$d == 0,
-              length(alpha) == 1)
+              length(alpha) == 1L)
     azimuth <- as_angle(plane, type = "azimuth")
     inclination <- as_angle(plane, type = "inclination")
     z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
@@ -279,6 +372,22 @@ project3d <- function(plane = as_plane3d("xy-plane"), ...,
     new_transform3d(mat)
 }
 
+#' @rdname transform1d
+#' @param point A [Point1D] object of length one or an object coercible to one by `as_point1d(point, ...)`.
+#'             For `project1d()` and `reflect1d()` it represents the
+#'             the point you wish to project to or reflect across.
+#' @export
+reflect1d <- function(point = as_point1d("origin"), ...) {
+    if (!is_point1d(point))
+        point <- as_point1d(point, ...)
+    stopifnot(length(point) == 1)
+    x <- as_coord1d(point)
+    mat <- translate1d(-x) %*%
+        scale1d(-1) %*%
+        translate1d(x)
+    new_transform1d(mat)
+}
+
 #' @rdname transform2d
 #' @param line A [Line2D] object of length one or an object coercible to one by `as_line2d(line, ...)`.
 #'             For `project2d()` and `reflect2d()` it represents the
@@ -288,6 +397,8 @@ reflect2d <- function(line = as_line2d("x-axis"), ...) {
     if (!is_line2d(line))
         line <- as_line2d(line, ...)
     stopifnot(length(line) == 1, line$c == 0)
+    # denom <- sqrt(line$a^2 + line$b^2)
+    # closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
     theta <- as_angle(line)
     mat <- rotate2d(-theta) %*%
         scale2d(1, -1) %*%
@@ -307,13 +418,13 @@ reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
         plane <- as_plane3d(plane, ...)
     stopifnot(length(plane) == 1, plane$d == 0)
     normal <- normal3d(plane)
-    mat <- diag(4)
-    mat[1, 1] <- 1 - 2 * normal$x^2
-    mat[1, 2] <- mat[2, 1] <- -2 * normal$x * normal$y
-    mat[1, 3] <- mat[3, 1] <- -2 * normal$x * normal$z
-    mat[2, 2] <- 1 - 2 * normal$y^2
-    mat[2, 3] <- mat[3, 2] <- -2 * normal$y * normal$z
-    mat[3, 3] <- 1 - 2 * normal$z^2
+    mat <- diag(4L)
+    mat[1L, 1L] <- 1 - 2 * normal$x^2
+    mat[1L, 2L] <- mat[2L, 1L] <- -2 * normal$x * normal$y
+    mat[1L, 3L] <- mat[3L, 1L] <- -2 * normal$x * normal$z
+    mat[2L, 2L] <- 1 - 2 * normal$y^2
+    mat[2L, 3L] <- mat[3L, 2L] <- -2 * normal$y * normal$z
+    mat[3L, 3L] <- 1 - 2 * normal$z^2
     new_transform3d(mat)
 }
 
@@ -352,13 +463,13 @@ rotate3d <- function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
         theta <- as_angle(theta, ...)
     stopifnot(length(theta) == 1)
 
-    I <- diag(3)
+    I <- diag(3L)
     K <- cross_matrix(axis)
     c <- cos(-theta)
     s <- sin(-theta)
     R <- I + s * K + (1 - c) * K %*% K
 
-    mat <- diag(4)
+    mat <- diag(4L)
     mat[1:3, 1:3] <- R
     mat
 }
@@ -366,8 +477,8 @@ rotate3d <- function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
 # "cross" product matrix
 # https://en.wikipedia.org/wiki/Cross_product#Conversion_to_matrix_multiplication
 cross_matrix <- function(x) {
-    stopifnot(is_coord3d(x) && length(x) == 1)
-    m <- matrix(0, nrow = 3, ncol = 3)
+    stopifnot(is_coord3d(x) && length(x) == 1L)
+    m <- matrix(0, nrow = 3L, ncol = 3L)
     m[1, 2] <- -x$z
     m[1, 3] <- x$y
     m[2, 1] <- x$z
@@ -377,15 +488,25 @@ cross_matrix <- function(x) {
     m
 }
 
+#' @rdname transform1d
+#' @param x_scale Scaling factor to apply to x coordinates
+#' @export
+scale1d <- function(x_scale = 1) {
+    stopifnot(length(x_scale) == 1L)
+    mat <- diag(2L)
+    mat[1L, 1L] <- x_scale
+    new_transform1d(mat)
+}
+
 #' @rdname transform2d
 #' @param x_scale Scaling factor to apply to x coordinates
 #' @param y_scale Scaling factor to apply to y coordinates
 #' @export
 scale2d <- function(x_scale = 1, y_scale = x_scale) {
-    stopifnot(length(x_scale) == 1 && length(y_scale) == 1)
-    mat <- diag(3)
-    mat[1, 1] <- x_scale
-    mat[2, 2] <- y_scale
+    stopifnot(length(x_scale) == 1L && length(y_scale) == 1L)
+    mat <- diag(3L)
+    mat[1L, 1L] <- x_scale
+    mat[2L, 2L] <- y_scale
     new_transform2d(mat)
 }
 
@@ -395,11 +516,11 @@ scale2d <- function(x_scale = 1, y_scale = x_scale) {
 #' @param z_scale Scaling factor to apply to z coordinates
 #' @export
 scale3d <- function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
-    stopifnot(length(x_scale) == 1 && length(y_scale) == 1 && length(z_scale) == 1)
-    mat <- diag(4)
-    mat[1, 1] <- x_scale
-    mat[2, 2] <- y_scale
-    mat[3, 3] <- z_scale
+    stopifnot(length(x_scale) == 1L && length(y_scale) == 1L && length(z_scale) == 1L)
+    mat <- diag(4L)
+    mat[1L, 1L] <- x_scale
+    mat[2L, 2L] <- y_scale
+    mat[3L, 3L] <- z_scale
     new_transform3d(mat)
 }
 
@@ -408,10 +529,10 @@ scale3d <- function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
 #' @param yx_shear Vertical shear factor: `y = yx_shear * x + y`
 #' @export
 shear2d <- function(xy_shear = 0, yx_shear = 0) {
-    stopifnot(length(xy_shear) == 1 && length(yx_shear) == 1)
-    mat <- diag(3)
-    mat[2, 1] <- xy_shear
-    mat[1, 2] <- yx_shear
+    stopifnot(length(xy_shear) == 1L && length(yx_shear) == 1L)
+    mat <- diag(3L)
+    mat[2L, 1L] <- xy_shear
+    mat[1L, 2L] <- yx_shear
     new_transform2d(mat)
 }
 
@@ -427,14 +548,27 @@ shear3d <- function(xy_shear = 0, xz_shear = 0,
                     yx_shear = 0, yz_shear = 0,
                     zx_shear = 0, zy_shear = 0) {
     stopifnot(all(lengths(list(xy_shear, xz_shear, yx_shear, yz_shear, zx_shear, zy_shear)) == 1))
-    mat <- diag(4)
-    mat[2, 1] <- xy_shear
-    mat[3, 1] <- xz_shear
-    mat[1, 2] <- yx_shear
-    mat[3, 2] <- yz_shear
-    mat[1, 3] <- zx_shear
-    mat[2, 3] <- zy_shear
+    mat <- diag(4L)
+    mat[2L, 1L] <- xy_shear
+    mat[3L, 1L] <- xz_shear
+    mat[1L, 2L] <- yx_shear
+    mat[3L, 2L] <- yz_shear
+    mat[1L, 3L] <- zx_shear
+    mat[2L, 3L] <- zy_shear
     new_transform2d(mat)
+}
+
+#' @rdname transform1d
+#' @param x A [Coord1D] object of length one or an object coercible to one by `as_coord1d(x, ...)`].
+#' @param ... Passed to [as_coord1d()].
+#' @export
+translate1d <- function(x = as_coord1d(0), ...) {
+    if (!is_coord1d(x))
+        x <- as_coord1d(x, ...)
+    stopifnot(length(x) == 1L)
+    mat <- diag(2L)
+    mat[2L, 1L] <- x$x
+    new_transform1d(mat)
 }
 
 #' @rdname transform2d
@@ -443,10 +577,10 @@ shear3d <- function(xy_shear = 0, xz_shear = 0,
 translate2d <- function(x = as_coord2d(0, 0), ...) {
     if (!is_coord2d(x))
         x <- as_coord2d(x, ...)
-    stopifnot(length(x) == 1)
-    mat <- diag(3)
-    mat[3, 1] <- x$x
-    mat[3, 2] <- x$y
+    stopifnot(length(x) == 1L)
+    mat <- diag(3L)
+    mat[3L, 1L] <- x$x
+    mat[3L, 2L] <- x$y
     new_transform2d(mat)
 }
 
@@ -457,10 +591,10 @@ translate2d <- function(x = as_coord2d(0, 0), ...) {
 translate3d <- function(x = as_coord3d(0, 0, 0), ...) {
     if (!is_coord3d(x))
         x <- as_coord3d(x, ...)
-    stopifnot(length(x) == 1)
-    mat <- diag(4)
-    mat[4, 1] <- x$x
-    mat[4, 2] <- x$y
-    mat[4, 3] <- x$z
+    stopifnot(length(x) == 1L)
+    mat <- diag(4L)
+    mat[4L, 1L] <- x$x
+    mat[4L, 2L] <- x$y
+    mat[4L, 3L] <- x$z
     new_transform3d(mat)
 }

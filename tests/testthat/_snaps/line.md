@@ -1,4 +1,4 @@
-# print.line2d()
+# as_line2d()
 
     Code
       print(l1)

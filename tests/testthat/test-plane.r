@@ -25,4 +25,8 @@ test_that("as_plane3d()", {
 
     expect_equal(as_plane3d(p1 = as_coord3d("origin"), p2 = "x-axis", p3 = "y-axis"),
                  as_plane3d("xy-plane"))
+
+    pt <- as_point1d(a = 1, b = -1)
+    expect_equal(as_plane3d(pt, b = 3, c = 4),
+                 as_plane3d(a = 1, b = 3, c = 4, d = -1))
 })
