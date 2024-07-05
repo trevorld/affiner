@@ -15,6 +15,6 @@ distance2d(x, y)
 \code{distance2d()} computes 2D Euclidean distances.
 }
 \examples{
-  p <- as_coord2d(x = 1:4, y = 1:4)
-  distance2d(p, as_coord2d(0, 0))
+p <- as_coord2d(x = 1:4, y = 1:4)
+distance2d(p, as_coord2d(0, 0))
 }

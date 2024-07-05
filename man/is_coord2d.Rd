@@ -18,5 +18,4 @@ A logical value
 \examples{
 p <- as_coord2d(x = sample.int(10, 3), y = sample.int(10, 3))
 is_coord2d(p)
-
 }

@@ -1,3 +1,33 @@
+#' 1D points R6 Class
+#'
+#' `Point1D` is an [R6::R6Class()] object representing one-dimensional points.
+#'
+#' @examples
+#' p1 <- as_point1d(a = 1, b = 5)
+#' @field a Numeric vector that parameterizes the point via the equation `a * x + b = 0`.
+#' @field b Numeric vector that parameterizes the point via the equation `a * x + b = 0`.
+#' @export
+Point1D <- R6Class("Point1D",
+   public = list(
+       #' @param a Numeric vector that parameterizes the line via the equation `a * x + b = 0`.
+       #' @param b Numeric vector that parameterizes the line via the equation `a * x + b = 0`.
+       initialize = function(a, b) {
+           stopifnot(length(a) == length(b))
+           self$a <- a
+           self$b <- b
+       },
+       #' @param n Number of lines to print.  If `NULL` print all of them.
+       print = function(n = NULL) {
+           if (is.null(n) || n > length(self$a))
+               n <- length(self$a)
+           cat("<Point1D[", length(self$a), "]>\n", sep = "")
+           if (n > 0)
+               print(cbind(a = self$a, b = self$b))
+           invisible(self)
+       },
+       a = NULL, b = NULL)
+)
+
 #' 2D lines R6 Class
 #'
 #' `Line2D` is an [R6::R6Class()] object representing two-dimensional lines.
@@ -69,6 +99,18 @@ Plane3D <- R6Class("Plane3D",
        a = NULL, b = NULL, c = NULL, d = NULL)
 )
 
+#' Cast to Point1D object
+#'
+#' `as_point1d()` casts to a [Point1D] object.
+#'
+#' @examples
+#' p1 <- as_point1d(a = 1, b = 0)
+#' @param ... Passed to other function such as `as_coord2d()`.
+#' @export
+as_point1d <- function(...) {
+    UseMethod("as_point1d")
+}
+
 #' Cast to Line2D object
 #'
 #' `as_line2d()` casts to a [Line2D] object.
@@ -93,6 +135,17 @@ as_line2d <- function(...) {
 #' @export
 as_plane3d <- function(...) {
     UseMethod("as_plane3d")
+}
+
+#' @rdname as_point1d
+#' @param a,b Numeric vectors that parameterize the point via the equation `a * x + b = 0`.
+#'            Note this means that `x = -b / a`.
+#' @export
+as_point1d.numeric <- function(a, b, ...) {
+    n <- max(length(a), length(b))
+    a <- rep_len(a, n)
+    b <- rep_len(b, n)
+    Point1D$new(a, b)
 }
 
 #' @rdname as_line2d
@@ -134,8 +187,27 @@ as_line2d.angle <- function(theta, p1 = as_coord2d("origin"), ...) {
     Line2D$new(a, b, c)
 }
 
+#' @rdname as_point1d
+#' @param x A (character) vector to be cast to a [Point1D] object
+#' @export
+as_point1d.character <- function(x, ...) {
+    a <- as_point1d_character_a(x)
+    p <- as_point1d(a, 0)
+    if (any(is.na(p) & !is.na(x)))
+        warning("NAs introduced by coercion")
+    p
+}
+
+as_point1d_character_a <- function(x) {
+    switch(x,
+           "origin" = 1,
+           "zero" = 1,
+           NA_real_)
+}
+
 #' @rdname as_line2d
-#' @param x A (character) vector to be cast to a [Plane3D] object
+#' @param x A (character) vector to be cast to a [Line2D] object
+#' @export
 as_line2d.character <- function(x, ...) {
     a <- as_line2d_character_a(x)
     b <- as_line2d_character_b(x)
@@ -170,6 +242,13 @@ as_plane3d.character <- function(x, ...) {
     if (any(is.na(p) & !is.na(x)))
         warning("NAs introduced by coercion")
     p
+}
+
+#' @rdname as_point1d
+#' @param normal [Coord1D] class object.
+#' @export
+as_point1d.Coord1D <- function(normal, ...) {
+    as_point1d(a = 1, b = -normal$x)
 }
 
 #' @rdname as_line2d
@@ -221,6 +300,13 @@ as_plane3d.Coord3D <- function(normal, p1 = as_coord3d("origin"), p2, p3, ...) {
     }
 }
 
+#' @rdname as_point1d
+#' @param point A [Point1D] object
+#' @export
+as_point1d.Point1D <- function(point, ...) {
+    point
+}
+
 #' @rdname as_line2d
 #' @param line A [Line2D] object
 #' @export
@@ -228,11 +314,25 @@ as_line2d.Line2D <- function(line, ...) {
     line
 }
 
+#' @rdname as_line2d
+#' @param point A [Point1D] object
+#' @export
+as_line2d.Point1D <- function(point, b = 0, ...) {
+    as_line2d(point$a, b, point$b)
+}
+
 #' @rdname as_plane3d
 #' @param plane A [Plane3D] object
 #' @export
 as_plane3d.Plane3D <- function(plane, ...) {
     plane
+}
+
+#' @rdname as_plane3d
+#' @param point A [Point1D] object
+#' @export
+as_plane3d.Point1D <- function(point, b = 0, c = 0, ...) {
+    as_plane3d(point$a, b, c, point$b)
 }
 
 #' @rdname as_plane3d

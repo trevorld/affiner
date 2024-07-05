@@ -15,6 +15,6 @@ distance3d(x, y)
 \code{distance3d()} computes 3D Euclidean distances.
 }
 \examples{
-  p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
-  distance3d(p, as_coord3d("origin"))
+p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
+distance3d(p, as_coord3d("origin"))
 }

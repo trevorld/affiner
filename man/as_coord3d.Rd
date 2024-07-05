@@ -43,8 +43,7 @@ radial distances of cylindrical coordinates.}
 \item{inclination}{Spherical coordinates inclination angle aka polar angle.
 \code{x} represents the azimuth aka azimuthal angle.}
 
-\item{z}{Numeric vector of z-coordinates to be used
-if \code{hasName(x, "z")} is \code{FALSE}.}
+\item{z}{Numeric vector of z-coordinates to be used}
 
 \item{y}{Numeric vector of y-coordinates to be used
 if \code{hasName(x, "z")} is \code{FALSE}.}

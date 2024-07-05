@@ -20,5 +20,4 @@ p <- as_coord3d(x = sample.int(10, 3),
                 y = sample.int(10, 3),
                 z = sample.int(10, 3))
 is_coord3d(p)
-
 }

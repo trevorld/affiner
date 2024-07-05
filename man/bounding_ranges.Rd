@@ -2,28 +2,31 @@
 % Please edit documentation in R/coord-methods.r
 \name{bounding_ranges}
 \alias{bounding_ranges}
+\alias{range.Coord1D}
 \alias{range.Coord2D}
 \alias{range.Coord3D}
 \title{Compute axis-aligned ranges}
 \usage{
+\method{range}{Coord1D}(..., na.rm = FALSE)
+
 \method{range}{Coord2D}(..., na.rm = FALSE)
 
 \method{range}{Coord3D}(..., na.rm = FALSE)
 }
 \arguments{
-\item{...}{\link{Coord2D} or \link{Coord3D} object(s)}
+\item{...}{\link{Coord1D}, \link{Coord2D}, or \link{Coord3D} object(s)}
 
 \item{na.rm}{logical, indicating if \code{NA}'s should be omitted}
 }
 \value{
-Either a \link{Coord2D} or \link{Coord3D} object of length two.
+Either a \link{Coord1D}, \link{Coord2D}, or \link{Coord3D} object of length two.
 The first element will have the minimum x/y(/z) coordinates
 and the second element will have the maximum x/y(/z) coordinates
 of the axis-aligned ranges.
 }
 \description{
 \code{range()} computes axis-aligned ranges for
-\link{Coord2D} and \link{Coord3D} class objects.
+\link{Coord1D}, \link{Coord2D}, and \link{Coord3D} class objects.
 }
 \examples{
 range(as_coord2d(rnorm(5), rnorm(5)))

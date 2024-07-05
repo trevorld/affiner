@@ -16,7 +16,7 @@ A logical value
 \code{is_transform2d()} tests if object is a \code{\link[=transform2d]{transform2d()}} affine transformation matrix
 }
 \examples{
-m <- transform2d(diag(3))
+m <- transform2d(diag(3L))
 is_transform2d(m)
-is_transform2d(diag(3))
+is_transform2d(diag(3L))
 }

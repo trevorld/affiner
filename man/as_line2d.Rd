@@ -7,6 +7,7 @@
 \alias{as_line2d.character}
 \alias{as_line2d.Coord2D}
 \alias{as_line2d.Line2D}
+\alias{as_line2d.Point1D}
 \title{Cast to Line2D object}
 \usage{
 as_line2d(...)
@@ -20,6 +21,8 @@ as_line2d(...)
 \method{as_line2d}{Coord2D}(normal, p1 = as_coord3d("origin"), p2, ...)
 
 \method{as_line2d}{Line2D}(line, ...)
+
+\method{as_line2d}{Point1D}(point, b = 0, ...)
 }
 \arguments{
 \item{...}{Passed to other function such as \code{as_coord2d()}.}
@@ -31,13 +34,15 @@ Note if \code{y = m * x + b} then \code{m * x + 1 * y + -b = 0}.}
 
 \item{p1}{Point on the line represented by a \link{Coord2D} class object.}
 
-\item{x}{A (character) vector to be cast to a \link{Plane3D} object}
+\item{x}{A (character) vector to be cast to a \link{Line2D} object}
 
 \item{normal}{Normal vector to the line represented by a \link{Coord2D} class object. \code{p2} should be missing.}
 
 \item{p2}{Another point on the line represented by a \link{Coord2D} class object.}
 
 \item{line}{A \link{Line2D} object}
+
+\item{point}{A \link{Point1D} object}
 }
 \description{
 \code{as_line2d()} casts to a \link{Line2D} object.

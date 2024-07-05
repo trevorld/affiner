@@ -1,3 +1,20 @@
+test_that("distance1d()", {
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)
+    p0 <- as_coord1d("origin")
+    expect_equal(distance1d(p1, p0),
+                 abs(p1))
+
+    pt1 <- as_point1d(a = 1, b = -2)
+    expect_equal(distance1d(pt1, p0), 2)
+    pt2 <- as_point1d(a = 1, b = 3)
+    expect_equal(distance1d(p0, pt2), 3)
+
+    expect_error(distance1d(as_coord3d("origin"), p0))
+    expect_error(distance1d(p0, as_coord3d("origin")))
+    expect_error(distance1d(pt1, as_coord3d("origin")))
+})
+
 test_that("distance2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)

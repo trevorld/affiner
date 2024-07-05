@@ -11,7 +11,7 @@
 \alias{translate2d}
 \title{2D affine transformation matrices}
 \usage{
-transform2d(mat = diag(3))
+transform2d(mat = diag(3L))
 
 permute2d(permutation = c("xy", "yx"))
 
@@ -68,10 +68,10 @@ and \code{translate2d()} create 2D affine transformation matrix objects.
 \details{
 \describe{
 \item{\code{transform2d()}}{User supplied (post-multiplied) affine transformation matrix}.
-\item{\code{project2d()}}{Oblique vector projections onto a unit vector parameterized by its (polar) \code{\link[=angle]{angle()}} from the x-axis
-and an oblique projection scale factor.
+\item{\code{project2d()}}{Oblique vector projections onto a line parameterized by
+an oblique projection scale factor.
 A (degenerate) scale factor of zero results in an orthogonal projection.}
-\item{\code{reflect2d()}}{Reflections across a line parameterized by its \code{\link[=angle]{angle()}} from the x-axis.
+\item{\code{reflect2d()}}{Reflections across a line.
 To "flip" across both the x-axis and the y-axis use \code{scale2d(-1)}.}
 \item{\code{rotate2d()}}{Rotations around the origin parameterized by an \code{\link[=angle]{angle()}}.}
 \item{\code{scale2d()}}{Scale the x-coordinates and/or the y-coordinates by multiplicative scale factors.}
@@ -92,30 +92,30 @@ from an existing transformation matrix that does the opposite transformations
 simply compute its inverse using \code{\link[=solve]{solve()}}.
 }
 \examples{
-  p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
+p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
 
-  # {affiner} affine transformation matrices are post-multiplied
-  # and therefore should **not** go in reverse order
-  mat <- transform2d(diag(3)) \%*\%
-           reflect2d(as_coord2d(-1, 1)) \%*\%
-           rotate2d(90, "degrees") \%*\%
-           scale2d(1, 2) \%*\%
-           shear2d(0.5, 0.5) \%*\%
-           translate2d(x = -1, y = -1)
-  p1 <- p$
-    clone()$
-    transform(mat)
+# {affiner} affine transformation matrices are post-multiplied
+# and therefore should **not** go in reverse order
+mat <- transform2d(diag(3)) \%*\%
+         reflect2d(as_coord2d(-1, 1)) \%*\%
+         rotate2d(90, "degrees") \%*\%
+         scale2d(1, 2) \%*\%
+         shear2d(0.5, 0.5) \%*\%
+         translate2d(x = -1, y = -1)
+p1 <- p$
+  clone()$
+  transform(mat)
 
-  # The equivalent result appyling affine transformations via method chaining
-  p2 <- p$
-    clone()$
-    transform(diag(3))$
-    reflect(as_coord2d(-1, 1))$
-    rotate(90, "degrees")$
-    scale(1, 2)$
-    shear(0.5, 0.5)$
-    translate(x = -1, y = -1)
+# The equivalent result appyling affine transformations via method chaining
+p2 <- p$
+  clone()$
+  transform(diag(3L))$
+  reflect(as_coord2d(-1, 1))$
+  rotate(90, "degrees")$
+  scale(1, 2)$
+  shear(0.5, 0.5)$
+  translate(x = -1, y = -1)
 
-  all.equal(p1, p2)
+all.equal(p1, p2)
 
 }

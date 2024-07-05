@@ -11,7 +11,7 @@
 \alias{translate3d}
 \title{3D affine transformation matrices}
 \usage{
-transform3d(mat = diag(4))
+transform3d(mat = diag(4L))
 
 permute3d(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))
 
@@ -121,26 +121,26 @@ from an existing transformation matrix that does the opposite transformations
 simply compute its inverse using \code{\link[=solve]{solve()}}.
 }
 \examples{
-  p <- as_coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
+p <- as_coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
 
-  # {affiner} affine transformation matrices are post-multiplied
-  # and therefore should **not** go in reverse order
-  mat <- transform3d(diag(4)) \%*\%
-           rotate3d("z-axis", degrees(90)) \%*\%
-           scale3d(1, 2, 1) \%*\%
-           translate3d(x = -1, y = -1, z = -1)
-  p1 <- p$
-    clone()$
-    transform(mat)
+# {affiner} affine transformation matrices are post-multiplied
+# and therefore should **not** go in reverse order
+mat <- transform3d(diag(4L)) \%*\%
+         rotate3d("z-axis", degrees(90)) \%*\%
+         scale3d(1, 2, 1) \%*\%
+         translate3d(x = -1, y = -1, z = -1)
+p1 <- p$
+  clone()$
+  transform(mat)
 
-  # The equivalent result appyling affine transformations via method chaining
-  p2 <- p$
-    clone()$
-    transform(diag(4))$
-    rotate("z-axis", degrees(90))$
-    scale(1, 2, 1)$
-    translate(x = -1, y = -1, z = -1)
+# The equivalent result appyling affine transformations via method chaining
+p2 <- p$
+  clone()$
+  transform(diag(4L))$
+  rotate("z-axis", degrees(90))$
+  scale(1, 2, 1)$
+  translate(x = -1, y = -1, z = -1)
 
-  all.equal(p1, p2)
+all.equal(p1, p2)
 
 }

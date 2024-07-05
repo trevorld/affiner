@@ -1,3 +1,18 @@
+#' Cast to coord1d object
+#'
+#' `as_coord1d()` casts to a [Coord1D] class object
+#'
+#' @param x An object that can be cast to a [Coord1D] class object
+#'          such as a numeric vector of x-coordinates.
+#' @param ... Further arguments passed to or from other methods
+#' @return A [Coord1D] class object
+#' @examples
+#' as_coord1d(x = rnorm(10))
+#' @export
+as_coord1d <- function(x, ...) {
+    UseMethod("as_coord1d")
+}
+
 #' Cast to coord2d object
 #'
 #' `as_coord2d()` casts to a [Coord2D] class object
@@ -72,6 +87,22 @@ as_coord3d.angle <- function(x, radius = 1, inclination = NULL, z = NULL, ...) {
                    y = radius * sin(inclination) * sin(x),
                    z = radius * cos(inclination))
     }
+}
+
+#' @rdname as_coord1d
+#' @export
+as_coord1d.character <- function(x, ...) {
+    xc <- vapply(x, as_coord1d_character_x, double(1), USE.NAMES = FALSE)
+    p <- as_coord1d(xc)
+    if (any(is.na(p) & !is.na(x)))
+        warning("NAs introduced by coercion")
+    p
+}
+
+as_coord1d_character_x <- function(x) {
+    switch(x,
+           "origin" = 0,
+           NA_real_)
 }
 
 #' @rdname as_coord2d
@@ -196,6 +227,13 @@ as_coord2d.Coord3D <- function(x,
         as_coord2d(p$x, p$y)
 }
 
+#' @rdname as_coord1d
+#' @export
+as_coord1d.data.frame <- function(x, ...) {
+    stopifnot(hasName(x, "x"))
+    as_coord1d(x[, "x"])
+}
+
 #' @rdname as_coord2d
 #' @export
 as_coord2d.data.frame <- function(x, ...) {
@@ -217,6 +255,12 @@ as_coord3d.data.frame <- function(x, ..., z = NULL) {
     Coord3D$new(as_xyzw_matrix(x[, nms], ...))
 }
 
+#' @rdname as_coord1d
+#' @export
+as_coord1d.list <- function(x, ...) {
+    as_coord1d.data.frame(as.data.frame(x, ...))
+}
+
 #' @rdname as_coord2d
 #' @export
 as_coord2d.list <- function(x, ...) {
@@ -232,6 +276,12 @@ as_coord3d.list <- function(x, ..., z = NULL) {
         as_coord3d.data.frame(as.data.frame(x, ...), z = z)
 }
 
+#' @rdname as_coord1d
+#' @export
+as_coord1d.matrix <- function(x, ...) {
+    Coord1D$new(as_xw_matrix(x))
+}
+
 #' @rdname as_coord2d
 #' @export
 as_coord2d.matrix <- function(x, ...) {
@@ -244,9 +294,29 @@ as_coord3d.matrix <- function(x, ...) {
     Coord3D$new(as_xyzw_matrix(x))
 }
 
+#' @rdname as_coord1d
+#' @export
+as_coord1d.numeric <- function(x, ...) {
+    xw <- cbind(x, rep_len(1, length(x)))
+    Coord1D$new(as_xw_matrix(xw))
+}
+
+as_xw_matrix <- function(x) {
+    if (!is.matrix(x))
+        x <- as.matrix(x)
+    stopifnot(ncol(x) == 1L || ncol(x) == 2L,
+              is.numeric(x)
+    )
+    if (ncol(x) < 2L)
+        x <- cbind(x, 1)
+    else
+        stopifnot(all(x[, 2L] == 1))
+    colnames(x) <- c("x", "w")
+    x
+}
+
 #' @rdname as_coord2d
-#' @param y Numeric vector of y-coordinates to be used
-#'          if `hasName(x, "z")` is `FALSE`.
+#' @param y Numeric vector of y-coordinates to be used.
 #' @export
 as_coord2d.numeric <- function(x, y = rep_len(0, length(x)), ...) {
     xyw <- cbind(x, y, rep_len(1, max(length(x), length(y))))
@@ -256,13 +326,13 @@ as_coord2d.numeric <- function(x, y = rep_len(0, length(x)), ...) {
 as_xyw_matrix <- function(x) {
     if (!is.matrix(x))
         x <- as.matrix(x)
-    stopifnot(ncol(x) == 2 || ncol(x) == 3,
+    stopifnot(ncol(x) == 2L || ncol(x) == 3L,
               is.numeric(x)
     )
-    if (ncol(x) < 3)
+    if (ncol(x) < 3L)
         x <- cbind(x, 1)
     else
-        stopifnot(all(x[, 3] == 1))
+        stopifnot(all(x[, 3L] == 1))
     colnames(x) <- c("x", "y", "w")
     x
 }
@@ -279,19 +349,25 @@ as_coord3d.numeric <- function(x, y = rep_len(0, length(x)), z = rep_len(0, leng
 as_xyzw_matrix <- function(x) {
     if (!is.matrix(x))
         x <- as.matrix(x)
-    stopifnot(ncol(x) >= 2,
-              ncol(x) <= 4,
+    stopifnot(ncol(x) >= 2L,
+              ncol(x) <= 4L,
               is.numeric(x)
     )
-    if (ncol(x) == 2) {
+    if (ncol(x) == 2L) {
         x <- cbind(x, 0, 1)
-    } else if (ncol(x) == 3) {
+    } else if (ncol(x) == 3L) {
         x <- cbind(x, 1)
     } else {
-        stopifnot(all(x[, 4] == 1))
+        stopifnot(all(x[, 4L] == 1))
     }
     colnames(x) <- c("x", "y", "z", "w")
     x
+}
+
+#' @rdname as_coord1d
+#' @export
+as_coord1d.Coord1D <- function(x, ...) {
+    Coord1D$new(x$xw)
 }
 
 #' @rdname as_coord2d
@@ -308,8 +384,13 @@ as_coord3d.Coord3D <- function(x, ...) {
 
 #' @rdname as_coord3d
 #' @param z Numeric vector of z-coordinates to be used
-#'          if `hasName(x, "z")` is `FALSE`.
 #' @export
 as_coord3d.Coord2D <- function(x, z = rep_len(0, length(x)), ...) {
     as_coord3d(x = x$x, y = x$y, z = z)
+}
+
+#' @rdname as_coord1d
+#' @export
+as_coord1d.Point1D <- function(x, ...) {
+    as_coord1d(-x$b / x$a)
 }

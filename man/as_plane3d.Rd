@@ -6,6 +6,7 @@
 \alias{as_plane3d.character}
 \alias{as_plane3d.Coord3D}
 \alias{as_plane3d.Plane3D}
+\alias{as_plane3d.Point1D}
 \alias{as_plane3d.Line2D}
 \title{Cast to Plane3D object}
 \usage{
@@ -18,6 +19,8 @@ as_plane3d(...)
 \method{as_plane3d}{Coord3D}(normal, p1 = as_coord3d("origin"), p2, p3, ...)
 
 \method{as_plane3d}{Plane3D}(plane, ...)
+
+\method{as_plane3d}{Point1D}(point, b = 0, c = 0, ...)
 
 \method{as_plane3d}{Line2D}(line, c = 0, ...)
 }
@@ -35,6 +38,8 @@ as_plane3d(...)
 \item{p2, p3}{Points on the plane represented by \link{Coord3D} class objects.  \code{normal} should be missing.}
 
 \item{plane}{A \link{Plane3D} object}
+
+\item{point}{A \link{Point1D} object}
 
 \item{line}{A \link{Line2D} object}
 }

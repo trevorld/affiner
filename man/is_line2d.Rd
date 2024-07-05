@@ -16,7 +16,6 @@ A logical value
 \code{is_line2d()} tests whether an object has a "Line2D" class
 }
 \examples{
-p <- as_line2d(a = 1, b = 2, c = 3)
-is_line2d(p)
-
+l <- as_line2d(a = 1, b = 2, c = 3)
+is_line2d(l)
 }

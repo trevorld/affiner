@@ -1,3 +1,16 @@
+test_that("coord1d()", {
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)
+    expect_true(is_coord1d(p1))
+    expect_equal(p1$x, x)
+    expect_length(p1, 3)
+
+    expect_equal(p1[2:3], as_coord1d(x = x[2:3]))
+
+    p2 <- as_coord1d("origin")
+    expect_equal(rep_len(p2, 4), as_coord1d(rep(0, 4)))
+})
+
 test_that("coord2d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
@@ -13,11 +26,12 @@ test_that("coord2d()", {
     expect_equal(rep_len(p2, 4), as_coord2d(rep(0, 4), rep(0, 4)))
 })
 
-test_that("as_coord3d()", {
+test_that("coord3d()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     z <- c(2, 7, 3)
     p1 <- as_coord3d(x = x, y = y, z = z)
+
     expect_true(is_coord3d(p1))
     expect_equal(p1$x, x)
     expect_equal(p1$y, y)
@@ -40,13 +54,33 @@ test_that("mean()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     z <- c(2, 7, 3)
-    p1 <- as_coord2d(x = x, y = y)
-    expect_equal(mean(p1), as_coord2d(mean(x), mean(y)))
+    p1 <- as_coord1d(x = x)
+    expect_equal(mean(p1), as_coord1d(mean(x)))
     expect_equal(mean(p1), sum(p1, na.rm = TRUE) / length(p1))
 
-    p2 <- as_coord3d(x = x, y = y, z = z)
-    expect_equal(mean(p2), as_coord3d(mean(x), mean(y), mean(z)))
+    p2 <- as_coord2d(x = x, y = y)
+    expect_equal(mean(p2), as_coord2d(mean(x), mean(y)))
     expect_equal(mean(p2), sum(p2, na.rm = TRUE) / length(p2))
+
+    p3 <- as_coord3d(x = x, y = y, z = z)
+    expect_equal(mean(p3), as_coord3d(mean(x), mean(y), mean(z)))
+    expect_equal(mean(p3), sum(p3, na.rm = TRUE) / length(p3))
+})
+
+test_that("as_coord1d()", {
+    expect_warning(as_coord1d("foobar"))
+
+    l <- list(x = 1:10)
+    p <- as_coord1d(l)
+    expect_equal(p$x, l$x)
+
+    m <- as.matrix(1:10)
+    p <- as_coord1d(m)
+    expect_equal(p$x, 1:10)
+
+    expect_equal(as_coord1d(p), p)
+    expect_equal(as_coord1d(as.data.frame(p)), p)
+
 })
 
 test_that("as_coord2d()", {
@@ -162,36 +196,64 @@ test_that("Ops", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     z <- c(2, 7, 3)
+    p1 <- as_coord1d(x = x)
     p2 <- as_coord2d(x = x, y = y)
     p3 <- as_coord3d(x = x, y = y, z = z)
 
+    expect_true(all(p1 == p1))
+    expect_true(all(p2 == p2))
+    expect_true(all(p3 == p3))
+
+    expect_false(any(p1 != p1))
+    expect_false(any(p2 != p2))
+    expect_false(any(p3 != p3))
+
+    expect_equal(p1, +p1)
     expect_equal(p2, +p2)
     expect_equal(p3, +p3)
 
+    expect_equal(p1 + as_coord1d(1), as_coord1d(x + 1))
+    expect_equal(as_coord1d(1) + p1, as_coord1d(x + 1))
     expect_equal(p2 + as_coord2d(1, 1), as_coord2d(x + 1, y + 1))
     expect_equal(as_coord2d(1, 1) + p2, as_coord2d(x + 1, y + 1))
     expect_equal(p3 + as_coord3d(1, 1, 1), as_coord3d(x + 1, y + 1, z + 1))
     expect_equal(as_coord3d(1, 1, 1) + p3, as_coord3d(x + 1, y + 1, z + 1))
 
+    expect_equal(p1$clone()$scale(-1), -p1)
     expect_equal(p2$clone()$scale(-1), -p2)
     expect_equal(p3$clone()$scale(-1), -p3)
 
+    expect_equal(p1 - as_coord1d(1), as_coord1d(x - 1))
+    expect_error(as_coord1d(1) - p1)
     expect_equal(p2 - as_coord2d(1, 1), as_coord2d(x - 1, y - 1))
     expect_error(as_coord2d(1, 1) - p2)
     expect_equal(p3 - as_coord3d(1, 1, 1), as_coord3d(x - 1, y - 1, z - 1))
     expect_error(as_coord3d(1, 1, 1) - p3)
 
+    expect_equal(p1 * p1, x * x)
+
+    expect_equal(p1, 1 * p1)
     expect_equal(p2, 1 * p2)
-    expect_equal(p2, p2 * 1)
-    expect_error(p2 * "foobar")
-    expect_error(p2 / "foobar")
     expect_equal(p3, 1 * p3)
+
+    expect_equal(p1, p1 * 1)
+    expect_equal(p2, p2 * 1)
     expect_equal(p3, p3 * 1)
+
+    expect_error(p1 * "foobar")
+    expect_error(p2 * "foobar")
     expect_error(p3 * "foobar")
+
+    expect_error(p1 / "foobar")
+    expect_error(p2 / "foobar")
     expect_error(p3 / "foobar")
 })
 
-test_that("c.Coord2D() and c.Coord3D()", {
+test_that("`c.Coord1D()`, `c.Coord2D()`, and `c.Coord3D()`", {
+    p1 <- as_coord1d(1:4)
+    p2 <- as_coord1d(5:8)
+    expect_equal(c(p1, p2), as_coord1d(1:8))
+
     p1 <- as_coord2d(1:4, 1:4)
     p2 <- as_coord2d(5:8, 5:8)
     expect_equal(c(p1, p2), as_coord2d(1:8, 1:8))
@@ -199,6 +261,13 @@ test_that("c.Coord2D() and c.Coord3D()", {
     p1 <- as_coord3d(1:4, 1:4, 1:4)
     p2 <- as_coord3d(5:8, 5:8, 5:8)
     expect_equal(c(p1, p2), as_coord3d(1:8, 1:8, 1:8))
+})
+
+test_that("print.Coord1D()", {
+    x <- c(2, 5, 7)
+    p1 <- as_coord1d(x = x)
+    expect_snapshot(print(p1))
+    expect_snapshot(print(as_coord1d(numeric(0))))
 })
 
 test_that("print.Coord2D()", {
@@ -269,6 +338,11 @@ test_that("normal3d", {
 })
 
 test_that("is functions", {
+    p <- as_coord1d(x = c(2, NaN, Inf, NA_real_))
+    expect_equal(is.na(p), c(FALSE, TRUE, FALSE, TRUE))
+    expect_equal(is.nan(p), c(FALSE, TRUE, FALSE, FALSE))
+    expect_equal(is.infinite(p), c(FALSE, FALSE, TRUE, FALSE))
+    expect_equal(is.finite(p), c(TRUE, FALSE, FALSE, FALSE))
     p <- as_coord2d(x = c(2, NaN, Inf, NA_real_), y = 0)
     expect_equal(is.na(p), c(FALSE, TRUE, FALSE, TRUE))
     expect_equal(is.nan(p), c(FALSE, TRUE, FALSE, FALSE))
@@ -285,6 +359,8 @@ test_that("range()", {
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     z <- c(2, 7, 3)
+    expect_equal(range(as_coord1d(x), na.rm = TRUE),
+                 as_coord1d(c(2, 7)))
     expect_equal(range(as_coord2d(x, y), na.rm = TRUE),
                  as_coord2d(c(2, 7), c(3, 6)))
     expect_equal(range(as_coord3d(x, y, z), na.rm = TRUE),

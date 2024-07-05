@@ -16,7 +16,7 @@ A logical value
 \code{is_transform3d()} tests if object is a \code{\link[=transform3d]{transform3d()}} affine transformation matrix
 }
 \examples{
-m <- transform3d(diag(4))
+m <- transform3d(diag(4L))
 is_transform3d(m)
-is_transform3d(diag(4))
+is_transform3d(diag(4L))
 }
