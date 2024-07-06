@@ -106,6 +106,28 @@ test_that("project2d()", {
     p3 <- as_coord2d(x = x, y = y)$project(scale = 0.5)
     expect_equal(p3$x, x + 0.5 * y)
     expect_equal(p3$y, rep(0, 3))
+
+    l4 <- as_line2d(a = 0, b = 1, c = -4)
+    p4 <- as_coord2d(x = x, y = y)$project(l4)
+    expect_equal(p4$x, x)
+    expect_equal(p4$y, rep(4, 3))
+
+    l5 <- as_line2d(a = 1, b = 0, c = -4)
+    p5 <- as_coord2d(x = x, y = y)$project(l5)
+    expect_equal(p5$x, rep(4, 3))
+    expect_equal(p5$y, y)
+
+    x6 <- c(-5, 5, 5)
+    y6 <- c(5, -5, 5)
+    l6 <- as_line2d(a = 1, b = -1, c = 0)
+    p6 <- as_coord2d(x = x6, y = y6)$project(l6)
+    expect_equal(p6$x, c(0, 0, 5))
+    expect_equal(p6$y, c(0, 0, 5))
+
+    l7 <- as_line2d(a = 1, b = -1, c = 2)
+    p7 <- as_coord2d(x = x6, y = y6)$project(l7)
+    expect_equal(p7$x, c(-1, -1, 4))
+    expect_equal(p7$y, c(1, 1, 6))
 })
 
 test_that("project3d()", {
@@ -156,16 +178,18 @@ test_that("reflect2d()", {
     p1 <- as_coord2d(x = x, y = y)$reflect("x-axis")
     expect_equal(p1$x, x)
     expect_equal(p1$y, -y)
-    # p1 <- as_coord2d(x = x, y = y)$reflect(as_line2d(a = 0, b = 1, c = 0))
-    # expect_equal(p1$x, x)
-    # expect_equal(p1$y, -y)
+
+    p1 <- as_coord2d(x = x, y = y)$reflect(as_line2d(a = 0, b = 1, c = 0))
+    expect_equal(p1$x, x)
+    expect_equal(p1$y, -y)
 
     p2 <- as_coord2d(x = x, y = y)$reflect("y-axis")
     expect_equal(p2$x, -x)
     expect_equal(p2$y, y)
-    # p2 <- as_coord2d(x = x, y = y)$reflect(as_line2d(a = 1, b = 0, c = 0))
-    # expect_equal(p2$x, -x)
-    # expect_equal(p2$y, y)
+
+    p2 <- as_coord2d(x = x, y = y)$reflect(as_line2d(a = 1, b = 0, c = 0))
+    expect_equal(p2$x, -x)
+    expect_equal(p2$y, y)
 
     p3 <- as_coord2d(x = x, y = y)$reflect(degrees(135))
     expect_equal(p3$x, -y)
@@ -174,15 +198,22 @@ test_that("reflect2d()", {
     expect_equal(p4$x, -y)
     expect_equal(p4$y, -x)
 
-    # lh <- as_line2d(a = 0, b = 1, c = -2)
-    # p5 <- as_coord2d(x = x, y = y)$reflect(lh)
-    # expect_equal(p5$x, x)
-    # expect_equal(p5$y, 2 - y)
+    lh <- as_line2d(a = 0, b = 1, c = -2) # y = 2
+    p5 <- as_coord2d(x = x, y = y)$reflect(lh)
+    expect_equal(p5$x, x)
+    expect_equal(p5$y, 2 -(y - 2))
 
-    # lv <- as_line2d(a = 1, b = 0, c = -2)
-    # p6 <- as_coord2d(x = x, y = y)$reflect(lv)
-    # expect_equal(p6$x, 2 - x)
-    # expect_equal(p6$y, y)
+    lv <- as_line2d(a = 1, b = 0, c = -2) # x = 2
+    p6 <- as_coord2d(x = x, y = y)$reflect(lv)
+    expect_equal(p6$x, 2 -(x - 2))
+    expect_equal(p6$y, y)
+
+    x6 <- c(-5, 5, 5)
+    y6 <- c(5, -5, 5)
+    l7 <- as_line2d(a = 1, b = -1, c = 2)
+    p7 <- as_coord2d(x = x6, y = y6)$reflect(l7)
+    expect_equal(p7$x, c(3, -7, 3))
+    expect_equal(p7$y, c(-3, 7, 7))
 })
 
 test_that("reflect3d()", {

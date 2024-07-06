@@ -180,9 +180,9 @@ as_line2d.angle <- function(theta, p1 = as_coord2d("origin"), ...) {
     if (!is_coord2d(p1))
         p1 <- as_coord2d(p1, ...)
     # a * x + b * y + c = 0
-    # cos(theta) * x + sin(theta) * y + c = 0
-    a <- cos(theta)
-    b <- sin(theta)
+    # sin(theta) * x + -cos(theta) * y + c = 0
+    a <- sin(theta)
+    b <- -cos(theta)
     c <- -a * p1$x + -b * p1$y
     Line2D$new(a, b, c)
 }
@@ -219,15 +219,15 @@ as_line2d.character <- function(x, ...) {
 
 as_line2d_character_a <- function(x) {
     switch(x,
-           "x-axis" = 1,
-           "y-axis" = 0,
+           "x-axis" = 0,
+           "y-axis" = 1,
            NA_real_)
 }
 
 as_line2d_character_b <- function(x) {
     switch(x,
-           "x-axis" = 0,
-           "y-axis" = 1,
+           "x-axis" = -1,
+           "y-axis" = 0,
            NA_real_)
 }
 

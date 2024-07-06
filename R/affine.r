@@ -327,12 +327,16 @@ project1d <- function(point = as_point1d("origin"), ...) {
 project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
     if (!is_line2d(line))
         line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1L, line$c == 0)
+    stopifnot(length(line) == 1L)
+    denom <- line$a^2 + line$b^2
+    closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
     theta <- as_angle(line)
-    mat <- rotate2d(-theta) %*%
+    mat <- translate2d(-closest) %*%
+        rotate2d(-theta) %*%
         shear2d(xy_shear = scale) %*%
         scale2d(y_scale = 0) %*%
-        rotate2d(theta)
+        rotate2d(theta) %*%
+        translate2d(closest)
     new_transform2d(mat)
 }
 
@@ -396,13 +400,15 @@ reflect1d <- function(point = as_point1d("origin"), ...) {
 reflect2d <- function(line = as_line2d("x-axis"), ...) {
     if (!is_line2d(line))
         line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1, line$c == 0)
-    # denom <- sqrt(line$a^2 + line$b^2)
-    # closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
+    stopifnot(length(line) == 1L)
+    denom <- line$a^2 + line$b^2
+    closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
     theta <- as_angle(line)
-    mat <- rotate2d(-theta) %*%
+    mat <- translate2d(-closest) %*%
+        rotate2d(-theta) %*%
         scale2d(1, -1) %*%
-        rotate2d(theta)
+        rotate2d(theta) %*%
+        translate2d(closest)
     new_transform2d(mat)
 }
 
