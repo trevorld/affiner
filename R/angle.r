@@ -528,7 +528,7 @@ as_angle.Coord3D <- function(x,
 as_angle.Line2D <- function(x,
                             unit = getOption("affiner_angular_unit", "degrees"),
                             ...) {
-    arctangent(x = x$a, y = x$b, unit = unit)
+    arctangent(y = x$a, x = -x$b, unit = unit)
 }
 
 #' @rdname as_angle
