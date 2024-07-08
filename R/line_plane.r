@@ -259,19 +259,17 @@ as_line2d.Coord2D <- function(normal, p1 = as_coord3d("origin"), p2, ...) {
     if (!is_coord2d(p1))
         p1 <- as_coord2d(p1, ...)
     if (!missing(normal)) {
-        theta <- as_angle(normal2d(normal), unit = "radians")
         stopifnot(missing(p2))
         n <- max(length(p1), length(normal))
         p1 <- rep_len(p1, n)
-        theta <- rep_len(theta, n)
-        as_line2d.angle(theta, p1)
+        normal <- rep_len(normal, n)
     } else {
         if (!is_coord2d(p2))
             p2 <- as_coord2d(p2, ...)
         stopifnot(all(p1 != p2))
-        theta <- as_angle(p2 - p1, unit = "radians")
-        as_line2d.angle(theta, p1)
+        normal <- normal2d(p2 - p1)
     }
+    Line2D$new(normal$x, normal$y, -(normal * p1))
 }
 
 #' @rdname as_plane3d
@@ -287,7 +285,6 @@ as_plane3d.Coord3D <- function(normal, p1 = as_coord3d("origin"), p2, p3, ...) {
         n <- max(length(p1), length(normal))
         p1 <- rep_len(p1, n)
         normal <- rep_len(normal, n)
-        Plane3D$new(normal$x, normal$y, normal$z, -(normal * p1))
     } else {
         if (!is_coord3d(p2))
             p2 <- as_coord3d(p2, ...)
@@ -296,8 +293,8 @@ as_plane3d.Coord3D <- function(normal, p1 = as_coord3d("origin"), p2, p3, ...) {
         v1 <- p2 - p1
         v2 <- p3 - p1
         normal <- normal3d(v1, v2)
-        Plane3D$new(normal$x, normal$y, normal$z, -(normal * p1))
     }
+    Plane3D$new(normal$x, normal$y, normal$z, -(normal * p1))
 }
 
 #' @rdname as_point1d

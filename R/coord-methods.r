@@ -561,38 +561,6 @@ cross_product3d <- function(x, y) {
 }
 
 # nolint start
-# #' Project onto a 1D line
-# #'
-# #' `as.double.Coord2D()` computes the 1D projection of a [Coord2D] object
-# #' onto a line.  By default will do an orthographic projection onto the x-axis
-# #' but can do oblique projections onto arbitrary lines that pass through the origin.
-# #'
-# #' @param x [Coord2D] object
-# #' @inheritParams project2d
-# #' @param ... Ignored
-# #' @examples
-# #' p <- as_coord2d(rnorm(5), rnorm(5))
-# #' as.numeric(p)
-# #' @return A double vector
-# #' @export
-# as.double.Coord2D <- function(x,
-#                               permutation = c("xy", "yx"),
-#                               ...,
-#                               line = as_line2d("x-axis"),
-#                               scale = 0) {
-#     if (!is_line2d(line))
-#         line <- as_line2d(line, ...)
-#     stopifnot(length(line) == 1, line$c == 0)
-#     permutation <- match.arg(permutation)
-#     theta <- as_angle(line)
-#     x$
-#         clone()$
-#         permute(permutation)$
-#         rotate(-theta)$
-#         shear(xy_shear = scale)$
-#         x
-# }
-#
 # #' Scalar projections
 # #'
 # #' `as.double.Coord2D()` and `as.double.Coord3D()` computes the scalar projections of [Coord2D]

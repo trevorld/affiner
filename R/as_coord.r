@@ -177,6 +177,36 @@ as_coord2d.complex <- function(x, ...) {
     as_coord2d(Re(x), Im(x))
 }
 
+# #' `as_coord1d.Coord2D()` computes the 1D projection of a [Coord2D] object
+# #' onto a line.  By default will do an orthographic projection onto the x-axis
+# #' but can do oblique projections onto arbitrary lines.
+
+#' @rdname as_coord1d
+#' @inheritParams project2d
+#' @export
+as_coord1d.Coord2D <- function(x,
+                               permutation = c("xy", "yx"),
+                               ...,
+                               line = as_line2d("x-axis"),
+                               scale = 0) {
+    if (!is_line2d(line))
+        line <- as_line2d(line, ...,
+              scale == 0 || line$a == 0)
+    stopifnot(length(line) == 1)
+    permutation <- match.arg(permutation)
+    denom <- line$a^2 + line$b^2
+    closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
+    theta <- as_angle(line)
+    xs <- x$
+        clone()$
+        permute(permutation)$
+        translate(-closest)$
+        rotate(-theta)$
+        shear(xy_shear = scale)$
+        x
+    as_coord1d.numeric(x = xs)
+}
+
 #' @rdname as_coord2d
 #' @param permutation Either "xyz" (no permutation), "xzy" (permute y and z axes),
 #'                    "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
@@ -205,14 +235,15 @@ as_coord2d.Coord3D <- function(x,
         alpha <- as_angle(alpha, ...)
     }
     stopifnot(length(plane) == 1,
-              plane$d == 0,
+              scale == 0 || (plane$a == 0 && plane$b == 0),
               length(alpha) == 1)
     stopifnot(length(alpha) == 1)
     permutation <- match.arg(permutation)
 
+    denom <- plane$a^2 + plane$b^2 + plane$c^2
+    closest <- as_coord3d(-plane$a * plane$d / denom, -plane$b * plane$d / denom, -plane$c * plane$d / denom)
     azimuth <- as_angle(plane, type = "azimuth")
     inclination <- as_angle(plane, type = "inclination")
-
     z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
                                  dimnames = list(NULL, c("x", "y", "z", "w"))))
     y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
@@ -220,6 +251,7 @@ as_coord2d.Coord3D <- function(x,
     p <- x$
         clone()$
         permute(permutation)$
+        translate(-closest)$
         rotate(z_axis, -azimuth)$
         rotate(y_axis, -inclination)$
         shear(xz_shear = scale * cos(alpha),

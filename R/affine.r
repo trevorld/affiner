@@ -327,7 +327,8 @@ project1d <- function(point = as_point1d("origin"), ...) {
 project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
     if (!is_line2d(line))
         line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1L)
+    stopifnot(length(line) == 1L,
+              scale == 0 || line$a == 0)
     denom <- line$a^2 + line$b^2
     closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
     theta <- as_angle(line)
@@ -358,21 +359,25 @@ project3d <- function(plane = as_plane3d("xy-plane"), ...,
         alpha <- as_angle(alpha, ...)
     }
     stopifnot(length(plane) == 1L,
-              plane$d == 0,
+              scale == 0 || (plane$a == 0 && plane$b == 0),
               length(alpha) == 1L)
+    denom <- plane$a^2 + plane$b^2 + plane$c^2
+    closest <- as_coord3d(-plane$a * plane$d / denom, -plane$b * plane$d / denom, -plane$c * plane$d / denom)
     azimuth <- as_angle(plane, type = "azimuth")
     inclination <- as_angle(plane, type = "inclination")
     z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
                                  dimnames = list(NULL, c("x", "y", "z", "w"))))
     y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
                                  dimnames = list(NULL, c("x", "y", "z", "w"))))
-    mat <- rotate3d(z_axis, -azimuth) %*%
+    mat <- translate3d(-closest) %*%
+        rotate3d(z_axis, -azimuth) %*%
         rotate3d(y_axis, -inclination) %*%
         shear3d(xz_shear = scale * cos(alpha),
                 yz_shear = scale * sin(alpha)) %*%
         scale3d(z_scale = 0) %*%
         rotate3d(y_axis, inclination) %*%
-        rotate3d(z_axis, azimuth)
+        rotate3d(z_axis, azimuth) %*%
+        translate3d(closest)
     new_transform3d(mat)
 }
 
@@ -422,8 +427,11 @@ reflect2d <- function(line = as_line2d("x-axis"), ...) {
 reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
     if (!is_plane3d(plane))
         plane <- as_plane3d(plane, ...)
-    stopifnot(length(plane) == 1, plane$d == 0)
+    stopifnot(length(plane) == 1)
     normal <- normal3d(plane)
+    denom <- plane$a^2 + plane$b^2 + plane$c^2
+    closest <- as_coord3d(-plane$a * plane$d / denom, -plane$b * plane$d / denom, -plane$c * plane$d / denom)
+
     mat <- diag(4L)
     mat[1L, 1L] <- 1 - 2 * normal$x^2
     mat[1L, 2L] <- mat[2L, 1L] <- -2 * normal$x * normal$y
@@ -431,6 +439,8 @@ reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
     mat[2L, 2L] <- 1 - 2 * normal$y^2
     mat[2L, 3L] <- mat[3L, 2L] <- -2 * normal$y * normal$z
     mat[3L, 3L] <- 1 - 2 * normal$z^2
+
+    mat <- translate3d(-closest) %*% mat %*% translate3d(closest)
     new_transform3d(mat)
 }
 

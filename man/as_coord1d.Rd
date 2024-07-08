@@ -3,6 +3,7 @@
 \name{as_coord1d}
 \alias{as_coord1d}
 \alias{as_coord1d.character}
+\alias{as_coord1d.Coord2D}
 \alias{as_coord1d.data.frame}
 \alias{as_coord1d.list}
 \alias{as_coord1d.matrix}
@@ -14,6 +15,14 @@
 as_coord1d(x, ...)
 
 \method{as_coord1d}{character}(x, ...)
+
+\method{as_coord1d}{Coord2D}(
+  x,
+  permutation = c("xy", "yx"),
+  ...,
+  line = as_line2d("x-axis"),
+  scale = 0
+)
 
 \method{as_coord1d}{data.frame}(x, ...)
 
@@ -32,6 +41,15 @@ as_coord1d(x, ...)
 such as a numeric vector of x-coordinates.}
 
 \item{...}{Further arguments passed to or from other methods}
+
+\item{permutation}{Either "xy" (no permutation) or "yx" (permute x and y axes)}
+
+\item{line}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.
+For \code{project2d()} and \code{reflect2d()} it represents the
+the line you wish to project to or reflect across.}
+
+\item{scale}{Oblique projection scale factor.
+A degenerate \code{0} value indicates an orthogonal projection.}
 }
 \value{
 A \link{Coord1D} class object

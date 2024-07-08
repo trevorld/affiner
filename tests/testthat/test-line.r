@@ -57,4 +57,11 @@ test_that("as_line2d()", {
     pt <- as_point1d(a = 1, b = -1)
     expect_equal(as_line2d(pt, b = 3),
                  as_line2d(a = 1, b = 3, c = -1))
+
+    # Conversions to and from normals
+    expect_equal(as_line2d(as_coord2d(1, 0)),
+                 as_line2d(a = 1, b = 0, c = 0))
+
+    expect_equal(normal2d(as_line2d(a = 1, b = 1, c = 0)),
+                 as_coord2d(sqrt(2) / 2, sqrt(2) / 2))
 })

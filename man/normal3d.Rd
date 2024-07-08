@@ -3,16 +3,13 @@
 \name{normal3d}
 \alias{normal3d}
 \alias{normal3d.Coord3D}
-\alias{normal3d.default}
 \alias{normal3d.character}
 \alias{normal3d.Plane3D}
 \title{3D normal vectors}
 \usage{
 normal3d(x, ...)
 
-\method{normal3d}{Coord3D}(x, cross = NULL, ..., normalize = TRUE)
-
-\method{normal3d}{default}(x, ..., normalize = TRUE)
+\method{normal3d}{Coord3D}(x, cross, ..., normalize = TRUE)
 
 \method{normal3d}{character}(x, ..., normalize = TRUE)
 
@@ -20,15 +17,12 @@ normal3d(x, ...)
 }
 \arguments{
 \item{x}{Object to compute a 3D normal vector for
-such as a \link{Coord3D} object or one coercible
-to one using \code{\link[=as_coord3d]{as_coord3d()}}.}
+such as a \link{Plane3D} object}
 
 \item{...}{Passed to other methods such as \code{\link[=as_coord3d]{as_coord3d()}}.}
 
-\item{cross}{If \code{NULL} we'll assume \code{x} is already a normal vector
-and we'll either convert to a unit vector if \code{normalize} is \code{TRUE}
-or return as is.  If \code{cross} is a \link{Coord3D} vector we'll
-compute the normal of \code{x} and \code{cross} by taking their cross product.}
+\item{cross}{A \link{Coord3D} vector.
+We'll compute the normal of \code{x} and \code{cross} by taking their cross product.}
 
 \item{normalize}{If \code{TRUE} normalize to a unit vector}
 }
