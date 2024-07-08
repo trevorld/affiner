@@ -162,6 +162,20 @@ test_that("project3d()", {
     expect_equal(p5$x, x + scale * cos(alpha) * y)
     expect_equal(p5$y, z + scale * sin(alpha) * y)
     expect_equal(p5$z, rep(0, 3))
+
+    # Planes not on origin
+    plane <- as_plane3d(a = 0, b = 0, c = 1, d = -2)
+    p6 <- as_coord3d(x, y, z)$project(plane = plane, scale = scale, alpha = alpha)
+    expect_equal(p6$x, x + scale * cos(alpha) * (z - 2))
+    expect_equal(p6$y, y + scale * sin(alpha) * (z - 2))
+    expect_equal(p6$z, rep(2, 3))
+
+    # Plane through origin, not axis-aligned
+    pl10 <- as_plane3d(a = -1, b = -1, c = 1, d = 0)
+    p10 <- as_coord3d(x = -5, y = -5, z = 5)$project(pl10)
+    expect_equal(p10$x, 0)
+    expect_equal(p10$y, 0)
+    expect_equal(p10$z, 0)
 })
 
 test_that("reflect1d()", {
@@ -225,20 +239,76 @@ test_that("reflect3d()", {
     expect_equal(p1$y, y)
     expect_equal(p1$z, -z)
 
+    p1a <- as_coord3d(x = x, y = y, z = z)$reflect(as_plane3d(a=0, b=0, c=1, d=-2))
+    expect_equal(p1a$x, x)
+    expect_equal(p1a$y, y)
+    expect_equal(p1a$z, 2-(z-2))
+
     p2 <- as_coord3d(x = x, y = y, z = z)$reflect("xz-plane")
     expect_equal(p2$x, x)
     expect_equal(p2$y, -y)
     expect_equal(p2$z, z)
+
+    p2a <- as_coord3d(x = x, y = y, z = z)$reflect(as_plane3d(a=0, b=1, c=0, d=-2))
+    expect_equal(p2a$x, x)
+    expect_equal(p2a$y, 2-(y-2))
+    expect_equal(p2a$z, z)
 
     p3 <- as_coord3d(x = x, y = y, z = z)$reflect("yz-plane")
     expect_equal(p3$x, -x)
     expect_equal(p3$y, y)
     expect_equal(p3$z, z)
 
+    p3a <- as_coord3d(x = x, y = y, z = z)$reflect(as_plane3d(a=1, b=0, c=0, d=-2))
+    expect_equal(p3a$x, 2-(x-2))
+    expect_equal(p3a$y, y)
+    expect_equal(p3a$z, z)
+
     p4 <- as_coord3d(x = x, y = y, z = z)$reflect(as_coord3d(1, 0, 1))
     expect_equal(p4$x, -z)
     expect_equal(p4$y, y)
     expect_equal(p4$z, -x)
+
+    # Planes not on origin
+    plh <- as_plane3d(a = 0, b = 1, c = 0,  d = -2) # y = 2
+    p5 <- as_coord3d(x = x, y = y, z = 0)$reflect(plh)
+    expect_equal(p5$x, x)
+    expect_equal(p5$y, 2 -(y - 2))
+    expect_equal(p5$z, rep_len(0, 3))
+
+    plv <- as_plane3d(a = 1, b = 0, c = 0, d = -2) # x = 2
+    p6 <- as_coord3d(x = x, y = y, z = 0)$reflect(plv)
+    expect_equal(p6$x, 2 -(x - 2))
+    expect_equal(p6$y, y)
+    expect_equal(p6$z, rep_len(0, 3))
+
+    # Planes not on origin, not axis-aligned
+    x6 <- c(-5, 5, 5)
+    y6 <- c(5, -5, 5)
+    pl7 <- as_plane3d(a = 1, b = -1, c = 0,  d = 2) # y = x + 2
+    p7 <- as_coord3d(x = x6, y = y6, z = 0)$reflect(pl7)
+    expect_equal(p7$x, c(3, -7, 3))
+    expect_equal(p7$y, c(-3, 7, 7))
+    expect_equal(p7$z, rep_len(0, 3))
+
+    pl8 <- as_plane3d(a = 1, b = 0, c = -1, d = 2) # z = x + 2
+    p8 <- as_coord3d(x = x6, y = 0, z = y6)$reflect(pl8)
+    expect_equal(p8$x, c(3, -7, 3))
+    expect_equal(p8$y, rep_len(0, 3))
+    expect_equal(p8$z, c(-3, 7, 7))
+
+    pl9 <- as_plane3d(a = 0, b = -1, c = 1, d = 2) # y = z + 2
+    p9 <- as_coord3d(x = 0, y = y6, z = x6)$reflect(pl9)
+    expect_equal(p9$x, rep_len(0, 3))
+    expect_equal(p9$y, c(-3, 7, 7))
+    expect_equal(p9$z, c(3, -7, 3))
+
+    # Plane through origin, not axis-aligned
+    pl10 <- as_plane3d(a = -1, b = -1, c = 1, d = 0)
+    p10 <- as_coord3d(x = -5, y = -5, z = 5)$reflect(pl10)
+    expect_equal(p10$x, 5)
+    expect_equal(p10$y, 5)
+    expect_equal(p10$z, -5)
 })
 
 test_that("rotate2d()", {

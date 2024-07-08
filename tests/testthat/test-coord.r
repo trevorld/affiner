@@ -81,6 +81,33 @@ test_that("as_coord1d()", {
     expect_equal(as_coord1d(p), p)
     expect_equal(as_coord1d(as.data.frame(p)), p)
 
+    # Projections form Coord2D
+    x <- c(2, 5, 7)
+    y <- c(3, 4, 6)
+    p1 <- as_coord2d(x = x, y = y)
+    expect_equal(as_coord1d(p1, line = "x-axis")$x, x)
+    expect_equal(as_coord1d(p1, scale = 0.5)$x, x + 0.5 * y)
+    expect_equal(as_coord1d(p1, permutation = "yx")$x, y)
+    expect_equal(as_coord1d(p1, permutation = "yx", scale = 0.5)$x, y + 0.5 * x)
+
+    line <- as_line2d(a = 0, b = -1, c = 2)
+    expect_equal(as_coord1d(p1, line = line)$x, x)
+    expect_equal(as_coord1d(p1, line = line, scale = 0.5)$x, x + 0.5 * (y - 2))
+
+    line <- as_line2d(a = 1, b = 0, c = -2)
+    expect_equal(as_coord1d(p1, line = line)$x, y)
+
+    x6 <- c(-5, 5, 5)
+    y6 <- c(5, -5, 5)
+    l6 <- as_line2d(a = 1, b = -1, c = 0)
+    p6 <- as_coord2d(x = x6, y = y6)
+    expect_equal(as_coord1d(p6, line = l6)$x, c(0, 0, sqrt(50)))
+
+
+    l7 <- as_line2d(a = 1, b = -1, c = 2)
+    p7 <- as_coord2d(x = x6, y = y6)
+    expect_equal(as_coord1d(p7, line = l7)$x, c(0, 0, sqrt(50)))
+
 })
 
 test_that("as_coord2d()", {
@@ -110,6 +137,7 @@ test_that("as_coord2d()", {
     expect_equal(as_coord2d("y-axis"), as_coord2d(0, 1))
     expect_warning(as_coord2d("foobar"))
 
+    # Projections from Coord3D
     x <- c(2, 5, 7)
     y <- c(3, 4, 6)
     z <- c(4, 9, 3)
@@ -130,6 +158,60 @@ test_that("as_coord2d()", {
     alpha <- angle(60, "degrees")
     expect_equal(p3$x, x + scale * cos(alpha) * y)
     expect_equal(p3$y, z + scale * sin(alpha) * y)
+
+    # projection to plane parallel to xy-plane
+    plane4 <- as_plane3d(a = 0, b = 0, c = 1, d = -3)
+    p4 <- as_coord2d(p, "xzy",
+                     plane = plane4,
+                     scale = 0.5,
+                     alpha = 60, unit = "degrees")
+    expect_equal(p4$x, x + scale * cos(alpha) * (y - 3))
+    expect_equal(p4$y, z + scale * sin(alpha) * (y - 3))
+
+    p5 <- as_coord2d(p, "xzy", plane = plane4)
+    expect_equal(p5$x, x)
+    expect_equal(p5$y, z)
+
+    p6 <- as_coord2d(p, plane = plane4)
+    expect_equal(p6$x, x)
+    expect_equal(p6$y, y)
+
+    # orthographic projections to axis-aligned planes through origin
+    p_xy1 <- as_coord2d(p, plane = "xy-plane")
+    p_xy2 <- as_coord2d(p, permutation = "xyz")
+    expect_equal(p_xy1$x, x)
+    expect_equal(p_xy1$y, y)
+    expect_equal(p_xy1, p_xy2)
+
+    p_yx1 <- as_coord2d(p, plane = "yx-plane")$rotate(degrees(-90))
+    p_yx2 <- as_coord2d(p, permutation = "yxz")
+    expect_equal(p_yx1$x, y)
+    expect_equal(p_yx1$y, x)
+    expect_equal(p_yx1, p_yx2)
+
+    p_xz1 <- as_coord2d(p, plane = "xz-plane")$rotate(degrees(-90))
+    p_xz2 <- as_coord2d(p, permutation = "xzy")
+    expect_equal(p_xz1$x, x)
+    expect_equal(p_xz1$y, z)
+    expect_equal(p_xz1, p_xz2)
+
+    p_zx1 <- as_coord2d(p, plane = "zx-plane")$rotate(degrees(180))
+    p_zx2 <- as_coord2d(p, permutation = "zxy")
+    expect_equal(p_zx1$x, z)
+    expect_equal(p_zx1$y, x)
+    expect_equal(p_zx1, p_zx2)
+
+    p_yz1 <- as_coord2d(p, plane = "yz-plane")$rotate(degrees(-90))
+    p_yz2 <- as_coord2d(p, permutation = "yzx")
+    expect_equal(p_yz1$x, y)
+    expect_equal(p_yz1$y, z)
+    expect_equal(p_yz1, p_yz2)
+
+    p_zy1 <- as_coord2d(p, plane = "zy-plane")$rotate(degrees(180))
+    p_zy2 <- as_coord2d(p, permutation = "zyx")
+    expect_equal(p_zy1$x, z)
+    expect_equal(p_zy1$y, y)
+    expect_equal(p_zy1, p_zy2)
 })
 
 test_that("as_coord3d()", {
@@ -317,22 +399,20 @@ test_that("cross_product3d", {
 })
 
 test_that("normal2d", {
-    expect_equal(normal2d(x = 5, y = 3, normalize = FALSE),
+    expect_equal(normal2d(as_coord2d(x = 5, y = 3), normalize = FALSE),
                  as_coord2d(3, -5))
-    expect_equal(normal2d(angle(0, "degrees")),
+    expect_equal(normal2d(as_line2d(angle(0, "degrees"))),
                  as_coord2d(0, -1))
 })
 
 test_that("normal3d", {
     expect_equal(normal3d("xy-plane"),
                  as_coord3d(0, 0, 1))
-    expect_equal(normal3d("x-axis", cross = "y-axis"),
+    expect_equal(normal3d(as_coord3d("x-axis"), 
+                          cross = "y-axis"),
                  as_coord3d(0, 0, 1))
     expect_equal(normal3d(as_coord3d(2, 0, 0),
                           cross = as_coord3d(0, 2, 0)),
-                 as_coord3d(0, 0, 1))
-    expect_equal(normal3d(angle(0, "degrees"),
-                          z = 1, radius = 0),
                  as_coord3d(0, 0, 1))
     expect_warning(normal3d("foobar"))
 })

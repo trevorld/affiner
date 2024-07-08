@@ -3,24 +3,20 @@
 \name{normal2d}
 \alias{normal2d}
 \alias{normal2d.Coord2D}
-\alias{normal2d.default}
 \alias{normal2d.Line2D}
 \title{2D normal vectors}
 \usage{
 normal2d(x, ...)
 
-\method{normal2d}{Coord2D}(x, normalize = TRUE, ...)
-
-\method{normal2d}{default}(x, normalize = TRUE, ...)
+\method{normal2d}{Coord2D}(x, ..., normalize = TRUE)
 
 \method{normal2d}{Line2D}(x, ..., normalize = TRUE)
 }
 \arguments{
 \item{x}{Object to compute a 2D normal vector for
-such as a \link{Coord2D} object or one coercible
-to one using \code{\link[=as_coord2d]{as_coord2d()}}.}
+such as a \link{Line2D} object.}
 
-\item{...}{Either ignored or passed to \code{\link[=as_coord2d]{as_coord2d()}}.}
+\item{...}{Passed to or from other methods.}
 
 \item{normalize}{If \code{TRUE} coerce to a normalize vector}
 }
