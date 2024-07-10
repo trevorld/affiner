@@ -96,9 +96,9 @@ NULL
 #' @export
 arcsine <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
                     tolerance = sqrt(.Machine$double.eps)) {
-    idp1 <- which(x > 1 && x < 1 + tolerance)
+    idp1 <- which(x > 1 & x < 1 + tolerance)
     x[idp1] <- 1
-    idn1 <- which(x < -1 && x > -1 - tolerance)
+    idn1 <- which(x < -1 & x > -1 - tolerance)
     x[idn1] <- -1
     unit <- standardize_angular_unit(unit)
     new_angle(from_radians(asin(x), unit), unit)
@@ -108,9 +108,9 @@ arcsine <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
 #' @export
 arccosine <- function(x, unit = getOption("affiner_angular_unit", "degrees"),
                       tolerance = sqrt(.Machine$double.eps)) {
-    idp1 <- which(x > 1 && x < 1 + tolerance)
+    idp1 <- which(x > 1 & x < 1 + tolerance)
     x[idp1] <- 1
-    idn1 <- which(x < -1 && x > -1 - tolerance)
+    idn1 <- which(x < -1 & x > -1 - tolerance)
     x[idn1] <- -1
     unit <- standardize_angular_unit(unit)
     new_angle(from_radians(acos(x), unit), unit)
