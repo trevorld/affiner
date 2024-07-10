@@ -1,0 +1,181 @@
+
+---
+title: "Geometry in affiner"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Geometry in affiner}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+### Table of Contents
+
+* [Angle objects](#angles)
+* [Trigonometry](#trigonometry)
+* [2D Coordinates](#2d)
+* [3D Coordinates](#3d)
+* [Orthographic/Axonometric and Oblique Projections](#projection)
+
+## <a name="angles">Angle objects</a>
+
+In `{affiner}` angles are represented by the `angle()` class:
+
+* Supports the following [angular units](https://en.wikipedia.org/wiki/Angle#Units) (note we ignore any punctuation and space characters as well as any trailing s's e.g. "half turns" will be treated as equivalent to "halfturn"):
+
+  + "deg" or "degree"
+  + "half-revolution", "half-turn", or "pi-radian"
+  + "gon", "grad", "grade", or "gradian"
+  + "rad" or "radian"
+  + "rev", "revolution", "tr", or "turn"
+
+* `degrees()`, `gradians()`, `pi_radians()`, `radians()`, `turns()` are convenience wrappers around `as_angle.()` that specifies the angular unit. 
+
+* One can use the `affiner_angular_unit` global option to set the default angular unit used by this package from "degrees" to "gradians", (multiples of) "pi-radians", "radians", or "turns".
+
+* Use `is_congruent()` to check if two angles are congruent modulo full turns.
+
+```{r angles}
+library("affiner")
+as_angle(90, "degrees") + turns(1)
+is_congruent(degrees(180), radians(pi))
+as.numeric(turns(1/3), "radians")
+```
+
+## <a name="trigonometry">Trigonometry</a>
+
+`{affiner}` provides several `angle()` class aware trigonometric functions:
+
+* `sine()`, `cosine()`, `tangent()`, `secant()`, `cosecant()`, `cotangent()`,
+* `arcsine()`, `arccosine()`, `arctangent()`, `arcsecant()`, `arccosecant()`, and `arccotangent()`.
+    `arcsine()` and `arccosine()` also feature a `tolerance` value so that values that exceed the `1` / `-1` cutoffs by a small tolerance are rounded to those values.
+* One can also use the base S3 methods `sin()`, `cos()`, and `tan()` on `angle()` objects`.
+
+```{r trig}
+library("affiner")
+sin(2 * pi)
+sine(degrees(360))
+arctangent(x = 0, y = 1)
+```
+
+## <a name="2d">2D Coordinates</a>
+
+In `{affiner}` 2D Coordinates are represented by a `Coord2D` R6 class:
+
+* Create `Coord2D` objects with `as_coord2d()`
+* `Coord2D` R6 objects supports several affine transformation methods that can be chained:
+
+  + `permute()`
+  + `project()`
+  + `reflect()`
+  + `rotate()`
+  + `scale()`
+  + `shear()`
+  + `translate()`
+  + `transform()`
+  + R6 method chained affine transformation matrices are auto-multiplied
+    so you don't need to manually multiply them for efficiency reasons.
+  + `{affiner}` affine transformations are post-multiplied so affine transformations
+    can be applied in an intuitive order.
+  +  `abs()` computes Euclidean norm and `distance2d()` computes Euclidean distances
+  + `convex_hull2d()` computes the convex hull.
+  * `range()` computes the axis-aligned bounding box ranges.
+
+```{r 2d}
+# Cartesian coordinates
+library("affiner")
+p <- as_coord2d(x = 1:10, y = 1:10)
+print(p)
+
+p2 <- p$
+    clone()$
+    scale(x = 0.5)$
+    rotate(degrees(90))$
+    reflect(as_line2d("y-axis"))$
+    translate(as_coord2d(x = 0.5, y = 0.5))$
+    print()
+
+# Polar coordinates
+theta <- degrees(seq(0, 300, by = 60))
+radius <- 1
+p <- as_coord2d(theta, radius = radius)
+is_congruent(as_angle(p), theta) |> all()
+is_congruent(abs(p), radius) |> all()
+```
+
+## <a name="3d">3D Coordinates</a>
+
+In `{affiner}` 3D Coordinates are represented by a `Coord3D` R6 class:
+
+* Create `Coord3D` objects with `as_coord3d()`
+* `Coord3D` R6 objects supports several affine transformation methods that can be chained:
+
+  + `permute()`
+  + `project()`
+  + `reflect()`
+  + `rotate()`
+  + `scale()`
+  + `shear()`
+  + `translate()`
+  + `transform()`
+  + R6 method chained affine transformation matrices are auto-multiplied
+    so you don't need to manually multiply them for efficiency reasons.
+  + `{affiner}` affine transformations are post-multiplied so affine transformations
+    can be applied in an intuitive order.
+  +  `abs()` computes Euclidean norm and `distance3d()` computes Euclidean distances
+  * `range()` computes the axis-aligned bounding box ranges.
+  * `cross_product3d()` computes cross products (`*` computes inner products).
+
+```{r 3d}
+# Cartesian coordinates
+library("affiner")
+p <- as_coord3d(x = 1:10, y = 1:10, z = 1:10)
+print(p)
+
+p2 <- p$
+    clone()$
+    scale(z = 0.5)$
+    rotate(axis = as_coord3d("z-axis"), theta = degrees(90))$
+    reflect(as_plane3d("yz-plane"))$
+    shear(xy_shear = 0.5)$
+    translate(as_coord3d(x = 0.5, y = 0.5, z = 0.5))$
+    print()
+
+# Spherical coordinates
+inclination <- as_angle(p, type = "inclination")
+azimuth <- as_angle(p, type = "azimuth")
+radius <- abs(p)
+ps <- as_coord3d(azimuth, radius = radius, inclination = inclination)
+all.equal(p, ps)
+
+# Cylindrical coordinates
+radius <- as_coord2d(p, plane = "xy-plane") |> abs()
+pc <- as_coord3d(azimuth, radius = radius, z = p$z)
+all.equal(p, pc)
+```
+
+## <a name="projection">Orthographic/Axonometric and Oblique Projections</a>
+
+`{affiner}` can project `Coord3D` objects to `Coord2D` objects using orthographic/axonometric and oblique projections:
+
+* For a multiview/primary orthographic projection onto the xy-plane use `as_coord2d(x)`
+* For a multiview/primary orthographic projection onto the xz-plane use `as_coord2d(x, permutation = "xzy")`
+* For a "cabinet" oblique projection onto the xy-plane use `as_coord2d(x, scale = 0.5)`
+* For a "cabinet" oblique projection onto the xz-plane use `as_coord2d(x, permutation = "xzy", scale = 0.5)`
+* For other oblique projections manipulate the `scale` parameter (usually from 0.5 to 1.0) and the `alpha` angle parameter
+  (usually from 30° to 45°).
+* For one "isometric" axonometric projection one can use
+
+  ```
+  x$
+    clone()$
+    translate(-mean(x)$
+    rotate("z-axis", degrees(45))$
+    rotate("x-axis", degrees(-90 + 35.264)) |>
+    as_coord2d()
+  ```
+
+
+
+* Other axonometric projections can be achieved with the right 3D rotations
+* See [`vignette("affiner", package = "affiner")`](affiner.html) for some visual examples
+* Recall one can use "scale" affine transformation to flip signs of x/y/z axes and "permute" affine transformation to switch order of x/y/z coordinates
