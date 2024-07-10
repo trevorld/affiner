@@ -1,7 +1,7 @@
 Package: affiner
 Type: Package
 Title: A finer way to render 3D illustrated objects in 'grid' using affine transformations
-Version: 0.1.0-19
+Version: 0.1.0-20
 Authors@R: c(person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")))
