@@ -110,7 +110,9 @@ Column names should be "x", "y", and "w".}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{line}}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.}
+\item{\code{line}}{A \link{Line2D} object of length one representing the line
+you with to reflect across or project to or an object coercible to one by \code{as_line2d(line, ...)}
+such as "x-axis" or "y-axis".}
 
 \item{\code{...}}{Passed to \code{\link[=project2d]{project2d()}}}
 
@@ -131,7 +133,9 @@ A degenerate \code{0} value indicates an orthogonal projection.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{line}}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.}
+\item{\code{line}}{A \link{Line2D} object of length one representing the line
+you with to reflect across or project to or an object coercible to one by \code{as_line2d(line, ...)}
+such as "x-axis" or "y-axis".}
 
 \item{\code{...}}{Passed to \code{\link[=reflect2d]{reflect2d()}}.}
 }
@@ -149,8 +153,7 @@ A degenerate \code{0} value indicates an orthogonal projection.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{theta}}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.
-How much to rotate around the origin.}
+\item{\code{theta}}{An \code{\link[=angle]{angle()}} object of length one or an object coercible to one by \code{as_angle(theta, ...)}.}
 
 \item{\code{...}}{Passed to \code{\link[=as_angle]{as_angle()}}.}
 }

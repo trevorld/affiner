@@ -51,7 +51,7 @@ we'll quietly add a final column/row equal to \code{c(0, 0, 0, 1)}.}
 "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
 "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes)}
 
-\item{plane}{A \link{Plane3D} class object representing the plane
+\item{plane}{A \link{Plane3D} object of length one representing the plane
 you wish to reflect across or project to or an object coercible to one using \code{as_plane3d(plane, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".}
 
@@ -89,7 +89,7 @@ The \code{axis} represents the axis to be rotated around.}
 
 \item{zy_shear}{Shear factor: \code{z = zx_shear * x + zy_shear * y + z}}
 
-\item{x}{A \link{Coord3D} object of length one or an object coercible to one by \code{as_coord3d(x, ...)}].}
+\item{x}{A \link{Coord3D} object of length one or an object coercible to one by \code{as_coord3d(x, ...)}.}
 }
 \value{
 A 4x4 post-multiplied affine transformation matrix with classes "transform3d" and "at_matrix"

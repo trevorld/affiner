@@ -87,7 +87,9 @@ Column names should be "x" and "w".}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{point}}{A \link{Point1D} object of length one or an object coercible to one by \code{as_point1d(point, ...)}.}
+\item{\code{point}}{A \link{Point1D} object of length one representing the point
+you with to reflect across or project to or an object coercible to one by \code{as_point1d(point, ...)}
+such as "origin".}
 
 \item{\code{...}}{Passed to \code{\link[=project1d]{project1d()}}.}
 }
@@ -105,7 +107,9 @@ Column names should be "x" and "w".}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{point}}{A \link{Point1D} object of length one or an object coercible to one by \code{as_point1d(point, ...)}.}
+\item{\code{point}}{A \link{Point1D} object of length one representing the point
+you with to reflect across or project to or an object coercible to one by \code{as_point1d(point, ...)}
+such as "origin".}
 
 \item{\code{...}}{Passed to \code{\link[=reflect1d]{reflect1d()}}.}
 }
@@ -161,8 +165,7 @@ Column names should be "x" and "w".}
 The last \strong{column} must be equal to \code{c(0, 1)}.
 If the last \strong{row} is \code{c(0, 1)} you may need to transpose it
 to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
-If a 1x1 matrix (such as a 1x1 post-multiplied 2D rotation matrix)
-we'll quietly add a final column/row equal to \code{c(0, 1)}.}
+If a 1x1 matrix we'll quietly add a final column/row equal to \code{c(0, 1)}.}
 }
 \if{html}{\out{</div>}}
 }
