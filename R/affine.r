@@ -23,12 +23,7 @@
 #' simply compute its inverse using [solve()].
 #'
 #' @return A 2x2 post-multiplied affine transformation matrix with classes "transform1d" and "at_matrix"
-#'
-#' @param mat A 2x2 matrix representing a post-multiplied affine transformation matrix.
-#'            The last **column** must be equal to `c(0, 1)`.
-#'            If the last **row** is `c(0, 1)` you may need to transpose it
-#'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
-#'            If a 1x1 matrix we'll quietly add a final column/row equal to `c(0, 1)`.
+#' @param mat `r r2i_transform1d_mat`
 #' @examples
 #' p <- as_coord1d(x = sample(1:10, 3))
 #'
@@ -90,13 +85,7 @@ transform1d <- function(mat = diag(2L)) {
 #' simply compute its inverse using [solve()].
 #'
 #' @return A 3x3 post-multiplied affine transformation matrix with classes "transform2d" and "at_matrix"
-#'
-#' @param mat A 3x3 matrix representing a post-multiplied affine transformation matrix.
-#'            The last **column** must be equal to `c(0, 0, 1)`.
-#'            If the last **row** is `c(0, 0, 1)` you may need to transpose it
-#'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
-#'            If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
-#'            we'll quietly add a final column/row equal to `c(0, 0, 1)`.
+#' @param mat `r r2i_transform2d_mat`
 #' @examples
 #' p <- as_coord2d(x = sample(1:10, 3), y = sample(1:10, 3))
 #'
@@ -161,13 +150,7 @@ transform2d <- function(mat = diag(3L)) {
 #' simply compute its inverse using [solve()].
 #'
 #' @return A 4x4 post-multiplied affine transformation matrix with classes "transform3d" and "at_matrix"
-#'
-#' @param mat A 4x4 matrix representing a post-multiplied affine transformation matrix.
-#'            The last **column** must be equal to `c(0, 0, 0, 1)`.
-#'            If the last **row** is `c(0, 0, 0, 1)` you may need to transpose it
-#'            to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
-#'            If a 3x3 matrix (such as a 3x3 post-multiplied 3D rotation matrix)
-#'            we'll quietly add a final column/row equal to `c(0, 0, 0, 1)`.
+#' @param mat `r r2i_transform3d_mat`
 #' @examples
 #' p <- as_coord3d(x = sample(1:10, 3), y = sample(1:10, 3), z = sample(1:10, 3))
 #'
@@ -265,7 +248,7 @@ new_transform3d <- function(mat) {
 }
 
 #' @rdname transform2d
-#' @param permutation Either "xy" (no permutation) or "yx" (permute x and y axes)
+#' @param permutation `r r2i_transform2d_permutation`
 #' @export
 permute2d <- function(permutation = c("xy", "yx")) {
     permutation <- match.arg(permutation)
@@ -278,9 +261,7 @@ permute2d <- function(permutation = c("xy", "yx")) {
 }
 
 #' @rdname transform3d
-#' @param permutation Either "xyz" (no permutation), "xzy" (permute y and z axes),
-#'                    "yxz" (permute x and y axes), "yzx" (x becomes z, y becomes x, z becomes y),
-#'                    "zxy" (x becomes y, y becomes z, z becomes x), "zyx" (permute x and z axes)
+#' @param permutation `r r2i_transform3d_permutation`
 #' @export
 permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy")) {
     permutation <- match.arg(permutation)
@@ -321,8 +302,7 @@ project1d <- function(point = as_point1d("origin"), ...) {
 }
 
 #' @rdname transform2d
-#' @param scale Oblique projection scale factor.
-#'   A degenerate `0` value indicates an orthogonal projection.
+#' @param scale `r r2i_transform2d_scale`
 #' @export
 project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
     if (!is_line2d(line))
@@ -342,14 +322,9 @@ project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
 }
 
 #' @rdname transform3d
-#' @param scale Oblique projection foreshortening scale factor.
-#'   A (degenerate) `0` value indicates an orthographic projection.
-#'   A value of `0.5` is used by a \dQuote{cabinet projection}
-#'   while a value of `1.0` is used by a \dQuote{cavalier projection}.
-#' @param alpha Oblique projection angle (the angle the third axis is projected going off at).
-#'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
-#'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
 #' @export
+#' @param scale `r r2i_transform3d_scale`
+#' @param alpha `r r2i_transform3d_alpha`
 project3d <- function(plane = as_plane3d("xy-plane"), ...,
                       scale = 0,
                       alpha = angle(45, "degrees")) {
@@ -382,9 +357,7 @@ project3d <- function(plane = as_plane3d("xy-plane"), ...,
 }
 
 #' @rdname transform1d
-#' @param point A [Point1D] object of length one or an object coercible to one by `as_point1d(point, ...)`.
-#'             For `project1d()` and `reflect1d()` it represents the
-#'             the point you wish to project to or reflect across.
+#' @param point `r r2i_transform1d_point`
 #' @export
 reflect1d <- function(point = as_point1d("origin"), ...) {
     if (!is_point1d(point))
@@ -398,9 +371,7 @@ reflect1d <- function(point = as_point1d("origin"), ...) {
 }
 
 #' @rdname transform2d
-#' @param line A [Line2D] object of length one or an object coercible to one by `as_line2d(line, ...)`.
-#'             For `project2d()` and `reflect2d()` it represents the
-#'             the line you wish to project to or reflect across.
+#' @param line `r r2i_transform2d_line`
 #' @export
 reflect2d <- function(line = as_line2d("x-axis"), ...) {
     if (!is_line2d(line))
@@ -420,9 +391,7 @@ reflect2d <- function(line = as_line2d("x-axis"), ...) {
 # https://en.wikipedia.org/wiki/Transformation_matrix#Reflection_2
 
 #' @rdname transform3d
-#' @param plane A [Plane3D] class object representing the plane
-#'         you wish to reflect across or project to or an object coercible to one using `as_plane3d(plane, ...)`
-#'         such as "xy-plane", "xz-plane", or "yz-plane".
+#' @param plane `r r2i_transform3d_plane`
 #' @export
 reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
     if (!is_plane3d(plane))
@@ -445,7 +414,7 @@ reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
 }
 
 #' @rdname transform2d
-#' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
+#' @param theta `r r2i_transform_theta`
 #' @param ... Passed to [as_angle()] or [as_coord2d()].
 #' @export
 rotate2d <- function(theta = angle(0), ...) {
@@ -464,9 +433,8 @@ rotate2d <- function(theta = angle(0), ...) {
 # Because we do rotation matrix post-multiplication instead of pre-multiplication we usually need to multiply angles
 # in following algorithms by -1
 
-#' @param axis A [Coord3D] class object or one that can coerced to one by `as_coord3d(axis, ...)`.
-#'             The `axis` represents the axis to be rotated around.
-#' @param theta An [angle()] object of length one or an object coercible to one by `as_angle(theta, ...)`.
+#' @param axis `r r2i_transform3d_axis`
+#' @param theta `r r2i_transform_theta`
 #' @rdname transform3d
 #' @export
 rotate3d <- function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
@@ -505,7 +473,7 @@ cross_matrix <- function(x) {
 }
 
 #' @rdname transform1d
-#' @param x_scale Scaling factor to apply to x coordinates
+#' @param x_scale `r r2i_transform_x_scale`
 #' @export
 scale1d <- function(x_scale = 1) {
     stopifnot(length(x_scale) == 1L)
@@ -515,8 +483,8 @@ scale1d <- function(x_scale = 1) {
 }
 
 #' @rdname transform2d
-#' @param x_scale Scaling factor to apply to x coordinates
-#' @param y_scale Scaling factor to apply to y coordinates
+#' @param x_scale `r r2i_transform_x_scale`
+#' @param y_scale `r r2i_transform_y_scale`
 #' @export
 scale2d <- function(x_scale = 1, y_scale = x_scale) {
     stopifnot(length(x_scale) == 1L && length(y_scale) == 1L)
@@ -527,9 +495,9 @@ scale2d <- function(x_scale = 1, y_scale = x_scale) {
 }
 
 #' @rdname transform3d
-#' @param x_scale Scaling factor to apply to x coordinates
-#' @param y_scale Scaling factor to apply to y coordinates
-#' @param z_scale Scaling factor to apply to z coordinates
+#' @param x_scale `r r2i_transform_x_scale`
+#' @param y_scale `r r2i_transform_y_scale`
+#' @param z_scale `r r2i_transform_z_scale`
 #' @export
 scale3d <- function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
     stopifnot(length(x_scale) == 1L && length(y_scale) == 1L && length(z_scale) == 1L)
@@ -541,8 +509,8 @@ scale3d <- function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
 }
 
 #' @rdname transform2d
-#' @param xy_shear Horizontal shear factor: `x = x + xy_shear * y`
-#' @param yx_shear Vertical shear factor: `y = yx_shear * x + y`
+#' @param xy_shear `r r2i_transform2d_xy_shear`
+#' @param yx_shear `r r2i_transform2d_yx_shear`
 #' @export
 shear2d <- function(xy_shear = 0, yx_shear = 0) {
     stopifnot(length(xy_shear) == 1L && length(yx_shear) == 1L)
@@ -553,12 +521,12 @@ shear2d <- function(xy_shear = 0, yx_shear = 0) {
 }
 
 #' @rdname transform3d
-#' @param xy_shear Shear factor: `x = x + xy_shear * y + xz_shear * z`
-#' @param xz_shear Shear factor: `x = x + xy_shear * y + xz_shear * z`
-#' @param yx_shear Shear factor: `y = yx_shear * x + y + yz_shear * z`
-#' @param yz_shear Shear factor: `y = yx_shear * x + y + yz_shear * z`
-#' @param zx_shear Shear factor: `z = zx_shear * x + zy_shear * y + z`
-#' @param zy_shear Shear factor: `z = zx_shear * x + zy_shear * y + z`
+#' @param xy_shear `r r2i_transform3d_xy_shear`
+#' @param xz_shear `r r2i_transform3d_xz_shear`
+#' @param yx_shear `r r2i_transform3d_yx_shear`
+#' @param yz_shear `r r2i_transform3d_yz_shear`
+#' @param zx_shear `r r2i_transform3d_zx_shear`
+#' @param zy_shear `r r2i_transform3d_zy_shear`
 #' @export
 shear3d <- function(xy_shear = 0, xz_shear = 0,
                     yx_shear = 0, yz_shear = 0,
@@ -575,7 +543,7 @@ shear3d <- function(xy_shear = 0, xz_shear = 0,
 }
 
 #' @rdname transform1d
-#' @param x A [Coord1D] object of length one or an object coercible to one by `as_coord1d(x, ...)`].
+#' @param x `r r2i_transform1d_x`
 #' @param ... Passed to [as_coord1d()].
 #' @export
 translate1d <- function(x = as_coord1d(0), ...) {
@@ -588,7 +556,7 @@ translate1d <- function(x = as_coord1d(0), ...) {
 }
 
 #' @rdname transform2d
-#' @param x A [Coord2D] object of length one or an object coercible to one by `as_coord2d(x, ...)`].
+#' @param x `r r2i_transform2d_x`
 #' @export
 translate2d <- function(x = as_coord2d(0, 0), ...) {
     if (!is_coord2d(x))
@@ -601,7 +569,7 @@ translate2d <- function(x = as_coord2d(0, 0), ...) {
 }
 
 #' @rdname transform3d
-#' @param x A [Coord3D] object of length one or an object coercible to one by `as_coord3d(x, ...)`].
+#' @param x `r r2i_transform3d_x`
 #' @param ... Passed to [as_angle()] or [as_coord3d()].
 #' @export
 translate3d <- function(x = as_coord3d(0, 0, 0), ...) {

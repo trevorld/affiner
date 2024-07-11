@@ -37,9 +37,9 @@ we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
 
 \item{permutation}{Either "xy" (no permutation) or "yx" (permute x and y axes)}
 
-\item{line}{A \link{Line2D} object of length one or an object coercible to one by \code{as_line2d(line, ...)}.
-For \code{project2d()} and \code{reflect2d()} it represents the
-the line you wish to project to or reflect across.}
+\item{line}{A \link{Line2D} object of length one representing the line
+you with to reflect across or project to or an object coercible to one by \code{as_line2d(line, ...)}
+such as "x-axis" or "y-axis".}
 
 \item{...}{Passed to \code{\link[=as_angle]{as_angle()}} or \code{\link[=as_coord2d]{as_coord2d()}}.}
 
@@ -56,7 +56,7 @@ A degenerate \code{0} value indicates an orthogonal projection.}
 
 \item{yx_shear}{Vertical shear factor: \code{y = yx_shear * x + y}}
 
-\item{x}{A \link{Coord2D} object of length one or an object coercible to one by \code{as_coord2d(x, ...)}].}
+\item{x}{A \link{Coord2D} object of length one or an object coercible to one by \code{as_coord2d(x, ...)}.}
 }
 \value{
 A 3x3 post-multiplied affine transformation matrix with classes "transform2d" and "at_matrix"

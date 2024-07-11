@@ -118,8 +118,8 @@ Column names should be "x", "y", "z", and "w".}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{plane}}{A \link{Plane3D} class object representing the plane
-you wish to project to or an object coercible to one using \code{as_plane3d(plane, ...)}
+\item{\code{plane}}{A \link{Plane3D} object of length one representing the plane
+you wish to reflect across or project to or an object coercible to one using \code{as_plane3d(plane, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".}
 
 \item{\code{...}}{Passed to \code{\link[=project3d]{project3d()}}.}
@@ -147,8 +147,8 @@ Popular angles are 45 degrees, 60 degrees, and \code{arctangent(2)} degrees.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{plane}}{A \link{Plane3D} class object representing the plane
-you wish to reflect across or an object coercible to one using \code{as_plane3d(plane, ...)}
+\item{\code{plane}}{A \link{Plane3D} object of length one representing the plane
+you wish to reflect across or project to or an object coercible to one using \code{as_plane3d(plane, ...)}
 such as "xy-plane", "xz-plane", or "yz-plane".}
 
 \item{\code{...}}{Passed to \code{\link[=reflect3d]{reflect3d()}}.}
@@ -241,7 +241,7 @@ The \code{axis} represents the axis to be rotated around.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{x}}{A \link{Coord3D} object of length one or an object coercible to one by \code{as_coord3d(x, ...)}]}
+\item{\code{x}}{A \link{Coord3D} object of length one or an object coercible to one by \code{as_coord3d(x, ...)}.}
 
 \item{\code{...}}{Passed to \code{as_coord3d(x, ...)} if \code{x} is not a \link{Coord3D} object}
 }

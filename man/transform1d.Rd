@@ -25,15 +25,15 @@ If the last \strong{row} is \code{c(0, 1)} you may need to transpose it
 to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
 If a 1x1 matrix we'll quietly add a final column/row equal to \code{c(0, 1)}.}
 
-\item{point}{A \link{Point1D} object of length one or an object coercible to one by \code{as_point1d(point, ...)}.
-For \code{project1d()} and \code{reflect1d()} it represents the
-the point you wish to project to or reflect across.}
+\item{point}{A \link{Point1D} object of length one representing the point
+you with to reflect across or project to or an object coercible to one by \code{as_point1d(point, ...)}
+such as "origin".}
 
 \item{...}{Passed to \code{\link[=as_coord1d]{as_coord1d()}}.}
 
 \item{x_scale}{Scaling factor to apply to x coordinates}
 
-\item{x}{A \link{Coord1D} object of length one or an object coercible to one by \code{as_coord1d(x, ...)}].}
+\item{x}{A \link{Coord1D} object of length one or an object coercible to one by \code{as_coord1d(x, ...)}.}
 }
 \value{
 A 2x2 post-multiplied affine transformation matrix with classes "transform1d" and "at_matrix"
