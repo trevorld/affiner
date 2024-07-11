@@ -17,12 +17,13 @@ Point1D <- R6Class("Point1D",
            self$b <- b
        },
        #' @param n Number of lines to print.  If `NULL` print all of them.
-       print = function(n = NULL) {
+       #' @param ... Passed to [format.default()].
+       print = function(n = NULL, ...) {
            if (is.null(n) || n > length(self$a))
                n <- length(self$a)
            cat("<Point1D[", length(self$a), "]>\n", sep = "")
            if (n > 0)
-               print(cbind(a = self$a, b = self$b))
+               print_mat(cbind(a = self$a, b = self$b), ...)
            invisible(self)
        },
        a = NULL, b = NULL)
@@ -54,12 +55,13 @@ Line2D <- R6Class("Line2D",
            self$c <- c
        },
        #' @param n Number of lines to print.  If `NULL` print all of them.
-       print = function(n = NULL) {
+       #' @param ... Passed to [format.default()].
+       print = function(n = NULL, ...) {
            if (is.null(n) || n > length(self$a))
                n <- length(self$a)
            cat("<Line2D[", length(self$a), "]>\n", sep = "")
            if (n > 0)
-               print(cbind(a = self$a, b = self$b, c = self$c))
+               print_mat(cbind(a = self$a, b = self$b, c = self$c), ...)
            invisible(self)
        },
        a = NULL, b = NULL, c = NULL)
@@ -88,12 +90,13 @@ Plane3D <- R6Class("Plane3D",
            self$d <- d
        },
        #' @param n Number of lines to print.  If `NULL` print all of them.
-       print = function(n = NULL) {
+       #' @param ... Passed to [format.default()].
+       print = function(n = NULL, ...) {
            if (is.null(n) || n > length(self$a))
                n <- length(self$a)
            cat("<Plane3D[", length(self$a), "]>\n", sep = "")
            if (n > 0)
-               print(cbind(a = self$a, b = self$b, c = self$c, d = self$d))
+               print(cbind(a = self$a, b = self$b, c = self$c, d = self$d), ...)
            invisible(self)
        },
        a = NULL, b = NULL, c = NULL, d = NULL)

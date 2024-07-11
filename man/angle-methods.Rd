@@ -5,8 +5,8 @@
 \alias{as.double.angle}
 \alias{as.complex.angle}
 \alias{format.angle}
-\alias{abs.angle}
 \alias{print.angle}
+\alias{abs.angle}
 \title{Implemented base methods for angle vectors}
 \usage{
 \method{as.double}{angle}(x, unit = angular_unit(x), ...)
@@ -15,9 +15,9 @@
 
 \method{format}{angle}(x, unit = angular_unit(x), ..., use_unicode = is_utf8_output())
 
-\method{abs}{angle}(x)
-
 \method{print}{angle}(x, unit = angular_unit(x), ..., use_unicode = is_utf8_output())
+
+\method{abs}{angle}(x)
 }
 \arguments{
 \item{x}{\code{\link[=angle]{angle()}} vector}

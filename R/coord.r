@@ -24,12 +24,13 @@ Coord1D <- R6Class("Coord1D",
             private$mat_trans <- NULL
         },
         #' @param n Number of coordinates to print. If `NULL` print all of them.
-        print = function(n = NULL) {
+        #' @param ... Passed to [format.default()].
+        print = function(n = NULL, ...) {
             if (is.null(n) || n > nrow(private$mat_xw))
                 n <- nrow(private$mat_xw)
             cat("<Coord1D[", nrow(private$mat_xw), "]>\n", sep = "")
             if (n > 0)
-                print(self$xw[1:n, ])
+                print_mat(self$xw[1:n, , drop = FALSE], ...)
             invisible(self)
         },
         #' @param point `r r2i_transform1d_point`
@@ -134,12 +135,13 @@ Coord2D <- R6Class("Coord2D",
             self$transform(permute2d(permutation))
         },
         #' @param n Number of coordinates to print.  If `NULL` print all of them.
-        print = function(n = NULL) {
+        #' @param ... Passed to [format.default()].
+        print = function(n = NULL, ...) {
             if (is.null(n) || n > nrow(private$mat_xyw))
                 n <- nrow(private$mat_xyw)
             cat("<Coord2D[", nrow(private$mat_xyw), "]>\n", sep = "")
             if (n > 0)
-                print(self$xyw[1:n, ])
+                print_mat(self$xyw[1:n, , drop = FALSE], ...)
             invisible(self)
         },
         #' @param line `r r2i_transform2d_line`
@@ -272,12 +274,13 @@ Coord3D <- R6Class("Coord3D",
             self$transform(permute3d(permutation))
         },
         #' @param n Number of coordinates to print.  If `NULL` print all of them.
-        print = function(n = NULL) {
+        #' @param ... Passed to [format.default()].
+        print = function(n = NULL, ...) {
             if (is.null(n) || n > nrow(private$mat_xyzw))
                 n <- nrow(private$mat_xyzw)
             cat("<Coord3D[", nrow(private$mat_xyzw), "]>\n", sep = "")
             if (n > 0)
-                print(self$xyzw[1:n, ])
+                print_mat(self$xyzw[1:n, , drop = FALSE], ...)
             invisible(self)
         },
         #' @param plane `r r2i_transform3d_plane`
