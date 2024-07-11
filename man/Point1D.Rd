@@ -49,13 +49,15 @@ p1 <- as_point1d(a = 1, b = 5)
 \if{latex}{\out{\hypertarget{method-Point1D-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Point1D$print(n = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Point1D$print(n = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{n}}{Number of lines to print.  If \code{NULL} print all of them.}
+
+\item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
 }
 \if{html}{\out{</div>}}
 }

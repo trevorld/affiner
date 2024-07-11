@@ -11,3 +11,8 @@ is_utf8_output <- function() {
         l10n_info()[["UTF-8"]]
     }
 }
+
+# pretty-print matrix output
+print_mat <- function(x, ...) {
+    print(apply(x, 2L, format, ...), quote = FALSE, right = TRUE)
+}

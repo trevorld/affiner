@@ -91,13 +91,15 @@ Column names should be "x", "y", "z", and "w".}
 \if{latex}{\out{\hypertarget{method-Coord3D-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Coord3D$print(n = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Coord3D$print(n = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{n}}{Number of coordinates to print.  If \code{NULL} print all of them.}
+
+\item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
 }
 \if{html}{\out{</div>}}
 }

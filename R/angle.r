@@ -273,6 +273,20 @@ format.angle <- function(x, unit = angular_unit(x),
     }
 }
 
+#' @rdname angle-methods
+#' @export
+print.angle <- function(x,
+                        unit = angular_unit(x),
+                        ...,
+                        use_unicode = is_utf8_output()) {
+    cat("<angle<", attr(x, "unit"), ">[", length(x), "]>\n", sep = "")
+    if (length(x)) {
+        print.default(format.angle(x, unit = unit, ...,
+                                   use_unicode = use_unicode),
+                      quote = FALSE)
+    }
+}
+
 one_turn <- function(unit) {
     switch(unit,
            degrees = 360,
@@ -287,20 +301,6 @@ one_turn <- function(unit) {
 abs.angle <- function(x) {
     unit <- angular_unit(x)
     new_angle(as.numeric(x) %% one_turn(unit), unit)
-}
-
-#' @rdname angle-methods
-#' @export
-print.angle <- function(x,
-                        unit = angular_unit(x),
-                        ...,
-                        use_unicode = is_utf8_output()) {
-    cat("<angle<", attr(x, "unit"), ">[", length(x), "]>\n", sep = "")
-    if (length(x)) {
-        print.default(format.angle(x, unit = unit, ...,
-                                   use_unicode = use_unicode),
-                      ..., quote = FALSE)
-    }
 }
 
 #' @export
