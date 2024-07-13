@@ -77,6 +77,8 @@ test_that("as_coord1d()", {
     m <- as.matrix(1:10)
     p <- as_coord1d(m)
     expect_equal(p$x, 1:10)
+    expect_true(is.data.frame(as.data.frame(p)))
+    expect_true(is.list(as.list(p)))
 
     expect_equal(as_coord1d(p), p)
     expect_equal(as_coord1d(as.data.frame(p)), p)
@@ -107,7 +109,6 @@ test_that("as_coord1d()", {
     l7 <- as_line2d(a = 1, b = -1, c = 2)
     p7 <- as_coord2d(x = x6, y = y6)
     expect_equal(as_coord1d(p7, line = l7)$x, c(0, 0, sqrt(50)))
-
 })
 
 test_that("as_coord2d()", {
@@ -124,8 +125,10 @@ test_that("as_coord2d()", {
     expect_equal(p1, as_coord2d(as.data.frame(p1)))
     expect_true(is.matrix(as.matrix(p1)))
     expect_true(is.data.frame(as.data.frame(p1)))
+    expect_true(is.list(as.list(p1)))
 
     expect_equal(p1, as_coord2d(p1))
+
 
     l <- list(x = x, y = y)
     expect_equal(p1, as_coord2d(l))
@@ -225,6 +228,7 @@ test_that("as_coord3d()", {
     expect_equal(p1 != p1, rep_len(FALSE, 3))
     expect_true(is.matrix(as.matrix(p1)))
     expect_true(is.data.frame(as.data.frame(p1)))
+    expect_true(is.list(as.list(p1)))
 
     expect_equal(p1, as_coord3d(p1))
 

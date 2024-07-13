@@ -5,6 +5,7 @@ test_that("as_plane3d()", {
     expect_equal(as_plane3d("xy-plane"),
                  as_plane3d(0, 0, 1, 0))
     expect_equal(p1, as_plane3d(p1))
+    expect_equal(p1, p1[1L])
     expect_warning(as_plane3d("boo"))
 
     expect_equal(as_plane3d("xy-plane"),
@@ -20,6 +21,8 @@ test_that("as_plane3d()", {
     expect_length(p1, 1L)
     expect_length(rep(p1, 3), 3L)
     expect_length(c(p1, p1), 2L)
+    expect_true(is.data.frame(as.data.frame(p1)))
+    expect_true(is.list(as.list(p1)))
 
     expect_snapshot(print(p1))
 

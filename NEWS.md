@@ -55,6 +55,11 @@ Initial features
     - `mean()` computes centroids of coordinates
     - `normal2d()` computes `Coord2D` normals
     - `normal3d()` computes `Coord3D` normals
+    - `plot()` and `points()` plots `Coord1D` and `Coord2D` coordinates using base graphics.
+      If the suggested `{ggplot2}` package is installed one may also use `autolayer()`
+      to plot `Coord1D` and `Coord2D` points.
+      If the suggested `{rgl}` package is installed one may also use `plot3d()` to
+      plot `Coord3D` points (or straightforwardly use the primitive `points3d()`).
     - `range()` computes axis-aligned ranges
 
 * `Point1D`, `Line2D`, and `Plane3D` R6 classes

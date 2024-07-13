@@ -25,10 +25,10 @@ A \link{Coord1D}, \link{Coord2D}, or \link{Coord3D} class object of length one
 \code{mean()}computes centroids for \link{Coord1D}, \link{Coord2D}, and \link{Coord3D} class objects
 }
 \examples{
- p <- as_coord2d(x = 1:4, y = 1:4)
- print(mean(p))
- print(sum(p) / length(p)) # less efficient alternative
+p <- as_coord2d(x = 1:4, y = 1:4)
+print(mean(p))
+print(sum(p) / length(p)) # less efficient alternative
 
- p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
- print(mean(p))
+p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
+print(mean(p))
 }

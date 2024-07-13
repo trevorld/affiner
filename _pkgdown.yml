@@ -71,6 +71,7 @@ reference:
         - distance3d
         - normal2d
         - normal3d
+        - plot.Coord2D
     - title: "Package options"
       desc: "Package global options"
       contents:
@@ -78,3 +79,6 @@ reference:
         - affiner-package
 figures:
   dev: grDevices::png
+  other.parameters:
+    rgl:
+      fig.asp: 1
