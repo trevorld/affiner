@@ -1,7 +1,7 @@
 Package: affiner
 Type: Package
 Title: A finer way to render 3D illustrated objects in 'grid' using affine transformations
-Version: 0.1.0-20
+Version: 0.1.0-21
 Authors@R: c(person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")))
@@ -10,13 +10,16 @@ URL: https://trevorldavis.com/R/affiner/
 BugReports: https://github.com/trevorld/affiner/issues
 License: MIT + file LICENSE
 Imports:
+    graphics,
     grDevices,
     grid,
     R6,
     utils
 Suggests:
+    ggplot2,
     gridpattern,
     knitr,
+    rgl,
     rlang,
     rmarkdown,
     stats,

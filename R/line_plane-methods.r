@@ -14,6 +14,51 @@ length.Plane3D <- function(x) {
 }
 
 #' @export
+`[.Point1D` <- function(x, i) {
+    Point1D$new(x$a[i], x$b[i])
+}
+
+#' @export
+`[.Line2D` <- function(x, i) {
+    Line2D$new(x$a[i], x$b[i], x$c[i])
+}
+
+#' @export
+`[.Plane3D` <- function(x, i) {
+    Plane3D$new(x$a[i], x$b[i], x$c[i], x$d[i])
+}
+
+#' @export
+as.data.frame.Point1D <- function(x, ...) {
+    data.frame(a = x$a, b = x$b)
+}
+
+#' @export
+as.data.frame.Line2D <- function(x, ...) {
+    data.frame(a = x$a, b = x$b, c = x$c)
+}
+
+#' @export
+as.data.frame.Plane3D <- function(x, ...) {
+    data.frame(a = x$a, b = x$b, c = x$c, d = x$d)
+}
+
+#' @export
+as.list.Point1D <- function(x, ...) {
+    list(a = x$a, b = x$b)
+}
+
+#' @export
+as.list.Line2D <- function(x, ...) {
+    list(a = x$a, b = x$b, c = x$c)
+}
+
+#' @export
+as.list.Plane3D <- function(x, ...) {
+    list(a = x$a, b = x$b, c = x$c, d = x$d)
+}
+
+#' @export
 rep.Point1D <- function(x, ..., length.out = NA_integer_) {
     if (isTRUE(length(x) == length.out)) return(x)
     id <- rep(seq.int(length(x)), ..., length.out = length.out)

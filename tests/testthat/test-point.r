@@ -8,6 +8,7 @@ test_that("as_point1d()", {
     expect_equal(p0a, p0b)
     expect_equal(p0a, p0c)
     expect_equal(p1, as_point1d(p1))
+    expect_equal(p1, p1[1:3])
     expect_snapshot(print(p1))
 
     expect_warning(as_point1d("boo"))
@@ -19,4 +20,6 @@ test_that("as_point1d()", {
     expect_equal(is.nan(p1), rep(FALSE, 3L))
     expect_equal(is.infinite(p1), rep(FALSE, 3L))
     expect_equal(is.finite(p1), rep(TRUE, 3L))
+    expect_true(is.data.frame(as.data.frame(p1)))
+    expect_true(is.list(as.list(p1)))
 })

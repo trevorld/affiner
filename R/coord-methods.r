@@ -34,6 +34,21 @@ as.data.frame.Coord3D <- function(x, ...) {
 }
 
 #' @export
+as.list.Coord1D <- function(x, ...) {
+    as.list(as.data.frame(x$xw))
+}
+
+#' @export
+as.list.Coord2D <- function(x, ...) {
+    as.list(as.data.frame(x$xyw))
+}
+
+#' @export
+as.list.Coord3D <- function(x, ...) {
+    as.list(as.data.frame(x$xyzw))
+}
+
+#' @export
 as.matrix.Coord1D <- function(x, ...) {
     x$xw
 }
@@ -116,12 +131,12 @@ rep.Coord3D <- function(x, ..., length.out = NA_integer_) {
 #' @param ... Passed to [base::mean()]
 #' @return A [Coord1D], [Coord2D], or [Coord3D] class object of length one
 #' @examples
-#'  p <- as_coord2d(x = 1:4, y = 1:4)
-#'  print(mean(p))
-#'  print(sum(p) / length(p)) # less efficient alternative
+#' p <- as_coord2d(x = 1:4, y = 1:4)
+#' print(mean(p))
+#' print(sum(p) / length(p)) # less efficient alternative
 #'
-#'  p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
-#'  print(mean(p))
+#' p <- as_coord3d(x = 1:4, y = 1:4, z = 1:4)
+#' print(mean(p))
 #' @name centroid
 #' @export
 mean.Coord1D <- function(x, ...) {
