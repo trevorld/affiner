@@ -5,6 +5,9 @@ Initial features
 ----------------
 
 * `affineGrob()` and `grid.affine()` provide wrappers around `grid::defineGrob()` and `grid::useGrob()`
+
+  + `isocubeGrob()` and `grid.isocube()` provides a convenience wrapper for the isometric cube case.
+
 * `affine_settings()` computes `grid` affine transformation feature viewports and transformation functions
 
   + Available as a "standalone" file that can be copied

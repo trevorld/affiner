@@ -10,6 +10,7 @@ reference:
       contents:
         - affineGrob
         - affine_settings
+        - isocubeGrob
     - title: "1D/2D/3D coordinate objects"
       desc: "1D/2D/3D coordinate objects"
       contents:

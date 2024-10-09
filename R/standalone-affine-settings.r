@@ -40,7 +40,7 @@
 #'   \item{default.units}{Default [grid::unit()] for viewport}
 #'   \item{angle}{angle for viewport}
 #' }
-#' @seealso Intended for use [affineGrob()] or perhaps [grid::useGrob()].
+#' @seealso Intended for use with [affineGrob()] or perhaps [grid::useGrob()].
 #'          See <https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html>
 #'          for more information about the group affine transformation feature.
 #' @keywords internal
