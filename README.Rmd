@@ -3,7 +3,6 @@
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/affiner)](https://cran.r-project.org/package=affiner)
 [![R-CMD-check](https://github.com/trevorld/affiner/workflows/R-CMD-check/badge.svg)](https://github.com/trevorld/affiner/actions)
 [![Coverage Status](https://codecov.io/gh/trevorld/affiner/branch/main/graph/badge.svg)](https://app.codecov.io/gh/trevorld/affiner)
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 
 *I have not heard of a finer package* --Typical R developer when asked what they have heard about `{affiner}`.
 
@@ -20,9 +19,7 @@
 
 ## <a name="overview">Overview</a>
 
-**Warning:** this package is a work-in-progress.  Any implemented functions are tested and will probably work well but the API is incomplete and liable to experience sudden breaking changes.
-
-`{affiner}` plans to be an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/trevorld/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
+`{affiner}` is an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/trevorld/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
 
 <img src="https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png" alt="Polyhedral dice">
 
@@ -69,23 +66,25 @@ xy <- as_coord2d(angle(seq(90, 360 + 90, by = 60), "degrees"),
                  radius = c(rep(0.488, 6), 0))
 xy$translate(x = 0.5, y = 0.5)
 l_xy <- list()
-l_xy$left <- xy[c(2, 3, 4, 7)]
-l_xy$right <- xy[c(7, 4, 5, 6)]
 l_xy$top <- xy[c(1, 2, 7, 6)]
+l_xy$right <- xy[c(7, 4, 5, 6)]
+l_xy$left <- xy[c(2, 3, 4, 7)]
 
 gp_border <- gpar(fill = NA, col = "black", lwd = 12)
 vp_define <- viewport(width = unit(3, "inches"), height = unit(3, "inches"))
 
-colors <- c("#D55E00", "#009E73", "#56B4E9")
-spacings <- c(0.25, 0.2, 0.25)
-texts <- c("pkgname", "left\nface", "right\nface")
+colors <- c("#D55E00", "#56B4E9", "#009E73")
+spacings <- c(0.25, 0.25, 0.2)
+texts <- c("pkgname", "right\nface", "left\nface")
 rots <- c(45, 0, 0)
 fontsizes <- c(52, 80, 80)
-sides <- c("top", "left", "right")
-types <- gridpattern::names_polygon_tiling[c(5, 7, 9)]
+sides <- c("top", "right", "left")
+types <- gridpattern::names_polygon_tiling[c(5, 9, 7)]
+l_grobs <- list()
 grid.newpage()
 for (i in 1:3) {
-    xy_side <- l_xy[[sides[i]]]
+    side <- sides[i]
+    xy_side <- l_xy[[side]]
     if (requireNamespace("gridpattern", quietly = TRUE)) {
         bg <- gridpattern::grid.pattern_polygon_tiling(
                    colour = "grey80",
@@ -99,7 +98,7 @@ for (i in 1:3) {
     text <- textGrob(texts[i], rot = rots[i],
                      gp = gpar(fontsize = fontsizes[i]))
     settings <- affine_settings(xy_side, unit = "snpc")
-    grob <- grobTree(bg, text)
+    grob <- l_grobs[[side]] <- grobTree(bg, text)
     grid.affine(grob,
                 vp_define = vp_define,
                 transform = settings$transform,
@@ -108,6 +107,14 @@ for (i in 1:3) {
 }
 ```
 
+`isocubeGrob()` / `grid.isocube()` provides a convenience wrapper around `affineGrob()` / `grid.affine()` for the isometric cube case:
+
+```{r hex-logo2, fig.width = 4.5, fig.height = 4.5, fig.alt = "Isometric-cube hex logo"}
+grid.newpage()
+grid.isocube(top = l_grobs$top, 
+             right = l_grobs$right,
+             left = l_grobs$left)
+```
 
 ### <a name="dice">Render an "illustrated" d6 dice using oblique and isometric projections</a>
 

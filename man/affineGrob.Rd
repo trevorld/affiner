@@ -79,7 +79,7 @@ if (require("grid") &&
                                         y = c(2/3, 1/3, 1/3, 2/3)),
                               unit = "snpc")
   affine <- affineGrob(grob,
-                       vp_define=vp_define,
+                       vp_define = vp_define,
                        transform = settings$transform,
                        vp_use = settings$vp)
   grid.newpage()
@@ -90,4 +90,5 @@ if (require("grid") &&
 See \code{\link[=affine_settings]{affine_settings()}} for computing good \code{transform} and \code{vp_use} settings.
 See \url{https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html}
 for more information about the group affine transformation feature.
+See \code{\link[=isocubeGrob]{isocubeGrob()}} which wraps this function to render isometric cubes.
 }

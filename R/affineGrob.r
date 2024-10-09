@@ -48,7 +48,7 @@
 #'                                         y = c(2/3, 1/3, 1/3, 2/3)),
 #'                               unit = "snpc")
 #'   affine <- affineGrob(grob,
-#'                        vp_define=vp_define,
+#'                        vp_define = vp_define,
 #'                        transform = settings$transform,
 #'                        vp_use = settings$vp)
 #'   grid.newpage()
@@ -57,6 +57,7 @@
 #' @seealso See [affine_settings()] for computing good `transform` and `vp_use` settings.
 #'          See <https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html>
 #'          for more information about the group affine transformation feature.
+#'          See [isocubeGrob()] which wraps this function to render isometric cubes.
 #' @export
 affineGrob <- function(grob,
                        vp_define = NULL,

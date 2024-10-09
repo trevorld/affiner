@@ -48,7 +48,7 @@ as.numeric(turns(1/3), "radians")
 * `sine()`, `cosine()`, `tangent()`, `secant()`, `cosecant()`, `cotangent()`,
 * `arcsine()`, `arccosine()`, `arctangent()`, `arcsecant()`, `arccosecant()`, and `arccotangent()`.
     `arcsine()` and `arccosine()` also feature a `tolerance` value so that values that exceed the `1` / `-1` cutoffs by a small tolerance are rounded to those values.
-* One can also use the base S3 methods `sin()`, `cos()`, and `tan()` on `angle()` objects`.
+* One can also use the base S3 methods `sin()`, `cos()`, and `tan()` on `angle()` objects.
 
 ```{r trig}
 library("affiner")
@@ -118,7 +118,7 @@ In `{affiner}` 3D Coordinates are represented by a `Coord3D` R6 class:
   + `translate()`
   + `transform()`
   + R6 method chained affine transformation matrices are auto-multiplied
-    so you don't need to manually multiply them for efficiency reasons.
+    so you don't need to manually pre-multiply them for efficiency reasons.
   + `{affiner}` affine transformations are post-multiplied so affine transformations
     can be applied in an intuitive order.
   +  `abs()` computes Euclidean norm and `distance3d()` computes Euclidean distances
@@ -173,8 +173,6 @@ all.equal(p, pc)
     rotate("x-axis", degrees(-90 + 35.264)) |>
     as_coord2d()
   ```
-
-
 
 * Other axonometric projections can be achieved with the right 3D rotations
 * See [`vignette("affiner", package = "affiner")`](affiner.html) for some visual examples
