@@ -1,5 +1,5 @@
-affiner 0.1.0 (development)
-===========================
+affiner 0.1.1
+=============
 
 Initial features
 ----------------

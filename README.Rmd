@@ -19,7 +19,7 @@
 
 ## <a name="overview">Overview</a>
 
-`{affiner}` is an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/trevorld/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
+`{affiner}` is an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/piecepackr/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
 
 <img src="https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png" alt="Polyhedral dice">
 
@@ -122,7 +122,7 @@ Our high-level strategy for rendering 3D objects is as follows:
 
 * Figure out the "physical" 3D coordinates of the cube face vertices in "inches".  These cube faces will correspond to target "3D viewports" we'll want to render the illustrated cube face grobs into.
 
-  + For my piecepack diagrams I make with [{piecepackr}](https://github.com/trevorld/piecepackr/) I figuratively think as my graphics device as a piece of paper (bottom left corner is the origin)  and calculate the 3D coordinates in inches as if my board game pieces were physically sitting on top of the graphics device (since piecepack tiles are 2 inches by 2 inches this is usually a straightforward calculation).
+  + For my piecepack diagrams I make with [{piecepackr}](https://github.com/piecepackr/piecepackr/) I figuratively think as my graphics device as a piece of paper (bottom left corner is the origin)  and calculate the 3D coordinates in inches as if my board game pieces were physically sitting on top of the graphics device (since piecepack tiles are 2 inches by 2 inches this is usually a straightforward calculation).
   
 * Project these 3D coordinates onto a "physical" xy-plane (corresponding to our graphics device) in "inches" using a parallel projection (in this example we'll do a couple oblique projections and an isometric projection).  Note since all parallel projections are affine transformations we know the projected vertices of a square "3D viewport" will project to the 2D coordinates of a "parallelogram viewport".
 * (If they don't already do so) translate these parallelograms so they lie within the graphics device view (i.e. the "parallelogram viewport" vertices are all in the upper right quadrant of the xy-plane).
@@ -250,14 +250,14 @@ Please feel free to [open a pull request to add any missing relevant links](http
 
 #### <a name="plane">Plane geometry</a>
 
-* [LearnGeom](https://cran.r-project.org/web/packages/LearnGeom/index.html)
-* [PlaneGeometry](https://cran.r-project.org/web/packages/PlaneGeometry/index.html)
+* [LearnGeom](https://CRAN.R-project.org/package=LearnGeom)
+* [PlaneGeometry](https://CRAN.R-project.org/package=PlaneGeometry)
 
 #### <a name="spatial">Spatial geometry</a>
 
-* [{sf}](https://cran.r-project.org/web/views/Spatial.html)
+* [{sf}](https://CRAN.R-project.org/package=sf)
 * [{terra}](https://rspatial.org/index.html)
-* See [CRAN Task View: Analysis of Spatial Data](https://cran.r-project.org/web/views/Spatial.html)
+* See [CRAN Task View: Analysis of Spatial Data](https://CRAN.R-project.org/view=Spatial)
 
 ### <a name="related-rendering">3D rendering in R</a>
 
@@ -266,9 +266,9 @@ Please feel free to [open a pull request to add any missing relevant links](http
 * [{isocubes}](https://github.com/coolbutuseless/isocubes), [{isocuboids}](https://github.com/cj-holmes/isocuboids), 
   and [{oblicubes}](https://github.com/trevorld/oblicubes) supports 3D rendering of cubes and cuboids.
 * [{lattice}](https://lattice.r-forge.r-project.org/)
-* [{misc3d}](https://cran.r-project.org/web/packages/misc3d/index.html) and [{plot3D}](https://cran.r-project.org/package=plot3D)
+* [{misc3d}](https://CRAN.R-project.org/package=misc3d) and [{plot3D}](https://CRAN.R-project.org/package=plot3D)
 * [{piecepackr}](https://github.com/piecepackr/piecepackr) supports 3D rendering using an oblique projection (as well as other projections).  Specializes in the production of board game graphics.  Much of the functionality of `{affiner}` is a refined extraction from `{piecepackr}`.
-* [{scatterplot3d}](https://cran.r-project.org/package=scatterplot3d)
+* [{scatterplot3d}](https://CRAN.R-project.org/package=scatterplot3d)
 * [{threed}](https://github.com/coolbutuseless/threed) and [{ggthreed}](https://github.com/coolbutuseless/ggthreed)
 
 #### <a name="related-other">Other 3D rendering engines</a>

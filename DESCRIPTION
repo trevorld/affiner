@@ -1,7 +1,7 @@
 Package: affiner
 Type: Package
-Title: A finer way to render 3D illustrated objects in 'grid' using affine transformations
-Version: 0.1.0-22
+Title: A Finer Way to Render 3D Illustrated Objects in 'grid' Using Affine Transformations
+Version: 0.1.1
 Authors@R: c(person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")))
@@ -19,6 +19,7 @@ Suggests:
     ggplot2,
     gridpattern,
     knitr,
+    ragg (>= 1.3.3),
     rgl,
     rlang,
     rmarkdown,
@@ -26,7 +27,7 @@ Suggests:
     testthat (>= 3.0.0),
     vdiffr,
     withr
-VignetteBuilder: knitr, rmarkdown
+VignetteBuilder: knitr, ragg, rmarkdown
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
