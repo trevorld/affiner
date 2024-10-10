@@ -17,7 +17,7 @@ vignette: >
 
 ## <a name="overview">Overview</a>
 
-`{affiner}` is an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/trevorld/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
+`{affiner}` is an extraction and improvement of the low-level geometric and R 4.2 affine transformation feature functionality used in [{piecepackr}](https://github.com/piecepackr/piecepackr/) to render board game pieces in `{grid}` using a 3D oblique projection.
 
 <img src="https://github.com/piecepackr/piecepackr/raw/master/man/figures/README-polyhedral-1.png" alt="Polyhedral dice">
 
@@ -41,7 +41,7 @@ Some particular intended strengths compared to other R geometry packages:
 ## <a name="examples">Examples</a>
 
 ```{r hidden, echo = FALSE}
-knitr::opts_chunk$set(fig.cap = "")
+knitr::opts_chunk$set(fig.cap = "", dev = "ragg_png")
 ```
 
 ### <a name="logo">Isometric-cube hex logo</a>
@@ -114,7 +114,7 @@ Our high-level strategy for rendering 3D objects is as follows:
 
 * Figure out the "physical" 3D coordinates of the cube face vertices in "inches".  These cube faces will correspond to target "3D viewports" we'll want to render the illustrated cube face grobs into.
 
-  + For my piecepack diagrams I make with [{piecepackr}](https://github.com/trevorld/piecepackr/) I figuratively think as my graphics device as a piece of paper (bottom left corner is the origin)  and calculate the 3D coordinates in inches as if my board game pieces were physically sitting on top of the graphics device (since piecepack tiles are 2 inches by 2 inches this is usually a straightforward calculation).
+  + For my piecepack diagrams I make with [{piecepackr}](https://github.com/piecepackr/piecepackr/) I figuratively think as my graphics device as a piece of paper (bottom left corner is the origin)  and calculate the 3D coordinates in inches as if my board game pieces were physically sitting on top of the graphics device (since piecepack tiles are 2 inches by 2 inches this is usually a straightforward calculation).
   
 * Project these 3D coordinates onto a "physical" xy-plane (corresponding to our graphics device) in "inches" using a parallel projection (in this example we'll do a couple oblique projections and an isometric projection).  Note since all parallel projections are affine transformations we know the projected vertices of a square "3D viewport" will project to the 2D coordinates of a "parallelogram viewport".
 * (If they don't already do so) translate these parallelograms so they lie within the graphics device view (i.e. the "parallelogram viewport" vertices are all in the upper right quadrant of the xy-plane).

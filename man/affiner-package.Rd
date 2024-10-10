@@ -4,7 +4,7 @@
 \name{affiner-package}
 \alias{affiner}
 \alias{affiner-package}
-\title{affiner: A finer way to render 3D illustrated objects in 'grid' using affine transformations}
+\title{affiner: A Finer Way to Render 3D Illustrated Objects in 'grid' Using Affine Transformations}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
