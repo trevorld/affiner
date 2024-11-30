@@ -5,6 +5,8 @@
 #'
 #' Any `ggplot2` objects are coerced to grobs by [ggplot2::ggplotGrob()].  Depending on what you'd like
 #' to do you may want to instead manually convert a ggplot2 object `gg` to a grob with `gtable::gtable_filter(ggplot2::ggplotGrob(gg), "panel")`.
+#'
+#' `r affine_transformation_support`
 #' @param top A grid grob object to use as the top side of the cube.  ggplot2 objects will be coerced by [ggplot2::ggplotGrob()].
 #' @param right A grid grob object to use as the right side of the cube.  ggplot2 objects will be coerced by [ggplot2::ggplotGrob()].
 #' @param left A grid grob object to use as the left side of the cube.  ggplot2 objects will be coerced by [ggplot2::ggplotGrob()].
@@ -90,8 +92,6 @@ isocubeGrob <- function(top, right, left,
 #' @importFrom grid makeContent
 #' @export
 makeContent.isocube <- function(x) {
-    stopifnot(isTRUE(grDevices::dev.capabilities()$transformations))
-
     gl <- grid::gList()
     sides <- c("top", "right", "left")
     for (i in 1:3) {

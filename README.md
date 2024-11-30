@@ -1,7 +1,7 @@
 # affiner <img src="man/figures/logo.png" align="right" width="200px" alt="affiner hex sticker">
 
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/affiner)](https://cran.r-project.org/package=affiner)
-[![R-CMD-check](https://github.com/trevorld/affiner/workflows/R-CMD-check/badge.svg)](https://github.com/trevorld/affiner/actions)
+[![R-CMD-check](https://github.com/trevorld/affiner/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/trevorld/affiner/actions)
 [![Coverage Status](https://codecov.io/gh/trevorld/affiner/branch/main/graph/badge.svg)](https://app.codecov.io/gh/trevorld/affiner)
 
 *I have not heard of a finer package* --Typical R developer when asked what they have heard about `{affiner}`.
