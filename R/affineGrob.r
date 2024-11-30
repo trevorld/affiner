@@ -2,6 +2,8 @@
 #'
 #' `affineGrob()` is a grid grob function to facilitate
 #' using the group affine transformation features introduced in R 4.2.
+#'
+#' `r affine_transformation_support`
 #' @param grob A grid grob to perform affine transformations on.  Passed to [grid::defineGrob()] as its `src` argument.
 #' @param vp_define [grid::viewport()] to define grid group in.  Passed to [grid::defineGrob()] as its `vp` argument.
 #'                  This will cumulative with the current viewport and the `vp` argument (if any),
@@ -75,7 +77,10 @@ affineGrob <- function(grob,
 #' @importFrom grid makeContent
 #' @export
 makeContent.affine <- function(x) {
-    stopifnot(isTRUE(grDevices::dev.capabilities()$transformations))
+    if (!isTRUE(grDevices::dev.capabilities()$transformations)) {
+        stop(paste("This graphics device does not support the affine transformation feature.",
+                   "See the Details section of `help(\"affineGrob\")` for more info."))
+    }
     define <- grid::defineGrob(x$grob, vp = x$vp_define)
     use <- grid::useGrob(define$name, transform = x$transform, vp = x$vp_use)
     gl <- grid::gList(define, use)

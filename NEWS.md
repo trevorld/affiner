@@ -1,3 +1,9 @@
+affiner 0.1.2 (development)
+===========================
+
+* The Details sections for `help("affineGrob")` and `help("isocubeGrob")` now document
+  which graphics devices are known to support the affine transformation feature (#56).
+
 affiner 0.1.1
 =============
 

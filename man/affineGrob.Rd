@@ -47,6 +47,17 @@ As a side effect \code{grid.affine()} draws to the active graphics device.
 \code{affineGrob()} is a grid grob function to facilitate
 using the group affine transformation features introduced in R 4.2.
 }
+\details{
+Not all graphics devices provided by \code{grDevices} or other R packages support the \href{https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html}{affine transformation feature introduced in R 4.2}.
+If \code{isTRUE(getRversion() >= '4.2.0')} then the active graphics device should support this feature if \code{isTRUE(grDevices::dev.capabilities()$transformations)}.
+In particular the following graphics devices should support the affine transformation feature:
+\itemize{
+\item R's \code{\link[grDevices:pdf]{grDevices::pdf()}} device
+\item R's 'cairo' devices e.g. \code{\link[grDevices:cairo]{grDevices::cairo_pdf()}}, \code{grDevices::png(type = 'cairo')}, \code{\link[grDevices:cairo]{grDevices::svg()}}, \code{grDevices::x11(type = 'cairo')}, etc. If \code{isTRUE(capabilities('cairo'))} then R was compiled with support for the 'cairo' devices .
+\item R's 'quartz' devices (since R 4.3.0) e.g. \code{\link[grDevices:quartz]{grDevices::quartz()}}, \code{grDevices::png(type = 'quartz')}, etc. If \code{isTRUE(capabilities('aqua'))} then R was compiled with support for the 'quartz' devices (generally only \code{TRUE} on macOS systems).
+\item \code{ragg}'s devices (since v1.3.0) e.g. \code{\link[ragg:agg_png]{ragg::agg_png()}}, \code{\link[ragg:agg_capture]{ragg::agg_capture()}}, etc.
+}
+}
 \examples{
 if (require("grid")) {
   grob <- grobTree(rectGrob(gp = gpar(fill = "blue", col = NA)),

@@ -104,3 +104,15 @@ r2i_transform3d_plane <- paste(
 r2i_transform1d_x <- "A [Coord1D] object of length one or an object coercible to one by `as_coord1d(x, ...)`."
 r2i_transform2d_x <- "A [Coord2D] object of length one or an object coercible to one by `as_coord2d(x, ...)`."
 r2i_transform3d_x <- "A [Coord3D] object of length one or an object coercible to one by `as_coord3d(x, ...)`."
+
+affine_transformation_support <- paste(
+    "Not all graphics devices provided by `grDevices` or other R packages support the [affine transformation feature introduced in R 4.2](https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html).",
+    "If `isTRUE(getRversion() >= '4.2.0')` then the active graphics device should support this feature if `isTRUE(grDevices::dev.capabilities()$transformations)`.",
+    "In particular the following graphics devices should support the affine transformation feature:",
+    "",
+    "* R's [grDevices::pdf()] device",
+    "* R's 'cairo' devices e.g. [grDevices::cairo_pdf()], `grDevices::png(type = 'cairo')`, [grDevices::svg()], `grDevices::x11(type = 'cairo')`, etc. If `isTRUE(capabilities('cairo'))` then R was compiled with support for the 'cairo' devices .",
+    "* R's 'quartz' devices (since R 4.3.0) e.g. [grDevices::quartz()], `grDevices::png(type = 'quartz')`, etc. If `isTRUE(capabilities('aqua'))` then R was compiled with support for the 'quartz' devices (generally only `TRUE` on macOS systems).",
+    "* `ragg`'s devices (since v1.3.0) e.g. [ragg::agg_png()], [ragg::agg_capture()], etc.",
+    sep = "\n"
+)

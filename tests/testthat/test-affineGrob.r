@@ -1,6 +1,6 @@
 test_that("affineGrob() works", {
     skip_if_not(getRversion() >= "4.3.0")
-    skip_if_not(isTRUE(capabilities("cairo")))
+    skip_if_not(isTRUE(all(capabilities(c("cairo", "png")))))
     f <- tempfile(fileext = ".png")
     png(f, type = "cairo")
     grid.affine(grid::nullGrob())
