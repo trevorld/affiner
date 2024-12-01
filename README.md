@@ -53,6 +53,25 @@ remotes::install_github("trevorld/affiner")
 
 ### <a name="logo">Isometric-cube hex logo</a>
 
+`isocubeGrob()` / `grid.isocube()` provides a convenience wrapper around `affineGrob()` for the isometric cube case:
+
+
+``` r
+library("aRtsy")
+library("ggplot2")
+
+gg <- canvas_planet(colorPalette("lava"), threshold = 3) +
+  scale_x_continuous(expand=c(0, 0)) +
+  scale_y_continuous(expand=c(0, 0))
+grob <- ggplotGrob(gg)
+grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
+affiner::grid.isocube(top = grob, left = grob, right = grob,
+  gp_border = grid::gpar(col = "darkorange", lwd = 12))
+```
+
+<img src="man/figures/README-hex-logo2-1.png" alt="Isometric-cube hex logo"  />
+
+* Here's an example using `affine_settings()` and `grid.affine()` directly to make an isometric cube logo.
 * The three visible faces of an isometrically projected cube are parallelograms.  Additionally each projected vertex will match one of the six vertices of a regular hexagon or its center.
 * The `as_coord2d()` method for `angle()` objects lets you compute the regular polygon vertices and center using [polar coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system)
 * Use `affine_settings()` and `affineGrob()`  or `grid.affine()` to render arbitrary "illustrated" grobs within each of these parallelograms.
@@ -108,18 +127,6 @@ for (i in 1:3) {
 ```
 
 <img src="man/figures/README-hex-logo-1.png" alt="Isometric-cube hex logo"  />
-
-`isocubeGrob()` / `grid.isocube()` provides a convenience wrapper around `affineGrob()` / `grid.affine()` for the isometric cube case:
-
-
-``` r
-grid.newpage()
-grid.isocube(top = l_grobs$top, 
-             right = l_grobs$right,
-             left = l_grobs$left)
-```
-
-<img src="man/figures/README-hex-logo2-1.png" alt="Isometric-cube hex logo"  />
 
 ### <a name="dice">Render an "illustrated" d6 dice using oblique and isometric projections</a>
 
