@@ -9,7 +9,7 @@ isocubeGrob(
   top,
   right,
   left,
-  gp_border = grid::gpar(fill = NA, col = "black", lwd = 12),
+  gp_border = grid::gpar(col = "black", lwd = 12),
   name = NULL,
   gp = grid::gpar(),
   vp = NULL
@@ -100,5 +100,24 @@ if (require("grid") &&
   grid.isocube(top = l_grobs$top, 
                right = l_grobs$right,
                left = l_grobs$left)
+}
+\donttest{# May take more than 5 seconds on CRAN machines
+if (require("aRtsy") &&
+    require("grid") &&
+    require("ggplot2") &&
+    requireNamespace("gtable", quietly = TRUE) &&
+    getRversion() >= "4.2.0" &&
+    isTRUE(dev.capabilities()$transformations)
+    ) {
+  gg <- canvas_planet(colorPalette("lava"), threshold = 3) +
+    scale_x_continuous(expand=c(0, 0)) +
+    scale_y_continuous(expand=c(0, 0))
+grob <- ggplotGrob(gg)
+grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
+grid.newpage()
+grid.isocube(top = grob, left = grob, right = grob,
+             gp_border = grid::gpar(col = "darkorange", lwd = 12))
+
+}
 }
 }
