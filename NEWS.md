@@ -1,3 +1,8 @@
+affiner 0.1.4 (development)
+===========================
+
+* Simplifies export of S3 methods from suggested packages.
+
 affiner 0.1.3
 =============
 

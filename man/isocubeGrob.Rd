@@ -65,7 +65,7 @@ if (require("grid") &&
   # such as `png(type="cairo")` on R 4.2+
   grid.newpage()
   gp_text <- gpar(fontsize = 72)
-  grid.isocube(top = textGrob("top", gp = gp_text), 
+  grid.isocube(top = textGrob("top", gp = gp_text),
                right = textGrob("right", gp = gp_text),
                left = textGrob("left", gp = gp_text))
 }
@@ -97,7 +97,7 @@ if (require("grid") &&
         l_grobs[[sides[i]]] <- grobTree(bg, text)
     }
   grid.newpage()
-  grid.isocube(top = l_grobs$top, 
+  grid.isocube(top = l_grobs$top,
                right = l_grobs$right,
                left = l_grobs$left)
 }
@@ -112,11 +112,11 @@ if (require("aRtsy") &&
   gg <- canvas_planet(colorPalette("lava"), threshold = 3) +
     scale_x_continuous(expand=c(0, 0)) +
     scale_y_continuous(expand=c(0, 0))
-grob <- ggplotGrob(gg)
-grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
-grid.newpage()
-grid.isocube(top = grob, left = grob, right = grob,
-             gp_border = grid::gpar(col = "darkorange", lwd = 12))
+  grob <- ggplotGrob(gg)
+  grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
+  grid.newpage()
+  grid.isocube(top = grob, left = grob, right = grob,
+               gp_border = grid::gpar(col = "darkorange", lwd = 12))
 
 }
 }
