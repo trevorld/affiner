@@ -1,3 +1,9 @@
+affiner 0.1.4 (development)
+===========================
+
+* If R >= 4.4.0 can now also use `crossprod()` (in addition to `cross_product3d()`) to compute the
+  **vector** cross product of two `Coord3D` objects.
+
 affiner 0.1.3
 =============
 

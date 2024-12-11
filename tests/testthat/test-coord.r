@@ -400,6 +400,9 @@ test_that("cross_product3d", {
     x <- as_coord3d(2, 3, 4)
     y <- as_coord3d(5, 6, 7)
     expect_equal(cross_product3d(x, y), as_coord3d(-3, 6, -3))
+
+    skip_if_not(getRversion() >= "4.4.0")
+    expect_equal(crossprod(x, y), as_coord3d(-3, 6, -3))
 })
 
 test_that("normal2d", {
@@ -412,7 +415,7 @@ test_that("normal2d", {
 test_that("normal3d", {
     expect_equal(normal3d("xy-plane"),
                  as_coord3d(0, 0, 1))
-    expect_equal(normal3d(as_coord3d("x-axis"), 
+    expect_equal(normal3d(as_coord3d("x-axis"),
                           cross = "y-axis"),
                  as_coord3d(0, 0, 1))
     expect_equal(normal3d(as_coord3d(2, 0, 0),

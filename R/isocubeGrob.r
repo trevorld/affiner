@@ -25,7 +25,7 @@
 #'   # such as `png(type="cairo")` on R 4.2+
 #'   grid.newpage()
 #'   gp_text <- gpar(fontsize = 72)
-#'   grid.isocube(top = textGrob("top", gp = gp_text), 
+#'   grid.isocube(top = textGrob("top", gp = gp_text),
 #'                right = textGrob("right", gp = gp_text),
 #'                left = textGrob("left", gp = gp_text))
 #' }
@@ -57,7 +57,7 @@
 #'         l_grobs[[sides[i]]] <- grobTree(bg, text)
 #'     }
 #'   grid.newpage()
-#'   grid.isocube(top = l_grobs$top, 
+#'   grid.isocube(top = l_grobs$top,
 #'                right = l_grobs$right,
 #'                left = l_grobs$left)
 #' }
@@ -72,16 +72,16 @@
 #'   gg <- canvas_planet(colorPalette("lava"), threshold = 3) +
 #'     scale_x_continuous(expand=c(0, 0)) +
 #'     scale_y_continuous(expand=c(0, 0))
-#' grob <- ggplotGrob(gg)
-#' grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
-#' grid.newpage()
-#' grid.isocube(top = grob, left = grob, right = grob,
-#'              gp_border = grid::gpar(col = "darkorange", lwd = 12))
+#'   grob <- ggplotGrob(gg)
+#'   grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
+#'   grid.newpage()
+#'   grid.isocube(top = grob, left = grob, right = grob,
+#'                gp_border = grid::gpar(col = "darkorange", lwd = 12))
 #'
 #' }
 #' }
 #' @export
-isocubeGrob <- function(top, right, left, 
+isocubeGrob <- function(top, right, left,
                         gp_border = grid::gpar(col = "black", lwd = 12),
                         name = NULL, gp = grid::gpar(), vp = NULL) {
     stopifnot(getRversion() >= "4.2.0")
@@ -103,7 +103,7 @@ isocubeGrob <- function(top, right, left,
     vp_define <- grid::viewport(width = grid::unit(1, "snpc"),
                                 height = grid::unit(1, "snpc"))
 
-    grid::gTree(top = top, right = right, left = left, 
+    grid::gTree(top = top, right = right, left = left,
                 gp_border = gp_border, l_xy = l_xy, vp_define = vp_define,
                 name = name, gp = gp, vp = vp, cl = "isocube")
 }

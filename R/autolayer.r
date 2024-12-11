@@ -1,21 +1,25 @@
 utils::globalVariables(c("x", "y"))
 
+#' @exportS3Method ggplot2::autolayer
 autolayer.Coord1D <- function(x, ...) {
     ggplot2::geom_point(ggplot2::aes(x = x, y = y),
-                        ..., 
+                        ...,
                         data = data.frame(x = x$x, y = 0))
 }
 
+#' @exportS3Method ggplot2::autolayer
 autolayer.Coord2D <- function(x, ...) {
     ggplot2::geom_point(ggplot2::aes(x = x, y = y),
                         ...,
                         data = as.data.frame(x))
 }
 
+#' @exportS3Method ggplot2::autolayer
 autolayer.Point1D <- function(x, ...) {
     ggplot2::geom_vline(xintercept = -x$b / x$a)
 }
 
+#' @exportS3Method ggplot2::autolayer
 autolayer.Line2D <- function(x, ...) {
     index_v <- which(x$b == 0)
     l <- list()

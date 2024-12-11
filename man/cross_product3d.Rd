@@ -21,4 +21,7 @@ A \link{Coord3D} class vector
 x <- as_coord3d(2, 3, 4)
 y <- as_coord3d(5, 6, 7)
 cross_product3d(x, y)
+if (getRversion() >= "4.4.0") {
+  crossprod(x, y)
+}
 }

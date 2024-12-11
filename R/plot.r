@@ -40,7 +40,7 @@
 #' c1 <- as_coord3d(x = 1:10, y = 1:10, z = 1:10)
 #' pl <- as_plane3d(a = 0, b = 0, c = -1, d = 2) # z = 2
 #' c2 <- c1$clone()$reflect(pl)
-#' if (require("rgl", quietly = TRUE, 
+#' if (require("rgl", quietly = TRUE,
 #'             include.only = c("plot3d", "planes3d", "points3d"))) {
 #'   plot3d(c1, size = 8)
 #'   planes3d(as.data.frame(pl), d =  pl$d, color = "grey", alpha = 0.6)
@@ -99,6 +99,7 @@ lines.Line2D <- function(x, ...) {
     }
 }
 
+#' @exportS3Method rgl::plot3d
 plot3d.Coord3D <- function(x, ...) {
     rgl::plot3d(as.data.frame(x), ...)
 }

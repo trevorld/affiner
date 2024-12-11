@@ -48,7 +48,7 @@ knitr::opts_chunk$set(fig.cap = "", dev = "ragg_png")
 
 `isocubeGrob()` / `grid.isocube()` provides a convenience wrapper around `affineGrob()` for the isometric cube case:
 
-```{r hex-logo2, fig.width = 4.5, fig.height = 4.5, fig.alt = "Isometric-cube hex logo", eval = requireNamespace("ggplot2", quietly=TRUE) && requireNamespace("aRtsy", quietly=TRUE) && requireNamespace("gtable", quietly=TRUE), message = FALSE}
+```{r hex-logo2, fig.width = 4.5, fig.height = 4.5, fig.alt = "Isometric-cube hex logo", eval = getRversion() >= "4.2.0" && requireNamespace("ggplot2", quietly=TRUE) && requireNamespace("aRtsy", quietly=TRUE) && requireNamespace("gtable", quietly=TRUE), message = FALSE}
 library("aRtsy")
 library("ggplot2")
 
@@ -66,7 +66,7 @@ affiner::grid.isocube(top = grob, left = grob, right = grob,
 * The `as_coord2d()` method for `angle()` objects lets you compute the regular polygon vertices and center using [polar coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system)
 * Use `affine_settings()` and `affineGrob()`  or `grid.affine()` to render arbitrary "illustrated" grobs within each of these parallelograms.
 
-```{r hex-logo, fig.width = 4.5, fig.height = 4.5, fig.alt = "Isometric-cube hex logo"}
+```{r hex-logo, fig.width = 4.5, fig.height = 4.5, fig.alt = "Isometric-cube hex logo", eval = getRversion() >= "4.2.0"}
 library("affiner")
 library("grid")
 
@@ -130,7 +130,7 @@ Our high-level strategy for rendering 3D objects is as follows:
 
 * Use `affine_settings()` and `grid.affine()` / `affineGrob()` to render the illustrated cube face "grobs" within these affine transformed "parallelogram viewports".  The order these are drawn is important but in this example we manually sorted them ahead of time in an order that worked for our target projections.
 
-```{r die-faces, fig.width = 4.0, fig.height = 3.0, fig.alt = "The six die faces"}
+```{r die-faces, fig.width = 4.0, fig.height = 3.0, fig.alt = "The six die faces", eval = getRversion() >= "4.2.0"}
 library("affiner")
 library("grid")
 xyz_face <- as_coord3d(x = c(0, 0, 1, 1) - 0.5, y = c(1, 0, 0, 1) - 0.5, z = 0.5)
@@ -181,7 +181,7 @@ for (i in 1:6) {
               gp = gpar(fontsize = 18, face = "bold"))
 }
 ```
-```{r projected-die, fig.width = 3.0, fig.height = 3.0, fig.alt = "Parallel projection of a die"}
+```{r projected-die, fig.width = 3.0, fig.height = 3.0, fig.alt = "Parallel projection of a die", eval = getRversion() >= "4.2.0"}
 # re-order face grobs for our target projections
 # bottom = 6, north = 4, east = 5, west = 2, south = 3, top = 1
 l_face_grobs <- l_face_grobs[c(6, 4, 5, 2, 3, 1)]
