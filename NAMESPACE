@@ -3,7 +3,6 @@
 S3method("!=",Coord1D)
 S3method("!=",Coord2D)
 S3method("!=",Coord3D)
-S3method("%*%",at_matrix)
 S3method("*",Coord1D)
 S3method("*",Coord2D)
 S3method("*",Coord3D)
@@ -276,6 +275,12 @@ export(translate1d)
 export(translate2d)
 export(translate3d)
 export(turns)
+if (getRversion() >= "4.3.0") {
+  S3method("%*%",at_matrix)
+}
+if (getRversion() >= "4.4.0") {
+  S3method("crossprod",Coord3D)
+}
 importFrom(R6,R6Class)
 importFrom(graphics,lines)
 importFrom(graphics,points)

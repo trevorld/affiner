@@ -562,6 +562,9 @@ Arg.Coord2D <- function(z) {
 #' x <- as_coord3d(2, 3, 4)
 #' y <- as_coord3d(5, 6, 7)
 #' cross_product3d(x, y)
+#' if (getRversion() >= "4.4.0") {
+#'   crossprod(x, y)
+#' }
 #' @export
 cross_product3d <- function(x, y) {
     stopifnot(is_coord3d(x), is_coord3d(y))
@@ -574,6 +577,11 @@ cross_product3d <- function(x, y) {
     m[, 3] <- x$x * y$y - x$y * y$x
     Coord3D$new(m)
 }
+
+#' @rawNamespace if (getRversion() >= "4.4.0") {
+#'   S3method("crossprod",Coord3D)
+#' }
+crossprod.Coord3D <- function(x, y, ...) cross_product3d(x, y)
 
 # nolint start
 # #' Scalar projections

@@ -9,6 +9,8 @@ Description: Dilate, permute, project, reflect, rotate, shear, and translate 2D 
 URL: https://trevorldavis.com/R/affiner/
 BugReports: https://github.com/trevorld/affiner/issues
 License: MIT + file LICENSE
+Depends:
+    R (>= 3.6.0)
 Imports:
     graphics,
     grDevices,

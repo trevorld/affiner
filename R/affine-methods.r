@@ -162,7 +162,9 @@ solve.at_matrix <- function(a, b, ...) {
     m
 }
 
-#' @export
+#' @rawNamespace if (getRversion() >= "4.3.0") {
+#'   S3method("%*%",at_matrix)
+#' }
 `%*%.at_matrix` <- function(x, y) {
     m <- NextMethod()
     if (is_at_matrix(x) && is_at_matrix(y) && !is_at_matrix(m)) {

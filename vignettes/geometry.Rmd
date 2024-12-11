@@ -123,7 +123,7 @@ In `{affiner}` 3D Coordinates are represented by a `Coord3D` R6 class:
     can be applied in an intuitive order.
   +  `abs()` computes Euclidean norm and `distance3d()` computes Euclidean distances
   * `range()` computes the axis-aligned bounding box ranges.
-  * `cross_product3d()` computes cross products (`*` computes inner products).
+  * `cross_product3d()` computes cross products (`*` computes inner products).  If R >= 4.4.0 you may also use `crossprod()`.
 
 ```{r 3d}
 # Cartesian coordinates
