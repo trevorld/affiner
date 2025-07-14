@@ -525,6 +525,98 @@ minus_coord3d <- function(p1, p2) {
     p1$clone()$translate(p2$clone()$scale(-1))
 }
 
+# Base rounding function
+
+#' @export
+ceiling.Coord1D <- function(x) {
+    as_coord1d(ceiling(x$x))
+}
+
+#' @export
+ceiling.Coord2D <- function(x) {
+    as_coord2d(ceiling(x$x),
+               ceiling(x$y))
+}
+
+#' @export
+ceiling.Coord3D <- function(x) {
+    as_coord3d(ceiling(x$x),
+               ceiling(x$y),
+               ceiling(x$z))
+}
+
+#' @export
+floor.Coord1D <- function(x) {
+    as_coord1d(floor(x$x))
+}
+
+#' @export
+floor.Coord2D <- function(x) {
+    as_coord2d(floor(x$x),
+               floor(x$y))
+}
+
+#' @export
+floor.Coord3D <- function(x) {
+    as_coord3d(floor(x$x),
+               floor(x$y),
+               floor(x$z))
+}
+
+#' @export
+round.Coord1D <- function(x, digits = 0, ...) {
+    as_coord1d(round(x$x, digits))
+}
+
+#' @export
+round.Coord2D <- function(x, digits = 0, ...) {
+    as_coord2d(round(x$x, digits),
+               round(x$y, digits))
+}
+
+#' @export
+round.Coord3D <- function(x, digits = 0, ...) {
+    as_coord3d(round(x$x, digits),
+               round(x$y, digits),
+               round(x$z, digits))
+}
+
+#' @export
+signif.Coord1D <- function(x, digits = 6) {
+    as_coord1d(signif(x$x, digits))
+}
+
+#' @export
+signif.Coord2D <- function(x, digits = 6) {
+    as_coord2d(signif(x$x, digits),
+               signif(x$y, digits))
+}
+
+#' @export
+signif.Coord3D <- function(x, digits = 6) {
+    as_coord3d(signif(x$x, digits),
+               signif(x$y, digits),
+               signif(x$z, digits))
+}
+
+#' @export
+trunc.Coord1D <- function(x, ...) {
+    as_coord1d(trunc(x$x))
+}
+
+#' @export
+trunc.Coord2D <- function(x, ...) {
+    as_coord2d(trunc(x$x),
+               trunc(x$y))
+}
+
+#' @export
+trunc.Coord3D <- function(x, ...) {
+    as_coord3d(trunc(x$x),
+               trunc(x$y),
+               trunc(x$z))
+}
+
 # Group "Complex"
 
 #' @export

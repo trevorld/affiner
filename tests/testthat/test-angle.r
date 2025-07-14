@@ -113,6 +113,14 @@ test_that("as.numeric.angle()", {
     expect_congruent(as_angle(c1), angle(90, "degrees"))
 })
 
+test_that("base R rounding functions", {
+    expect_equal(round(degrees(90.7), 0), degrees(91))
+    expect_equal(signif(degrees(184), 2), degrees(180))
+    expect_equal(ceiling(degrees(184.2)), degrees(185))
+    expect_equal(floor(degrees(184.7)), degrees(184))
+    expect_equal(trunc(degrees(184.7)), degrees(184))
+})
+
 test_that("base R trigonometric functions", {
     a1 <- angle(180, "degrees")
     expect_equal(cos(a1), cos(pi))
