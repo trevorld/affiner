@@ -58,7 +58,7 @@ In particular the following graphics devices should support the affine transform
 }
 }
 \examples{
-if (require("grid") &&
+if (require("grid", quietly = TRUE) &&
     getRversion() >= "4.2.0" &&
     isTRUE(dev.capabilities()$transformations)) {
   # Only works if active graphics device supports affine transformations
@@ -102,9 +102,9 @@ if (require("grid") &&
                left = l_grobs$left)
 }
 \donttest{# May take more than 5 seconds on CRAN machines
-if (require("aRtsy") &&
+if (require("aRtsy", quietly = TRUE) &&
     require("grid") &&
-    require("ggplot2") &&
+    require("ggplot2", quietly = TRUE) &&
     requireNamespace("gtable", quietly = TRUE) &&
     getRversion() >= "4.2.0" &&
     isTRUE(dev.capabilities()$transformations)

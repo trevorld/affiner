@@ -335,6 +335,43 @@ test_that("Ops", {
     expect_error(p3 / "foobar")
 })
 
+test_that("rounding S3 generics", {
+    expect_equal(as_coord1d(1),
+                 floor(as_coord1d(1.2)))
+    expect_equal(as_coord2d(1, 1),
+                 floor(as_coord2d(1.2, 1.8)))
+    expect_equal(as_coord3d(1, 1, 3),
+                 floor(as_coord3d(1.2, 1.8, 3.2)))
+
+    expect_equal(as_coord1d(2),
+                 ceiling(as_coord1d(1.2)))
+    expect_equal(as_coord2d(2, 2),
+                 ceiling(as_coord2d(1.2, 1.8)))
+    expect_equal(as_coord3d(2, 2, 4),
+                 ceiling(as_coord3d(1.2, 1.8, 3.2)))
+
+    expect_equal(as_coord1d(1),
+                 round(as_coord1d(1.2)))
+    expect_equal(as_coord2d(1, 2),
+                 round(as_coord2d(1.2, 1.8)))
+    expect_equal(as_coord3d(1, 2, 3),
+                 round(as_coord3d(1.2, 1.8, 3.2)))
+
+    expect_equal(as_coord1d(1.2),
+                 signif(as_coord1d(1.2)))
+    expect_equal(as_coord2d(1.2, 1.8),
+                 signif(as_coord2d(1.2, 1.8)))
+    expect_equal(as_coord3d(1.2, 1.8, 3.2),
+                 signif(as_coord3d(1.2, 1.8, 3.2)))
+
+    expect_equal(as_coord1d(1),
+                 trunc(as_coord1d(1.2)))
+    expect_equal(as_coord2d(1, 1),
+                 trunc(as_coord2d(1.2, 1.8)))
+    expect_equal(as_coord3d(1, 1, 3),
+                 trunc(as_coord3d(1.2, 1.8, 3.2)))
+})
+
 test_that("`c.Coord1D()`, `c.Coord2D()`, and `c.Coord3D()`", {
     p1 <- as_coord1d(1:4)
     p2 <- as_coord1d(5:8)

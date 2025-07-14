@@ -1,8 +1,9 @@
-affiner 0.1.4 (development)
+affiner 2.0.0 (development)
 ===========================
 
 * If R >= 4.4.0 can now also use `crossprod()` (in addition to `cross_product3d()`) to compute the
   **vector** cross product of two `Coord3D` objects.
+* Can now use `ceiling()`, `floor()`, `round()`, `signif()`, and `trunc()` on `Coord1D`, `Coord2D`, and `Coord3D` objects (#63).
 
 affiner 0.1.3
 =============

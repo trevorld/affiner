@@ -18,7 +18,7 @@
 #' @return A [grid::gTree()] (grob) object of class "isocube".
 #'         As a side effect `grid.isocube()` draws to the active graphics device.
 #' @examples
-#' if (require("grid") &&
+#' if (require("grid", quietly = TRUE) &&
 #'     getRversion() >= "4.2.0" &&
 #'     isTRUE(dev.capabilities()$transformations)) {
 #'   # Only works if active graphics device supports affine transformations
@@ -62,9 +62,9 @@
 #'                left = l_grobs$left)
 #' }
 #' \donttest{# May take more than 5 seconds on CRAN machines
-#' if (require("aRtsy") &&
+#' if (require("aRtsy", quietly = TRUE) &&
 #'     require("grid") &&
-#'     require("ggplot2") &&
+#'     require("ggplot2", quietly = TRUE) &&
 #'     requireNamespace("gtable", quietly = TRUE) &&
 #'     getRversion() >= "4.2.0" &&
 #'     isTRUE(dev.capabilities()$transformations)
