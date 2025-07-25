@@ -34,9 +34,12 @@ test_that("as_line2d()", {
     lya <- as_line2d("y-axis")
     expect_equal(lya, as_line2d(1, 0, 0))
 
+    expect_true(is_equivalent(lxa, "x-axis"))
+    expect_false(is_equivalent(lxa, "y-axis"))
+
     expect_warning(as_line2d("boo"))
 
-    expect_true(is_congruent(as_angle(lxa), degrees(0)))
+    expect_true(is_equivalent(as_angle(lxa), degrees(0)))
     expect_true(is_congruent(as_angle(lya), degrees(90)))
 
     expect_true(is_congruent(2 * as_angle(as_line2d(0, -1, 1), "degrees"),

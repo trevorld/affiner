@@ -334,8 +334,6 @@ as_coord1d.numeric <- function(x, ...) {
 }
 
 as_xw_matrix <- function(x) {
-    if (!is.matrix(x))
-        x <- as.matrix(x)
     stopifnot(ncol(x) == 1L || ncol(x) == 2L,
               is.numeric(x)
     )

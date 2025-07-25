@@ -4,6 +4,9 @@ test_that("as_plane3d()", {
 
     expect_equal(as_plane3d("xy-plane"),
                  as_plane3d(0, 0, 1, 0))
+    expect_true(is_equivalent(as_plane3d(0, 0, 1, 0),
+                              "xy-plane"))
+
     expect_equal(p1, as_plane3d(p1))
     expect_equal(p1, p1[1L])
     expect_warning(as_plane3d("boo"))
