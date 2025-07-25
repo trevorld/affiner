@@ -23,3 +23,14 @@ test_that("as_point1d()", {
     expect_true(is.data.frame(as.data.frame(p1)))
     expect_true(is.list(as.list(p1)))
 })
+
+test_that("`is_equivalent.Point1D()`", {
+    x <- c(2, 5, 7)
+    c1 <- as_coord1d(x = x)
+    p1 <- as_point1d(c1)
+    expect_equal(is_equivalent(p1, as_point1d(a = 2, b = -10)),
+                 c(FALSE, TRUE, FALSE))
+    expect_equal(is_equivalent(as_point1d(a = 2, b = -10), p1),
+                 c(FALSE, TRUE, FALSE))
+    expect_equal(is_equivalent(p1, c1), rep(TRUE, 3L))
+})

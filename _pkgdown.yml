@@ -35,6 +35,7 @@ reference:
         - Plane3D
         - as_plane3d
         - is_plane3d
+        - is_equivalent
     - title: "1D/2D/3D affine transformation matrices"
       desc: "1D/2D/3D affine transformation matrices"
       contents:

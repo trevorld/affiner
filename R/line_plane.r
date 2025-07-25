@@ -12,7 +12,8 @@ Point1D <- R6Class("Point1D",
        #' @param a Numeric vector that parameterizes the line via the equation `a * x + b = 0`.
        #' @param b Numeric vector that parameterizes the line via the equation `a * x + b = 0`.
        initialize = function(a, b) {
-           stopifnot(length(a) == length(b))
+           stopifnot(length(a) == length(b),
+                     !any(is_congruent(a, 0), na.rm = TRUE))
            self$a <- a
            self$b <- b
        },

@@ -9,6 +9,7 @@ test_that("coord1d()", {
 
     p2 <- as_coord1d("origin")
     expect_equal(rep_len(p2, 4), as_coord1d(rep(0, 4)))
+    expect_true(is_equivalent(p2, "origin"))
 })
 
 test_that("coord2d()", {
@@ -24,6 +25,7 @@ test_that("coord2d()", {
 
     p2 <- as_coord2d("origin")
     expect_equal(rep_len(p2, 4), as_coord2d(rep(0, 4), rep(0, 4)))
+    expect_true(is_equivalent(p2, "origin"))
 })
 
 test_that("coord3d()", {
@@ -42,6 +44,7 @@ test_that("coord3d()", {
 
     p3 <- as_coord3d("origin")
     expect_equal(rep_len(p3, 4), as_coord3d(rep(0, 4), rep(0, 4), rep(0, 4)))
+    expect_true(is_equivalent(p3, "origin"))
 })
 
 test_that("convex_hull2d()", {
