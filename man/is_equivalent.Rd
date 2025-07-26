@@ -43,8 +43,8 @@ is_equivalent(x, y, ...)
 
 \item{mod_turns}{If \code{TRUE} angles that are congruent modulo full turns will be considered \dQuote{congruent}.}
 
-\item{tolerance}{Angles (coerced to half-turns) or numerics with differences smaller
-than \code{tolerance} will be considered \dQuote{congruent}.}
+\item{tolerance}{Numerics with differences smaller
+than \code{tolerance} will be considered \dQuote{equivalent}.}
 }
 \value{
 A logical vector

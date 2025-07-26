@@ -19,8 +19,8 @@ is_equivalent <- function(x, y, ...) {
 }
 
 #' @param mod_turns If `TRUE` angles that are congruent modulo full turns will be considered \dQuote{congruent}.
-#' @param tolerance Angles (coerced to half-turns) or numerics with differences smaller
-#'                  than `tolerance` will be considered \dQuote{congruent}.
+#' @param tolerance Numerics with differences smaller
+#'                  than `tolerance` will be considered \dQuote{equivalent}.
 #' @rdname is_equivalent
 #' @export
 is_equivalent.angle <- function(x, y, ...,
