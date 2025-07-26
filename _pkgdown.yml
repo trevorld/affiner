@@ -35,7 +35,6 @@ reference:
         - Plane3D
         - as_plane3d
         - is_plane3d
-        - is_equivalent
     - title: "1D/2D/3D affine transformation matrices"
       desc: "1D/2D/3D affine transformation matrices"
       contents:
@@ -56,7 +55,6 @@ reference:
         - is_angle
         - as_angle
         - angular_unit
-        - is_congruent
         - sine
         - arcsine
         - print.angle
@@ -74,6 +72,14 @@ reference:
         - normal2d
         - normal3d
         - plot.Coord2D
+    - title: "Other geometry functions"
+      desc: ""
+      contents:
+        - has_intersection
+        - intersection
+        - is_congruent
+        - is_equivalent
+        - is_parallel
     - title: "Package options"
       desc: "Package global options"
       contents:
