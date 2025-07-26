@@ -5,6 +5,9 @@
 \alias{intersection.Point1D}
 \alias{intersection.Line2D}
 \alias{intersection.Plane3D}
+\alias{intersection.Coord1D}
+\alias{intersection.Coord2D}
+\alias{intersection.Coord3D}
 \title{The intersection of two objects.}
 \usage{
 intersection(x, y, ...)
@@ -14,6 +17,12 @@ intersection(x, y, ...)
 \method{intersection}{Line2D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
 
 \method{intersection}{Plane3D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
+
+\method{intersection}{Coord1D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
+
+\method{intersection}{Coord2D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
+
+\method{intersection}{Coord3D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x, y}{The two objects to compute intersection for.}
