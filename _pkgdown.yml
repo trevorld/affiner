@@ -80,6 +80,7 @@ reference:
         - is_congruent
         - is_equivalent
         - is_parallel
+        - isotoxal_2ngon_inner_radius
     - title: "Package options"
       desc: "Package global options"
       contents:
