@@ -2,6 +2,7 @@
 #'
 #' `isotoxal_2ngon_inner_radius()` computes the inner radius
 #' of an isotoxal `2n`-gon polygon.
+#' `star_inner_radius()` is an alias.
 #'
 #' Isotoxal `2n`-gon polygons are polygons with:
 #' 
@@ -56,6 +57,10 @@ isotoxal_2ngon_inner_radius <- function(n, outer_radius = 1, ...,
     stopifnot(r >= 0)
     outer_radius * r
 }
+
+#' @rdname isotoxal_2ngon_inner_radius
+#' @export
+star_inner_radius <- isotoxal_2ngon_inner_radius
 
 isotoxal_2_scale <- function(alpha) {
     stopifnot(alpha >= 0, alpha <= 90)

@@ -2,9 +2,19 @@
 % Please edit documentation in R/isotoxal_2ngon_inner_radius.r
 \name{isotoxal_2ngon_inner_radius}
 \alias{isotoxal_2ngon_inner_radius}
+\alias{star_inner_radius}
 \title{Isotoxal \verb{2n}-gon inner radius}
 \usage{
 isotoxal_2ngon_inner_radius(
+  n,
+  outer_radius = 1,
+  ...,
+  alpha = NULL,
+  beta_ext = NULL,
+  d = NULL
+)
+
+star_inner_radius(
   n,
   outer_radius = 1,
   ...,
@@ -32,6 +42,7 @@ A numeric vector
 \description{
 \code{isotoxal_2ngon_inner_radius()} computes the inner radius
 of an isotoxal \verb{2n}-gon polygon.
+\code{star_inner_radius()} is an alias.
 }
 \details{
 Isotoxal \verb{2n}-gon polygons are polygons with:
