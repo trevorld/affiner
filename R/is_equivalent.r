@@ -15,7 +15,7 @@
 #' @seealso [is_congruent()], [all.equal()]
 #' @export
 is_equivalent <- function(x, y, ...) {
-    UseMethod("is_equivalent")
+	UseMethod("is_equivalent")
 }
 
 #' @param mod_turns If `TRUE` angles that are congruent modulo full turns will be considered \dQuote{congruent}.
@@ -23,105 +23,105 @@ is_equivalent <- function(x, y, ...) {
 #'                  than `tolerance` will be considered \dQuote{equivalent}.
 #' @rdname is_equivalent
 #' @export
-is_equivalent.angle <- function(x, y, ...,
-                                mod_turns = TRUE,
-                                tolerance = sqrt(.Machine$double.eps))
-    is_congruent.angle(x, y, ..., mod_turns = mod_turns, tolerance = tolerance)
+is_equivalent.angle <- function(
+	x,
+	y,
+	...,
+	mod_turns = TRUE,
+	tolerance = sqrt(.Machine$double.eps)
+) {
+	is_congruent.angle(x, y, ..., mod_turns = mod_turns, tolerance = tolerance)
+}
 
 #' @rdname is_equivalent
 #' @export
-is_equivalent.numeric <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps))
-    is_congruent.numeric(x, y, ..., tolerance = tolerance)
+is_equivalent.numeric <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
+	is_congruent.numeric(x, y, ..., tolerance = tolerance)
+}
 
 #' @rdname is_equivalent
 #' @export
 is_equivalent.Coord1D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_coord1d(y)) {
-        y <- as_coord1d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(x, length.out = n)
-    y <- rep(y, length.out = n)
-    is_equivalent(x$x, y$x, tolerance = tolerance)
+	if (!is_coord1d(y)) {
+		y <- as_coord1d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(x, length.out = n)
+	y <- rep(y, length.out = n)
+	is_equivalent(x$x, y$x, tolerance = tolerance)
 }
 
 #' @rdname is_equivalent
 #' @export
 is_equivalent.Coord2D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_coord2d(y)) {
-        y <- as_coord2d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(x, length.out = n)
-    y <- rep(y, length.out = n)
-    is_equivalent(x$x, y$x, tolerance = tolerance) &
-        is_equivalent(x$y, y$y, tolerance = tolerance)
+	if (!is_coord2d(y)) {
+		y <- as_coord2d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(x, length.out = n)
+	y <- rep(y, length.out = n)
+	is_equivalent(x$x, y$x, tolerance = tolerance) &
+		is_equivalent(x$y, y$y, tolerance = tolerance)
 }
 
 #' @rdname is_equivalent
 #' @export
 is_equivalent.Coord3D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_coord3d(y)) {
-        y <- as_coord3d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(x, length.out = n)
-    y <- rep(y, length.out = n)
-    is_equivalent(x$x, y$x, tolerance = tolerance) &
-        is_equivalent(x$y, y$y, tolerance = tolerance) &
-        is_equivalent(x$z, y$z, tolerance = tolerance)
+	if (!is_coord3d(y)) {
+		y <- as_coord3d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(x, length.out = n)
+	y <- rep(y, length.out = n)
+	is_equivalent(x$x, y$x, tolerance = tolerance) &
+		is_equivalent(x$y, y$y, tolerance = tolerance) &
+		is_equivalent(x$z, y$z, tolerance = tolerance)
 }
 
 #' @rdname is_equivalent
 #' @export
 is_equivalent.Point1D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_point1d(y)) {
-        y <- as_point1d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(standardize(x), length.out = n)
-    y <- rep(standardize(y), length.out = n)
-    is_equivalent(x$a, y$a, tolerance = tolerance) &
-        is_equivalent(x$b, y$b, tolerance = tolerance)
+	if (!is_point1d(y)) {
+		y <- as_point1d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(standardize(x), length.out = n)
+	y <- rep(standardize(y), length.out = n)
+	is_equivalent(x$a, y$a, tolerance = tolerance) &
+		is_equivalent(x$b, y$b, tolerance = tolerance)
 }
 
 #' @rdname is_equivalent
 #' @export
 is_equivalent.Line2D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_line2d(y)) {
-        y <- as_line2d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(standardize(x), length.out = n)
-    y <- rep(standardize(y), length.out = n)
-    is_equivalent(x$a, y$a, tolerance = tolerance) &
-        is_equivalent(x$b, y$b, tolerance = tolerance) &
-        is_equivalent(x$c, y$c, tolerance = tolerance)
+	if (!is_line2d(y)) {
+		y <- as_line2d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(standardize(x), length.out = n)
+	y <- rep(standardize(y), length.out = n)
+	is_equivalent(x$a, y$a, tolerance = tolerance) &
+		is_equivalent(x$b, y$b, tolerance = tolerance) &
+		is_equivalent(x$c, y$c, tolerance = tolerance)
 }
 
 #' @rdname is_equivalent
 #' @export
 is_equivalent.Plane3D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_plane3d(y)) {
-        y <- as_plane3d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(standardize(x), length.out = n)
-    y <- rep(standardize(y), length.out = n)
-    is_equivalent(x$a, y$a, tolerance = tolerance) &
-        is_equivalent(x$b, y$b, tolerance = tolerance) &
-        is_equivalent(x$c, y$c, tolerance = tolerance) &
-        is_equivalent(x$d, y$d, tolerance = tolerance)
+	if (!is_plane3d(y)) {
+		y <- as_plane3d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(standardize(x), length.out = n)
+	y <- rep(standardize(y), length.out = n)
+	is_equivalent(x$a, y$a, tolerance = tolerance) &
+		is_equivalent(x$b, y$b, tolerance = tolerance) &
+		is_equivalent(x$c, y$c, tolerance = tolerance) &
+		is_equivalent(x$d, y$d, tolerance = tolerance)
 }

@@ -46,12 +46,12 @@
 #' all.equal(p1, p2)
 #' @export
 transform1d <- function(mat = diag(2L)) {
-    if (all(dim(mat) == c(1, 1))) {
-        mat <- rbind(mat, 0)
-        mat <- cbind(mat, c(0, 1))
-    }
-    validate_transform1d(mat)
-    new_transform1d(mat)
+	if (all(dim(mat) == c(1, 1))) {
+		mat <- rbind(mat, 0)
+		mat <- cbind(mat, c(0, 1))
+	}
+	validate_transform1d(mat)
+	new_transform1d(mat)
 }
 
 #' 2D affine transformation matrices
@@ -115,12 +115,12 @@ transform1d <- function(mat = diag(2L)) {
 #'
 #' @export
 transform2d <- function(mat = diag(3L)) {
-    if (all(dim(mat) == c(2, 2))) {
-        mat <- rbind(mat, c(0, 0))
-        mat <- cbind(mat, c(0, 0, 1))
-    }
-    validate_transform2d(mat)
-    new_transform2d(mat)
+	if (all(dim(mat) == c(2, 2))) {
+		mat <- rbind(mat, c(0, 0))
+		mat <- cbind(mat, c(0, 0, 1))
+	}
+	validate_transform2d(mat)
+	new_transform2d(mat)
 }
 
 #' 3D affine transformation matrices
@@ -176,216 +176,252 @@ transform2d <- function(mat = diag(3L)) {
 #'
 #' @export
 transform3d <- function(mat = diag(4L)) {
-    if (all(dim(mat) == c(3, 3))) {
-        mat <- rbind(mat, c(0, 0, 0))
-        mat <- cbind(mat, c(0, 0, 0, 1))
-    }
-    validate_transform3d(mat)
-    new_transform3d(mat)
+	if (all(dim(mat) == c(3, 3))) {
+		mat <- rbind(mat, c(0, 0, 0))
+		mat <- cbind(mat, c(0, 0, 0, 1))
+	}
+	validate_transform3d(mat)
+	new_transform3d(mat)
 }
 
 validate_transform1d <- function(x) {
-    stopifnot(is.matrix(x),
-              all(dim(x) == c(2L, 2L)))
-    if (!all(x[, 2L] == c(0, 1))) {
-        msg <- "The last column must be equal to `c(0, 1)`."
-        if (all(x[2L, ] == c(0, 1))) {
-            stop(paste(msg,
-                       "Do you need to transpose a pre-multiplied affine transformation matrix",
-                       "with `t()` to convert it into a post-multiplied one?"))
-        } else {
-            stop(msg)
-        }
-    }
+	stopifnot(is.matrix(x), all(dim(x) == c(2L, 2L)))
+	if (!all(x[, 2L] == c(0, 1))) {
+		msg <- "The last column must be equal to `c(0, 1)`."
+		if (all(x[2L, ] == c(0, 1))) {
+			stop(paste(
+				msg,
+				"Do you need to transpose a pre-multiplied affine transformation matrix",
+				"with `t()` to convert it into a post-multiplied one?"
+			))
+		} else {
+			stop(msg)
+		}
+	}
 }
 
 validate_transform2d <- function(x) {
-    stopifnot(is.matrix(x),
-              all(dim(x) == c(3, 3)))
-    if (!all(x[, 3L] == c(0, 0, 1))) {
-        msg <- "The last column must be equal to `c(0, 0, 1)`."
-        if (all(x[3L, ] == c(0, 0, 1))) {
-            stop(paste(msg,
-                       "Do you need to transpose a pre-multiplied affine transformation matrix",
-                       "with `t()` to convert it into a post-multiplied one?"))
-        } else {
-            stop(msg)
-        }
-    }
+	stopifnot(is.matrix(x), all(dim(x) == c(3, 3)))
+	if (!all(x[, 3L] == c(0, 0, 1))) {
+		msg <- "The last column must be equal to `c(0, 0, 1)`."
+		if (all(x[3L, ] == c(0, 0, 1))) {
+			stop(paste(
+				msg,
+				"Do you need to transpose a pre-multiplied affine transformation matrix",
+				"with `t()` to convert it into a post-multiplied one?"
+			))
+		} else {
+			stop(msg)
+		}
+	}
 }
 
 validate_transform3d <- function(x) {
-    stopifnot(is.matrix(x),
-              all(dim(x) == c(4, 4)))
-    if (!all(x[, 4L] == c(0, 0, 0, 1))) {
-        msg <- "The last column must be equal to `c(0, 0, 0, 1)`."
-        if (all(x[4L, ] == c(0, 0, 0, 1))) {
-            stop(paste(msg,
-                       "Do you need to transpose a pre-multiplied affine transformation matrix",
-                       "with `t()` to convert it into a post-multiplied one?"))
-        } else {
-            stop(msg)
-        }
-    }
+	stopifnot(is.matrix(x), all(dim(x) == c(4, 4)))
+	if (!all(x[, 4L] == c(0, 0, 0, 1))) {
+		msg <- "The last column must be equal to `c(0, 0, 0, 1)`."
+		if (all(x[4L, ] == c(0, 0, 0, 1))) {
+			stop(paste(
+				msg,
+				"Do you need to transpose a pre-multiplied affine transformation matrix",
+				"with `t()` to convert it into a post-multiplied one?"
+			))
+		} else {
+			stop(msg)
+		}
+	}
 }
 
 new_transform1d <- function(mat) {
-    if (!inherits(mat, "transform1d"))
-        class(mat) <- c("transform1d", "at_matrix", class(matrix()))
-    mat
+	if (!inherits(mat, "transform1d")) {
+		class(mat) <- c("transform1d", "at_matrix", class(matrix()))
+	}
+	mat
 }
 
 new_transform2d <- function(mat) {
-    if (!inherits(mat, "transform2d"))
-        class(mat) <- c("transform2d", "at_matrix", class(matrix()))
-    mat
+	if (!inherits(mat, "transform2d")) {
+		class(mat) <- c("transform2d", "at_matrix", class(matrix()))
+	}
+	mat
 }
 
 new_transform3d <- function(mat) {
-    if (!inherits(mat, "transform3d"))
-        class(mat) <- c("transform3d", "at_matrix", class(matrix()))
-    mat
+	if (!inherits(mat, "transform3d")) {
+		class(mat) <- c("transform3d", "at_matrix", class(matrix()))
+	}
+	mat
 }
 
 #' @rdname transform2d
 #' @param permutation `r r2i_transform2d_permutation`
 #' @export
 permute2d <- function(permutation = c("xy", "yx")) {
-    permutation <- match.arg(permutation)
-    mat <- switch(permutation,
-           xy = diag(3L),
-           yx = matrix(c(0, 1, 0,
-                         1, 0, 0,
-                         0, 0, 1), byrow = TRUE, ncol = 3, nrow = 3))
-    new_transform2d(mat)
+	permutation <- match.arg(permutation)
+	mat <- switch(
+		permutation,
+		xy = diag(3L),
+		yx = matrix(c(0, 1, 0, 1, 0, 0, 0, 0, 1), byrow = TRUE, ncol = 3, nrow = 3)
+	)
+	new_transform2d(mat)
 }
 
 #' @rdname transform3d
 #' @param permutation `r r2i_transform3d_permutation`
 #' @export
 permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy")) {
-    permutation <- match.arg(permutation)
-    mat <- switch(permutation,
-           xyz = diag(4L),
-           xzy = matrix(c(1, 0, 0, 0,
-                          0, 0, 1, 0,
-                          0, 1, 0, 0,
-                          0, 0, 0, 1), byrow = TRUE, ncol = 4, nrow = 4),
-           yxz = matrix(c(0, 1, 0, 0,
-                          1, 0, 0, 0,
-                          0, 0, 1, 0,
-                          0, 0, 0, 1), byrow = TRUE, ncol = 4, nrow = 4),
-           yzx = matrix(c(0, 0, 1, 0,
-                          1, 0, 0, 0,
-                          0, 1, 0, 0,
-                          0, 0, 0, 1), byrow = TRUE, ncol = 4, nrow = 4),
-           zxy = matrix(c(0, 1, 0, 0,
-                          0, 0, 1, 0,
-                          1, 0, 0, 0,
-                          0, 0, 0, 1), byrow = TRUE, ncol = 4, nrow = 4),
-           zyx = matrix(c(0, 0, 1, 0,
-                          0, 1, 0, 0,
-                          1, 0, 0, 0,
-                          0, 0, 0, 1), byrow = TRUE, ncol = 4, nrow = 4))
-    new_transform2d(mat)
+	permutation <- match.arg(permutation)
+	mat <- switch(
+		permutation,
+		xyz = diag(4L),
+		xzy = matrix(
+			c(1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1),
+			byrow = TRUE,
+			ncol = 4,
+			nrow = 4
+		),
+		yxz = matrix(
+			c(0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1),
+			byrow = TRUE,
+			ncol = 4,
+			nrow = 4
+		),
+		yzx = matrix(
+			c(0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1),
+			byrow = TRUE,
+			ncol = 4,
+			nrow = 4
+		),
+		zxy = matrix(
+			c(0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1),
+			byrow = TRUE,
+			ncol = 4,
+			nrow = 4
+		),
+		zyx = matrix(
+			c(0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1),
+			byrow = TRUE,
+			ncol = 4,
+			nrow = 4
+		)
+	)
+	new_transform2d(mat)
 }
 
 #' @rdname transform1d
 #' @export
 project1d <- function(point = as_point1d("origin"), ...) {
-    if (!is_point1d(point))
-        point <- as_point1d(point, ...)
-    stopifnot(length(point) == 1L)
-    x <- as_coord1d(point)
-    mat <- scale1d(0) %*% translate1d(x)
-    new_transform1d(mat)
+	if (!is_point1d(point)) {
+		point <- as_point1d(point, ...)
+	}
+	stopifnot(length(point) == 1L)
+	x <- as_coord1d(point)
+	mat <- scale1d(0) %*% translate1d(x)
+	new_transform1d(mat)
 }
 
 #' @rdname transform2d
 #' @param scale `r r2i_transform2d_scale`
 #' @export
 project2d <- function(line = as_line2d("x-axis"), ..., scale = 0) {
-    if (!is_line2d(line))
-        line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1L,
-              scale == 0 || line$a == 0)
-    denom <- line$a^2 + line$b^2
-    closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
-    theta <- as_angle(line)
-    mat <- translate2d(-closest) %*%
-        rotate2d(-theta) %*%
-        shear2d(xy_shear = scale) %*%
-        scale2d(y_scale = 0) %*%
-        rotate2d(theta) %*%
-        translate2d(closest)
-    new_transform2d(mat)
+	if (!is_line2d(line)) {
+		line <- as_line2d(line, ...)
+	}
+	stopifnot(length(line) == 1L, scale == 0 || line$a == 0)
+	denom <- line$a^2 + line$b^2
+	closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
+	theta <- as_angle(line)
+	mat <- translate2d(-closest) %*%
+		rotate2d(-theta) %*%
+		shear2d(xy_shear = scale) %*%
+		scale2d(y_scale = 0) %*%
+		rotate2d(theta) %*%
+		translate2d(closest)
+	new_transform2d(mat)
 }
 
 #' @rdname transform3d
 #' @export
 #' @param scale `r r2i_transform3d_scale`
 #' @param alpha `r r2i_transform3d_alpha`
-project3d <- function(plane = as_plane3d("xy-plane"), ...,
-                      scale = 0,
-                      alpha = angle(45, "degrees")) {
-    if (!is_plane3d(plane))
-        plane <- as_plane3d(plane, ...)
-    if (!is_angle(alpha)) {
-        alpha <- as_angle(alpha, ...)
-    }
-    stopifnot(length(plane) == 1L,
-              scale == 0 || (plane$a == 0 && plane$b == 0),
-              length(alpha) == 1L)
-    denom <- plane$a^2 + plane$b^2 + plane$c^2
-    closest <- as_coord3d(-plane$a * plane$d / denom, -plane$b * plane$d / denom, -plane$c * plane$d / denom)
-    azimuth <- as_angle(plane, type = "azimuth")
-    inclination <- as_angle(plane, type = "inclination")
-    z_axis <- Coord3D$new(matrix(c(0, 0, 1, 1), nrow = 1,
-                                 dimnames = list(NULL, c("x", "y", "z", "w"))))
-    y_axis <- Coord3D$new(matrix(c(0, 1, 0, 1), nrow = 1,
-                                 dimnames = list(NULL, c("x", "y", "z", "w"))))
-    mat <- translate3d(-closest) %*%
-        rotate3d(z_axis, -azimuth) %*%
-        rotate3d(y_axis, -inclination) %*%
-        shear3d(xz_shear = scale * cos(alpha),
-                yz_shear = scale * sin(alpha)) %*%
-        scale3d(z_scale = 0) %*%
-        rotate3d(y_axis, inclination) %*%
-        rotate3d(z_axis, azimuth) %*%
-        translate3d(closest)
-    new_transform3d(mat)
+project3d <- function(
+	plane = as_plane3d("xy-plane"),
+	...,
+	scale = 0,
+	alpha = angle(45, "degrees")
+) {
+	if (!is_plane3d(plane)) {
+		plane <- as_plane3d(plane, ...)
+	}
+	if (!is_angle(alpha)) {
+		alpha <- as_angle(alpha, ...)
+	}
+	stopifnot(
+		length(plane) == 1L,
+		scale == 0 || (plane$a == 0 && plane$b == 0),
+		length(alpha) == 1L
+	)
+	denom <- plane$a^2 + plane$b^2 + plane$c^2
+	closest <- as_coord3d(
+		-plane$a * plane$d / denom,
+		-plane$b * plane$d / denom,
+		-plane$c * plane$d / denom
+	)
+	azimuth <- as_angle(plane, type = "azimuth")
+	inclination <- as_angle(plane, type = "inclination")
+	z_axis <- Coord3D$new(matrix(
+		c(0, 0, 1, 1),
+		nrow = 1,
+		dimnames = list(NULL, c("x", "y", "z", "w"))
+	))
+	y_axis <- Coord3D$new(matrix(
+		c(0, 1, 0, 1),
+		nrow = 1,
+		dimnames = list(NULL, c("x", "y", "z", "w"))
+	))
+	mat <- translate3d(-closest) %*%
+		rotate3d(z_axis, -azimuth) %*%
+		rotate3d(y_axis, -inclination) %*%
+		shear3d(xz_shear = scale * cos(alpha), yz_shear = scale * sin(alpha)) %*%
+		scale3d(z_scale = 0) %*%
+		rotate3d(y_axis, inclination) %*%
+		rotate3d(z_axis, azimuth) %*%
+		translate3d(closest)
+	new_transform3d(mat)
 }
 
 #' @rdname transform1d
 #' @param point `r r2i_transform1d_point`
 #' @export
 reflect1d <- function(point = as_point1d("origin"), ...) {
-    if (!is_point1d(point))
-        point <- as_point1d(point, ...)
-    stopifnot(length(point) == 1)
-    x <- as_coord1d(point)
-    mat <- translate1d(-x) %*%
-        scale1d(-1) %*%
-        translate1d(x)
-    new_transform1d(mat)
+	if (!is_point1d(point)) {
+		point <- as_point1d(point, ...)
+	}
+	stopifnot(length(point) == 1)
+	x <- as_coord1d(point)
+	mat <- translate1d(-x) %*%
+		scale1d(-1) %*%
+		translate1d(x)
+	new_transform1d(mat)
 }
 
 #' @rdname transform2d
 #' @param line `r r2i_transform2d_line`
 #' @export
 reflect2d <- function(line = as_line2d("x-axis"), ...) {
-    if (!is_line2d(line))
-        line <- as_line2d(line, ...)
-    stopifnot(length(line) == 1L)
-    denom <- line$a^2 + line$b^2
-    closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
-    theta <- as_angle(line)
-    mat <- translate2d(-closest) %*%
-        rotate2d(-theta) %*%
-        scale2d(1, -1) %*%
-        rotate2d(theta) %*%
-        translate2d(closest)
-    new_transform2d(mat)
+	if (!is_line2d(line)) {
+		line <- as_line2d(line, ...)
+	}
+	stopifnot(length(line) == 1L)
+	denom <- line$a^2 + line$b^2
+	closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
+	theta <- as_angle(line)
+	mat <- translate2d(-closest) %*%
+		rotate2d(-theta) %*%
+		scale2d(1, -1) %*%
+		rotate2d(theta) %*%
+		translate2d(closest)
+	new_transform2d(mat)
 }
 
 # https://en.wikipedia.org/wiki/Transformation_matrix#Reflection_2
@@ -394,23 +430,28 @@ reflect2d <- function(line = as_line2d("x-axis"), ...) {
 #' @param plane `r r2i_transform3d_plane`
 #' @export
 reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
-    if (!is_plane3d(plane))
-        plane <- as_plane3d(plane, ...)
-    stopifnot(length(plane) == 1)
-    normal <- normal3d(plane)
-    denom <- plane$a^2 + plane$b^2 + plane$c^2
-    closest <- as_coord3d(-plane$a * plane$d / denom, -plane$b * plane$d / denom, -plane$c * plane$d / denom)
+	if (!is_plane3d(plane)) {
+		plane <- as_plane3d(plane, ...)
+	}
+	stopifnot(length(plane) == 1)
+	normal <- normal3d(plane)
+	denom <- plane$a^2 + plane$b^2 + plane$c^2
+	closest <- as_coord3d(
+		-plane$a * plane$d / denom,
+		-plane$b * plane$d / denom,
+		-plane$c * plane$d / denom
+	)
 
-    mat <- diag(4L)
-    mat[1L, 1L] <- 1 - 2 * normal$x^2
-    mat[1L, 2L] <- mat[2L, 1L] <- -2 * normal$x * normal$y
-    mat[1L, 3L] <- mat[3L, 1L] <- -2 * normal$x * normal$z
-    mat[2L, 2L] <- 1 - 2 * normal$y^2
-    mat[2L, 3L] <- mat[3L, 2L] <- -2 * normal$y * normal$z
-    mat[3L, 3L] <- 1 - 2 * normal$z^2
+	mat <- diag(4L)
+	mat[1L, 1L] <- 1 - 2 * normal$x^2
+	mat[1L, 2L] <- mat[2L, 1L] <- -2 * normal$x * normal$y
+	mat[1L, 3L] <- mat[3L, 1L] <- -2 * normal$x * normal$z
+	mat[2L, 2L] <- 1 - 2 * normal$y^2
+	mat[2L, 3L] <- mat[3L, 2L] <- -2 * normal$y * normal$z
+	mat[3L, 3L] <- 1 - 2 * normal$z^2
 
-    mat <- translate3d(-closest) %*% mat %*% translate3d(closest)
-    new_transform3d(mat)
+	mat <- translate3d(-closest) %*% mat %*% translate3d(closest)
+	new_transform3d(mat)
 }
 
 #' @rdname transform2d
@@ -418,14 +459,17 @@ reflect3d <- function(plane = as_plane3d("xy-plane"), ...) {
 #' @param ... Passed to [as_angle()] or [as_coord2d()].
 #' @export
 rotate2d <- function(theta = angle(0), ...) {
-    if (!is_angle(theta))
-        theta <- as_angle(theta, ...)
-    stopifnot(length(theta) == 1)
-    mat <- matrix(c(cos(theta), sin(theta), 0,
-                   -sin(theta), cos(theta), 0,
-                    0,          0,          1),
-                  nrow = 3L, ncol = 3L, byrow = TRUE)
-    new_transform2d(mat)
+	if (!is_angle(theta)) {
+		theta <- as_angle(theta, ...)
+	}
+	stopifnot(length(theta) == 1)
+	mat <- matrix(
+		c(cos(theta), sin(theta), 0, -sin(theta), cos(theta), 0, 0, 0, 1),
+		nrow = 3L,
+		ncol = 3L,
+		byrow = TRUE
+	)
+	new_transform2d(mat)
 }
 
 # Axis-angle representation to rotation matrix
@@ -438,48 +482,50 @@ rotate2d <- function(theta = angle(0), ...) {
 #' @rdname transform3d
 #' @export
 rotate3d <- function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
-    if (!is_coord3d(axis))
-        axis <- as_coord3d(axis, ...)
-    stopifnot(length(axis) == 1)
-    axis <- axis / abs(axis)
+	if (!is_coord3d(axis)) {
+		axis <- as_coord3d(axis, ...)
+	}
+	stopifnot(length(axis) == 1)
+	axis <- axis / abs(axis)
 
-    if (!is_angle(theta))
-        theta <- as_angle(theta, ...)
-    stopifnot(length(theta) == 1)
+	if (!is_angle(theta)) {
+		theta <- as_angle(theta, ...)
+	}
+	stopifnot(length(theta) == 1)
 
-    I <- diag(3L)
-    K <- cross_matrix(axis)
-    c <- cos(-theta)
-    s <- sin(-theta)
-    R <- I + s * K + (1 - c) * K %*% K
+	I <- diag(3L)
+	K <- cross_matrix(axis)
+	c <- cos(-theta)
+	s <- sin(-theta)
+	R <- I + s * K + (1 - c) * K %*% K
 
-    mat <- diag(4L)
-    mat[1:3, 1:3] <- R
-    mat
+	mat <- diag(4L)
+	mat[1:3, 1:3] <- R
+	mat
 }
 
 # "cross" product matrix
 # https://en.wikipedia.org/wiki/Cross_product#Conversion_to_matrix_multiplication
 cross_matrix <- function(x) {
-    stopifnot(is_coord3d(x) && length(x) == 1L)
-    m <- matrix(0, nrow = 3L, ncol = 3L)
-    m[1, 2] <- -x$z
-    m[1, 3] <- x$y
-    m[2, 1] <- x$z
-    m[2, 3] <- -x$x
-    m[3, 1] <- -x$y
-    m[3, 2] <- x$x
-    m
+	stopifnot(is_coord3d(x) && length(x) == 1L)
+	m <- matrix(0, nrow = 3L, ncol = 3L)
+	m[1, 2] <- -x$z
+	m[1, 3] <- x$y
+	m[2, 1] <- x$z
+	m[2, 3] <- -x$x
+	m[3, 1] <- -x$y
+	m[3, 2] <- x$x
+	m
 }
 
 #' @rdname transform1d
 #' @param x_scale `r r2i_transform_x_scale`
 #' @export
 scale1d <- function(x_scale = 1) {
-    stopifnot(length(x_scale) == 1L)
-    mat <- diag(2L)
-    mat[1L, 1L] <- x_scale
-    new_transform1d(mat)
+	stopifnot(length(x_scale) == 1L)
+	mat <- diag(2L)
+	mat[1L, 1L] <- x_scale
+	new_transform1d(mat)
 }
 
 #' @rdname transform2d
@@ -487,11 +533,11 @@ scale1d <- function(x_scale = 1) {
 #' @param y_scale `r r2i_transform_y_scale`
 #' @export
 scale2d <- function(x_scale = 1, y_scale = x_scale) {
-    stopifnot(length(x_scale) == 1L && length(y_scale) == 1L)
-    mat <- diag(3L)
-    mat[1L, 1L] <- x_scale
-    mat[2L, 2L] <- y_scale
-    new_transform2d(mat)
+	stopifnot(length(x_scale) == 1L && length(y_scale) == 1L)
+	mat <- diag(3L)
+	mat[1L, 1L] <- x_scale
+	mat[2L, 2L] <- y_scale
+	new_transform2d(mat)
 }
 
 #' @rdname transform3d
@@ -500,12 +546,12 @@ scale2d <- function(x_scale = 1, y_scale = x_scale) {
 #' @param z_scale `r r2i_transform_z_scale`
 #' @export
 scale3d <- function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
-    stopifnot(length(x_scale) == 1L && length(y_scale) == 1L && length(z_scale) == 1L)
-    mat <- diag(4L)
-    mat[1L, 1L] <- x_scale
-    mat[2L, 2L] <- y_scale
-    mat[3L, 3L] <- z_scale
-    new_transform3d(mat)
+	stopifnot(length(x_scale) == 1L && length(y_scale) == 1L && length(z_scale) == 1L)
+	mat <- diag(4L)
+	mat[1L, 1L] <- x_scale
+	mat[2L, 2L] <- y_scale
+	mat[3L, 3L] <- z_scale
+	new_transform3d(mat)
 }
 
 #' @rdname transform2d
@@ -513,11 +559,11 @@ scale3d <- function(x_scale = 1, y_scale = x_scale, z_scale = x_scale) {
 #' @param yx_shear `r r2i_transform2d_yx_shear`
 #' @export
 shear2d <- function(xy_shear = 0, yx_shear = 0) {
-    stopifnot(length(xy_shear) == 1L && length(yx_shear) == 1L)
-    mat <- diag(3L)
-    mat[2L, 1L] <- xy_shear
-    mat[1L, 2L] <- yx_shear
-    new_transform2d(mat)
+	stopifnot(length(xy_shear) == 1L && length(yx_shear) == 1L)
+	mat <- diag(3L)
+	mat[2L, 1L] <- xy_shear
+	mat[1L, 2L] <- yx_shear
+	new_transform2d(mat)
 }
 
 #' @rdname transform3d
@@ -528,18 +574,23 @@ shear2d <- function(xy_shear = 0, yx_shear = 0) {
 #' @param zx_shear `r r2i_transform3d_zx_shear`
 #' @param zy_shear `r r2i_transform3d_zy_shear`
 #' @export
-shear3d <- function(xy_shear = 0, xz_shear = 0,
-                    yx_shear = 0, yz_shear = 0,
-                    zx_shear = 0, zy_shear = 0) {
-    stopifnot(all(lengths(list(xy_shear, xz_shear, yx_shear, yz_shear, zx_shear, zy_shear)) == 1))
-    mat <- diag(4L)
-    mat[2L, 1L] <- xy_shear
-    mat[3L, 1L] <- xz_shear
-    mat[1L, 2L] <- yx_shear
-    mat[3L, 2L] <- yz_shear
-    mat[1L, 3L] <- zx_shear
-    mat[2L, 3L] <- zy_shear
-    new_transform2d(mat)
+shear3d <- function(
+	xy_shear = 0,
+	xz_shear = 0,
+	yx_shear = 0,
+	yz_shear = 0,
+	zx_shear = 0,
+	zy_shear = 0
+) {
+	stopifnot(all(lengths(list(xy_shear, xz_shear, yx_shear, yz_shear, zx_shear, zy_shear)) == 1))
+	mat <- diag(4L)
+	mat[2L, 1L] <- xy_shear
+	mat[3L, 1L] <- xz_shear
+	mat[1L, 2L] <- yx_shear
+	mat[3L, 2L] <- yz_shear
+	mat[1L, 3L] <- zx_shear
+	mat[2L, 3L] <- zy_shear
+	new_transform2d(mat)
 }
 
 #' @rdname transform1d
@@ -547,25 +598,27 @@ shear3d <- function(xy_shear = 0, xz_shear = 0,
 #' @param ... Passed to [as_coord1d()].
 #' @export
 translate1d <- function(x = as_coord1d(0), ...) {
-    if (!is_coord1d(x))
-        x <- as_coord1d(x, ...)
-    stopifnot(length(x) == 1L)
-    mat <- diag(2L)
-    mat[2L, 1L] <- x$x
-    new_transform1d(mat)
+	if (!is_coord1d(x)) {
+		x <- as_coord1d(x, ...)
+	}
+	stopifnot(length(x) == 1L)
+	mat <- diag(2L)
+	mat[2L, 1L] <- x$x
+	new_transform1d(mat)
 }
 
 #' @rdname transform2d
 #' @param x `r r2i_transform2d_x`
 #' @export
 translate2d <- function(x = as_coord2d(0, 0), ...) {
-    if (!is_coord2d(x))
-        x <- as_coord2d(x, ...)
-    stopifnot(length(x) == 1L)
-    mat <- diag(3L)
-    mat[3L, 1L] <- x$x
-    mat[3L, 2L] <- x$y
-    new_transform2d(mat)
+	if (!is_coord2d(x)) {
+		x <- as_coord2d(x, ...)
+	}
+	stopifnot(length(x) == 1L)
+	mat <- diag(3L)
+	mat[3L, 1L] <- x$x
+	mat[3L, 2L] <- x$y
+	new_transform2d(mat)
 }
 
 #' @rdname transform3d
@@ -573,12 +626,13 @@ translate2d <- function(x = as_coord2d(0, 0), ...) {
 #' @param ... Passed to [as_angle()] or [as_coord3d()].
 #' @export
 translate3d <- function(x = as_coord3d(0, 0, 0), ...) {
-    if (!is_coord3d(x))
-        x <- as_coord3d(x, ...)
-    stopifnot(length(x) == 1L)
-    mat <- diag(4L)
-    mat[4L, 1L] <- x$x
-    mat[4L, 2L] <- x$y
-    mat[4L, 3L] <- x$z
-    new_transform3d(mat)
+	if (!is_coord3d(x)) {
+		x <- as_coord3d(x, ...)
+	}
+	stopifnot(length(x) == 1L)
+	mat <- diag(4L)
+	mat[4L, 1L] <- x$x
+	mat[4L, 2L] <- x$y
+	mat[4L, 3L] <- x$z
+	new_transform3d(mat)
 }

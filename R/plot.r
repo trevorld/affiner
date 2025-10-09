@@ -49,57 +49,57 @@
 #' @name graphics
 #' @export
 plot.Coord1D <- function(x, ...) {
-    plot(data.frame(x = x$x, y = 0), ..., ylab = "", yaxt = "n")
+	plot(data.frame(x = x$x, y = 0), ..., ylab = "", yaxt = "n")
 }
 
 #' @rdname graphics
 #' @importFrom graphics points
 #' @export
 points.Coord1D <- function(x, ...) {
-    points(data.frame(x = x$x, y = 0), ...)
+	points(data.frame(x = x$x, y = 0), ...)
 }
 
 #' @rdname graphics
 #' @importFrom graphics lines
 #' @export
 lines.Point1D <- function(x, ...) {
-    graphics::abline(v = -x$b / x$a, ...)
+	graphics::abline(v = -x$b / x$a, ...)
 }
 
 #' @rdname graphics
 #' @export
 plot.Coord2D <- function(x, ...) {
-    plot(as.data.frame(x)[, 1:2], ...)
+	plot(as.data.frame(x)[, 1:2], ...)
 }
 
 #' @rdname graphics
 #' @importFrom graphics points
 #' @export
 points.Coord2D <- function(x, ...) {
-    points(as.data.frame(x)[, 1:2], ...)
+	points(as.data.frame(x)[, 1:2], ...)
 }
 
 #' @rdname graphics
 #' @importFrom graphics points
 #' @export
 lines.Line2D <- function(x, ...) {
-    index_v <- which(x$b == 0)
-    l <- list()
-    if (length(index_v)) {
-        graphics::abline(v = -x$c / x$a, ...)
-        x <- x[-index_v]
-    }
-    if (length(x)) {
-        slope <- - x$a / x$b
-        intercept <- - x$c / x$b
-        # a,b only allow single values
-        for (i in seq_len(length(x))) {
-            graphics::abline(a = intercept[i], b = slope[i], ...)
-        }
-    }
+	index_v <- which(x$b == 0)
+	l <- list()
+	if (length(index_v)) {
+		graphics::abline(v = -x$c / x$a, ...)
+		x <- x[-index_v]
+	}
+	if (length(x)) {
+		slope <- -x$a / x$b
+		intercept <- -x$c / x$b
+		# a,b only allow single values
+		for (i in seq_len(length(x))) {
+			graphics::abline(a = intercept[i], b = slope[i], ...)
+		}
+	}
 }
 
 #' @exportS3Method rgl::plot3d
 plot3d.Coord3D <- function(x, ...) {
-    rgl::plot3d(as.data.frame(x), ...)
+	rgl::plot3d(as.data.frame(x), ...)
 }
