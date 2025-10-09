@@ -58,66 +58,62 @@ In particular the following graphics devices should support the affine transform
 }
 }
 \examples{
-if (require("grid", quietly = TRUE) &&
-    getRversion() >= "4.2.0" &&
-    isTRUE(dev.capabilities()$transformations)) {
-  # Only works if active graphics device supports affine transformations
-  # such as `png(type="cairo")` on R 4.2+
+# Only works if active graphics device supports affine transformations
+# such as `png(type="cairo")` on R 4.2+
+can_run_grid_example <- require("grid", quietly = TRUE) &&
+  getRversion() >= "4.2.0" &&
+  isTRUE(dev.capabilities()$transformations)
+if (can_run_grid_example) {
   grid.newpage()
   gp_text <- gpar(fontsize = 72)
   grid.isocube(top = textGrob("top", gp = gp_text),
                right = textGrob("right", gp = gp_text),
                left = textGrob("left", gp = gp_text))
 }
-if (require("grid") &&
-    getRversion() >= "4.2.0" &&
-    isTRUE(dev.capabilities()$transformations)) {
-    colors <- c("#D55E00", "#009E73", "#56B4E9")
-    spacings <- c(0.25, 0.2, 0.25)
-    texts <- c("pkgname", "left\nface", "right\nface")
-    rots <- c(45, 0, 0)
-    fontsizes <- c(52, 80, 80)
-    sides <- c("top", "left", "right")
-    types <- gridpattern::names_polygon_tiling[c(5, 7, 9)]
-    l_grobs <- list()
-    grid.newpage()
-    for (i in 1:3) {
-        if (requireNamespace("gridpattern", quietly = TRUE)) {
-            bg <- gridpattern::grid.pattern_polygon_tiling(
-                       colour = "grey80",
-                       fill = c(colors[i], "white"),
-                       type = types[i],
-                       spacing = spacings[i],
-                       draw = FALSE)
-        } else {
-            bg <- rectGrob(gp = gpar(col = NA, fill = colors[i]))
-        }
-        text <- textGrob(texts[i], rot = rots[i],
-                         gp = gpar(fontsize = fontsizes[i]))
-        l_grobs[[sides[i]]] <- grobTree(bg, text)
-    }
+if (can_run_grid_example) {
+  colors <- c("#D55E00", "#009E73", "#56B4E9")
+  spacings <- c(0.25, 0.2, 0.25)
+  texts <- c("pkgname", "left\nface", "right\nface")
+  rots <- c(45, 0, 0)
+  fontsizes <- c(52, 80, 80)
+  sides <- c("top", "left", "right")
+  types <- gridpattern::names_polygon_tiling[c(5, 7, 9)]
+  l_grobs <- list()
+  grid.newpage()
+  for (i in 1:3) {
+      if (requireNamespace("gridpattern", quietly = TRUE)) {
+          bg <- gridpattern::grid.pattern_polygon_tiling(
+                     colour = "grey80",
+                     fill = c(colors[i], "white"),
+                     type = types[i],
+                     spacing = spacings[i],
+                     draw = FALSE)
+      } else {
+          bg <- rectGrob(gp = gpar(col = NA, fill = colors[i]))
+      }
+      text <- textGrob(texts[i], rot = rots[i],
+                       gp = gpar(fontsize = fontsizes[i]))
+      l_grobs[[sides[i]]] <- grobTree(bg, text)
+  }
   grid.newpage()
   grid.isocube(top = l_grobs$top,
                right = l_grobs$right,
                left = l_grobs$left)
 }
 \donttest{# May take more than 5 seconds on CRAN machines
-if (require("aRtsy", quietly = TRUE) &&
-    require("grid") &&
-    require("ggplot2", quietly = TRUE) &&
-    requireNamespace("gtable", quietly = TRUE) &&
-    getRversion() >= "4.2.0" &&
-    isTRUE(dev.capabilities()$transformations)
-    ) {
+can_run_artsy_example <- can_run_grid_example &&
+  require("aRtsy", quietly = TRUE) &&
+  require("ggplot2", quietly = TRUE) &&
+  requireNamespace("gtable", quietly = TRUE)
+if (can_run_artsy_example) {
   gg <- canvas_planet(colorPalette("lava"), threshold = 3) +
-    scale_x_continuous(expand=c(0, 0)) +
-    scale_y_continuous(expand=c(0, 0))
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous(expand = c(0, 0))
   grob <- ggplotGrob(gg)
   grob <- gtable::gtable_filter(grob, "panel") # grab just the panel
   grid.newpage()
   grid.isocube(top = grob, left = grob, right = grob,
                gp_border = grid::gpar(col = "darkorange", lwd = 12))
-
 }
 }
 }
