@@ -16,7 +16,7 @@
 #' @return A logical vector.
 #' @export
 has_intersection <- function(x, y, ...) {
-    UseMethod("has_intersection")
+	UseMethod("has_intersection")
 }
 
 #' @rdname has_intersection
@@ -24,60 +24,54 @@ has_intersection <- function(x, y, ...) {
 #'                  than `tolerance` will be considered \dQuote{equivalent}.
 #' @export
 has_intersection.default <- function(x, y, ...) {
-  !vapply(intersection(x, y, ...), is.null, logical(1L))
+	!vapply(intersection(x, y, ...), is.null, logical(1L))
 }
 
 #' @rdname has_intersection
 #' @export
-has_intersection.Point1D <- function(x, y, ...,
-                                    tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_point1d(y)) {
-        y <- as_point1d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(standardize(x), length.out = n)
-    y <- rep(standardize(y), length.out = n)
-    is_equivalent(x, y, tolerance = tolerance)
+has_intersection.Point1D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
+	if (!is_point1d(y)) {
+		y <- as_point1d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(standardize(x), length.out = n)
+	y <- rep(standardize(y), length.out = n)
+	is_equivalent(x, y, tolerance = tolerance)
 }
 
 #' @rdname has_intersection
 #' @param tolerance Numerics with differences smaller
 #'                  than `tolerance` will be considered \dQuote{equivalent}.
 #' @export
-has_intersection.Line2D <- function(x, y, ...,
-                                    tolerance = sqrt(.Machine$double.eps)) {
-    if (is_coord2d(y)) {
-        return (has_intersection.default(x, y, ..., tolerance = tolerance))
-    }
-    if (!is_line2d(y)) {
-        y <- as_line2d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(standardize(x), length.out = n)
-    y <- rep(standardize(y), length.out = n)
-    is_equivalent(x, y, tolerance = tolerance) |
-        !is_parallel(x, y, tolerance = tolerance)
+has_intersection.Line2D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
+	if (is_coord2d(y)) {
+		return(has_intersection.default(x, y, ..., tolerance = tolerance))
+	}
+	if (!is_line2d(y)) {
+		y <- as_line2d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(standardize(x), length.out = n)
+	y <- rep(standardize(y), length.out = n)
+	is_equivalent(x, y, tolerance = tolerance) |
+		!is_parallel(x, y, tolerance = tolerance)
 }
 
 #' @rdname has_intersection
 #' @export
-has_intersection.Plane3D <- function(x, y, ...,
-                                     tolerance = sqrt(.Machine$double.eps)) {
-    if (is_coord3d(y)) {
-        return (has_intersection.default(x, y, ..., tolerance = tolerance))
-    }
-    if (!is_plane3d(y)) {
-        y <- as_plane3d(y)
-    }
-    stopifnot(!any(is_degenerate(x)),
-              !any(is_degenerate(y)))
-    n <- max(length(x), length(y))
-    x <- rep(standardize(x), length.out = n)
-    y <- rep(standardize(y), length.out = n)
-    is_equivalent(x, y, tolerance = tolerance) |
-        !is_parallel(x, y, tolerance = tolerance)
+has_intersection.Plane3D <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
+	if (is_coord3d(y)) {
+		return(has_intersection.default(x, y, ..., tolerance = tolerance))
+	}
+	if (!is_plane3d(y)) {
+		y <- as_plane3d(y)
+	}
+	stopifnot(!any(is_degenerate(x)), !any(is_degenerate(y)))
+	n <- max(length(x), length(y))
+	x <- rep(standardize(x), length.out = n)
+	y <- rep(standardize(y), length.out = n)
+	is_equivalent(x, y, tolerance = tolerance) |
+		!is_parallel(x, y, tolerance = tolerance)
 }

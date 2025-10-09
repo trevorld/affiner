@@ -61,37 +61,51 @@
 #'          for more information about the group affine transformation feature.
 #'          See [isocubeGrob()] which wraps this function to render isometric cubes.
 #' @export
-affineGrob <- function(grob,
-                       vp_define = NULL,
-                       transform = NULL,
-                       vp_use = NULL,
-                       name = NULL, gp = grid::gpar(), vp = NULL) {
-    stopifnot(getRversion() >= "4.2.0")
-    if (is.null(transform))
-        transform <- grid::viewportTransform
-    grid::gTree(grob = grob, vp_define = vp_define,
-                transform = transform, vp_use = vp_use,
-                name = name, gp = gp, vp = vp, cl = "affine")
+affineGrob <- function(
+	grob,
+	vp_define = NULL,
+	transform = NULL,
+	vp_use = NULL,
+	name = NULL,
+	gp = grid::gpar(),
+	vp = NULL
+) {
+	stopifnot(getRversion() >= "4.2.0")
+	if (is.null(transform)) {
+		transform <- grid::viewportTransform
+	}
+	grid::gTree(
+		grob = grob,
+		vp_define = vp_define,
+		transform = transform,
+		vp_use = vp_use,
+		name = name,
+		gp = gp,
+		vp = vp,
+		cl = "affine"
+	)
 }
 
 #' @importFrom grid makeContent
 #' @export
 makeContent.affine <- function(x) {
-    if (!isTRUE(grDevices::dev.capabilities()$transformations)) {
-        stop(paste("This graphics device does not support the affine transformation feature.",
-                   "See the Details section of `help(\"affineGrob\")` for more info."))
-    }
-    define <- grid::defineGrob(x$grob, vp = x$vp_define)
-    use <- grid::useGrob(define$name, transform = x$transform, vp = x$vp_use)
-    gl <- grid::gList(define, use)
-    grid::setChildren(x, gl)
+	if (!isTRUE(grDevices::dev.capabilities()$transformations)) {
+		stop(paste(
+			"This graphics device does not support the affine transformation feature.",
+			"See the Details section of `help(\"affineGrob\")` for more info."
+		))
+	}
+	define <- grid::defineGrob(x$grob, vp = x$vp_define)
+	use <- grid::useGrob(define$name, transform = x$transform, vp = x$vp_use)
+	gl <- grid::gList(define, use)
+	grid::setChildren(x, gl)
 }
 
 #' @rdname affineGrob
 #' @param ... Passed to `affineGrob()`
 #' @export
 grid.affine <- function(...) {
-    af_grob <- affineGrob(...)
-    grid::grid.draw(af_grob)
-    invisible(af_grob)
+	af_grob <- affineGrob(...)
+	grid::grid.draw(af_grob)
+	invisible(af_grob)
 }

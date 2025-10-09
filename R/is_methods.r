@@ -10,7 +10,7 @@
 #' is_coord1d(p)
 #' @export
 is_coord1d <- function(x) {
-    inherits(x, "Coord1D")
+	inherits(x, "Coord1D")
 }
 
 #' Test whether an object has a Coord2D class
@@ -25,7 +25,7 @@ is_coord1d <- function(x) {
 #' is_coord2d(p)
 #' @export
 is_coord2d <- function(x) {
-    inherits(x, "Coord2D")
+	inherits(x, "Coord2D")
 }
 
 #' Test whether an object has a Coord3D class
@@ -42,7 +42,7 @@ is_coord2d <- function(x) {
 #' is_coord3d(p)
 #' @export
 is_coord3d <- function(x) {
-    inherits(x, "Coord3D")
+	inherits(x, "Coord3D")
 }
 
 #' Test whether an object has a Point1D class

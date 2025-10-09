@@ -55,7 +55,7 @@ inner vertices all have the same interior angle \code{beta}.
 }
 }
 \examples{
-# |8/3| star has outer vertex internal angle 45 degrees 
+# |8/3| star has outer vertex internal angle 45 degrees
 # and inner vertex external angle 90 degrees
 isotoxal_2ngon_inner_radius(8, d = 3)
 isotoxal_2ngon_inner_radius(8, alpha = 45)

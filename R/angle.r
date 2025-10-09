@@ -38,45 +38,44 @@
 #'   angular_unit(a2)
 #'   is_congruent(a1, a2)
 #' @export
-angle <- function(x = numeric(),
-                  unit = getOption("affiner_angular_unit", "degrees")) {
-    as_angle(x, unit = unit)
+angle <- function(x = numeric(), unit = getOption("affiner_angular_unit", "degrees")) {
+	as_angle(x, unit = unit)
 }
 
 new_angle <- function(x, unit) {
-    class(x) <- c("angle", class(x))
-    attr(x, "unit") <- unit
-    x
+	class(x) <- c("angle", class(x))
+	attr(x, "unit") <- unit
+	x
 }
 
 #' @rdname angle
 #' @export
 degrees <- function(x) {
-    as_angle(x, "degrees")
+	as_angle(x, "degrees")
 }
 
 #' @rdname angle
 #' @export
 gradians <- function(x) {
-    as_angle(x, "gradians")
+	as_angle(x, "gradians")
 }
 
 #' @rdname angle
 #' @export
 pi_radians <- function(x) {
-    as_angle(x, "pi-radians")
+	as_angle(x, "pi-radians")
 }
 
 #' @rdname angle
 #' @export
 radians <- function(x) {
-    as_angle(x, "radians")
+	as_angle(x, "radians")
 }
 
 #' @rdname angle
 #' @export
 turns <- function(x) {
-    as_angle(x, "turns")
+	as_angle(x, "turns")
 }
 
 #' Test whether an object is an angle vector
@@ -93,32 +92,34 @@ turns <- function(x) {
 is_angle <- function(x) inherits(x, "angle")
 
 standardize_angular_unit <- function(unit) {
-    stopifnot(length(unit) == 1L)
-    if (unit %in% c("degrees", "pi-radians", "gradians", "radians", "turns"))
-        unit
-    else
-        switch(gsub("[[:punct:]]|[[:space:]]|s$", "", unit),
-           degree = "degrees",
-           deg = "degrees",
+	stopifnot(length(unit) == 1L)
+	if (unit %in% c("degrees", "pi-radians", "gradians", "radians", "turns")) {
+		unit
+	} else {
+		switch(
+			gsub("[[:punct:]]|[[:space:]]|s$", "", unit),
+			degree = "degrees",
+			deg = "degrees",
 
-           halfturn = "pi-radians",
-           halfrevolution = "pi-radians",
-           piradian = "pi-radians",
+			halfturn = "pi-radians",
+			halfrevolution = "pi-radians",
+			piradian = "pi-radians",
 
-           gon = "gradians",
-           grad = "gradians",
-           grade = "gradians",
-           gradian = "gradians",
+			gon = "gradians",
+			grad = "gradians",
+			grade = "gradians",
+			gradian = "gradians",
 
-           radian = "radians",
-           rad = "radians",
+			radian = "radians",
+			rad = "radians",
 
-           rev = "turns",
-           revolution = "turns",
-           tr = "turns",
-           turn = "turns",
-           stop(paste("Do not recognize angular unit", sQuote(unit)))
-           )
+			rev = "turns",
+			revolution = "turns",
+			tr = "turns",
+			turn = "turns",
+			stop(paste("Do not recognize angular unit", sQuote(unit)))
+		)
+	}
 }
 
 #' Get/set angular unit of angle vectors
@@ -137,20 +138,20 @@ standardize_angular_unit <- function(unit) {
 #' print(a)
 #' @export
 angular_unit <- function(x) {
-    stopifnot(is_angle(x))
-    attr(x, "unit")
+	stopifnot(is_angle(x))
+	attr(x, "unit")
 }
 
 #' @rdname angular_unit
 #' @export
 `angular_unit<-` <- function(x, value) {
-    stopifnot(is_angle(x))
-    unit <- standardize_angular_unit(value)
-    if (unit == attr(x, "unit")) {
-        x
-    } else {
-        new_angle(as.numeric(x, unit = unit), unit)
-    }
+	stopifnot(is_angle(x))
+	unit <- standardize_angular_unit(value)
+	if (unit == attr(x, "unit")) {
+		x
+	} else {
+		new_angle(as.numeric(x, unit = unit), unit)
+	}
 }
 
 #' Implemented base methods for angle vectors
@@ -210,171 +211,170 @@ NULL
 
 #' @export
 c.angle <- function(...) {
-    l_dots <- list(...)
-    unit <- angular_unit(l_dots[[1]])
-    l_angles <- lapply(l_dots, as.numeric, unit = unit)
-    new_angle(unlist(l_angles), unit)
+	l_dots <- list(...)
+	unit <- angular_unit(l_dots[[1]])
+	l_angles <- lapply(l_dots, as.numeric, unit = unit)
+	new_angle(unlist(l_angles), unit)
 }
 
 #' @export
 rep.angle <- function(x, ..., length.out = NA_integer_) {
-    if (isTRUE(length(x) == length.out)) return(x)
-    unit <- angular_unit(x)
-    new_angle(rep(as.numeric(x), ..., length.out = length.out),
-              unit)
+	if (isTRUE(length(x) == length.out)) {
+		return(x)
+	}
+	unit <- angular_unit(x)
+	new_angle(rep(as.numeric(x), ..., length.out = length.out), unit)
 }
 
 #' @rdname angle-methods
 #' @export
 as.double.angle <- function(x, unit = angular_unit(x), ...) {
-    a <- NextMethod()
-    if (missing(unit)) return(a)
-    unit <- standardize_angular_unit(unit)
-    unit0 <- angular_unit(x)
-    if (unit == unit0) {
-        a
-    } else if (unit == "radians") {
-        to_radians(a, unit0)
-    } else if (unit0 == "radians") {
-        from_radians(a, unit)
-    } else {
-        from_piradians(to_piradians(a, unit0),
-                       unit)
-    }
+	a <- NextMethod()
+	if (missing(unit)) {
+		return(a)
+	}
+	unit <- standardize_angular_unit(unit)
+	unit0 <- angular_unit(x)
+	if (unit == unit0) {
+		a
+	} else if (unit == "radians") {
+		to_radians(a, unit0)
+	} else if (unit0 == "radians") {
+		from_radians(a, unit)
+	} else {
+		from_piradians(to_piradians(a, unit0), unit)
+	}
 }
 
 #' @rdname angle-methods
 #' @param modulus Numeric vector representing the complex numbers' modulus
 #' @export
 as.complex.angle <- function(x, modulus = 1, ...) {
-    complex(modulus = modulus, argument = as.numeric(x, "radians"))
+	complex(modulus = modulus, argument = as.numeric(x, "radians"))
 }
 
 #' @rdname angle-methods
 #' @param use_unicode If `TRUE` use Unicode symbols as appropriate.
 #' @export
-format.angle <- function(x, unit = angular_unit(x),
-                         ...,
-                         use_unicode = is_utf8_output()) {
-    if (!missing(unit))
-        x <- as_angle(x, unit = standardize_angular_unit(unit))
-    suffix <- switch(angular_unit(x),
-                     degrees = ifelse(use_unicode, "\u00b0", " deg"),
-                     "pi-radians" = ifelse(use_unicode, "\u03c0 rad", "*pi rad"),
-                     gradians = " gon",
-                     radians = " rad",
-                     turns = " tr")
-    if (length(x)) {
-        s <- paste0(format(as.numeric(x), ...), suffix)
-        is.na(s) <- is.na(x)
-        s
-    } else {
-        character()
-    }
+format.angle <- function(x, unit = angular_unit(x), ..., use_unicode = is_utf8_output()) {
+	if (!missing(unit)) {
+		x <- as_angle(x, unit = standardize_angular_unit(unit))
+	}
+	suffix <- switch(
+		angular_unit(x),
+		degrees = ifelse(use_unicode, "\u00b0", " deg"),
+		"pi-radians" = ifelse(use_unicode, "\u03c0 rad", "*pi rad"),
+		gradians = " gon",
+		radians = " rad",
+		turns = " tr"
+	)
+	if (length(x)) {
+		s <- paste0(format(as.numeric(x), ...), suffix)
+		is.na(s) <- is.na(x)
+		s
+	} else {
+		character()
+	}
 }
 
 #' @rdname angle-methods
 #' @export
-print.angle <- function(x,
-                        unit = angular_unit(x),
-                        ...,
-                        use_unicode = is_utf8_output()) {
-    cat("<angle<", attr(x, "unit"), ">[", length(x), "]>\n", sep = "")
-    if (length(x)) {
-        print.default(format.angle(x, unit = unit, ...,
-                                   use_unicode = use_unicode),
-                      quote = FALSE)
-    }
+print.angle <- function(x, unit = angular_unit(x), ..., use_unicode = is_utf8_output()) {
+	cat("<angle<", attr(x, "unit"), ">[", length(x), "]>\n", sep = "")
+	if (length(x)) {
+		print.default(format.angle(x, unit = unit, ..., use_unicode = use_unicode), quote = FALSE)
+	}
 }
 
 one_turn <- function(unit) {
-    switch(unit,
-           degrees = 360,
-           "pi-radians" = 2,
-           gradians = 400,
-           radians = 2 * pi,
-           turns = 1)
+	switch(unit, degrees = 360, "pi-radians" = 2, gradians = 400, radians = 2 * pi, turns = 1)
 }
 
 #' @rdname angle-methods
 #' @export
 abs.angle <- function(x) {
-    unit <- angular_unit(x)
-    new_angle(as.numeric(x) %% one_turn(unit), unit)
+	unit <- angular_unit(x)
+	new_angle(as.numeric(x) %% one_turn(unit), unit)
 }
 
 #' @export
 cos.angle <- function(x) {
-    cospi(as.numeric(x, "pi-radians"))
+	cospi(as.numeric(x, "pi-radians"))
 }
 
 #' @export
 sin.angle <- function(x) {
-    sinpi(as.numeric(x, "pi-radians"))
+	sinpi(as.numeric(x, "pi-radians"))
 }
 
 #' @export
 tan.angle <- function(x) {
-    tanpi(as.numeric(x, "pi-radians"))
+	tanpi(as.numeric(x, "pi-radians"))
 }
 
 #' @export
 Arg.angle <- function(z) {
-    as.numeric(z, "radians")
+	as.numeric(z, "radians")
 }
 
 #' @export
 Ops.angle <- function(e1, e2) {
-    if (missing(e2)) {
-        NextMethod()
-    } else {
-        if (is_angle(e1) && is_angle(e2)) {
-            if (angular_unit(e1) != angular_unit(e2)) {
-                angular_unit(e2) <- angular_unit(e1)
-            }
-            NextMethod()
-        } else {
-            NextMethod()
-        }
-    }
+	if (missing(e2)) {
+		NextMethod()
+	} else {
+		if (is_angle(e1) && is_angle(e2)) {
+			if (angular_unit(e1) != angular_unit(e2)) {
+				angular_unit(e2) <- angular_unit(e1)
+			}
+			NextMethod()
+		} else {
+			NextMethod()
+		}
+	}
 }
 
 to_piradians <- function(x, unit = "pi-radians") {
-    switch(unit,
-           degrees = x / 180,
-           "pi-radians" = x,
-           gradians = x / 200,
-           radians = x / pi,
-           turns = 2 * x)
+	switch(
+		unit,
+		degrees = x / 180,
+		"pi-radians" = x,
+		gradians = x / 200,
+		radians = x / pi,
+		turns = 2 * x
+	)
 }
 
 from_piradians <- function(x, unit = "pi-radians") {
-    switch(unit,
-           degrees = 180 * x,
-           "pi-radians" = x,
-           gradians = 200 * x,
-           radians = pi * x,
-           turns = 0.5 * x)
+	switch(
+		unit,
+		degrees = 180 * x,
+		"pi-radians" = x,
+		gradians = 200 * x,
+		radians = pi * x,
+		turns = 0.5 * x
+	)
 }
 
 to_radians <- function(x, unit = "radians") {
-    switch(unit,
-           degrees = pi * x / 180,
-           "pi-radians" = pi * x,
-           gradians = pi * x / 200,
-           radians = x,
-           turns = 2 * pi * x
-    )
+	switch(
+		unit,
+		degrees = pi * x / 180,
+		"pi-radians" = pi * x,
+		gradians = pi * x / 200,
+		radians = x,
+		turns = 2 * pi * x
+	)
 }
 
 from_radians <- function(x, unit = "radians") {
-    switch(unit,
-           degrees = 180 * x / pi,
-           "pi-radians" = x / pi,
-           gradians = 200 * x / pi,
-           radians = x,
-           turns = x / (2 * pi)
-    )
+	switch(
+		unit,
+		degrees = 180 * x / pi,
+		"pi-radians" = x / pi,
+		gradians = 200 * x / pi,
+		radians = x,
+		turns = x / (2 * pi)
+	)
 }
 
 #' Cast to angle vector
@@ -392,101 +392,90 @@ from_radians <- function(x, unit = "radians") {
 #' as_angle(200, "gradians")
 #'
 #' @export
-as_angle <- function(x,
-                     unit = getOption("affiner_angular_unit", "degrees"),
-                     ...) {
-    UseMethod("as_angle")
+as_angle <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	UseMethod("as_angle")
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.angle <- function(x,
-                           unit = getOption("affiner_angular_unit", "degrees"),
-                           ...) {
-    unit <- standardize_angular_unit(unit)
-    if (unit == angular_unit(x)) {
-        x
-    } else {
-        new_angle(as.numeric(x, unit), unit)
-    }
+as_angle.angle <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	unit <- standardize_angular_unit(unit)
+	if (unit == angular_unit(x)) {
+		x
+	} else {
+		new_angle(as.numeric(x, unit), unit)
+	}
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.character <- function(x,
-                               unit = getOption("affiner_angular_unit", "degrees"),
-                               ...) {
-    unit <- standardize_angular_unit(unit)
-    a <- vapply(x, as_angle_character_helper, double(1), USE.NAMES = FALSE, unit = unit)
-    if (any(is.na(a) & !is.na(x)))
-        warning("NAs introduced by coercion")
-    new_angle(a, unit)
+as_angle.character <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	unit <- standardize_angular_unit(unit)
+	a <- vapply(x, as_angle_character_helper, double(1), USE.NAMES = FALSE, unit = unit)
+	if (any(is.na(a) & !is.na(x))) {
+		warning("NAs introduced by coercion")
+	}
+	new_angle(a, unit)
 }
 
 as_angle_character_helper <- function(x, unit) {
-    switch(x,
-           "x-axis" = 0,
-           "y-axis" = from_piradians(0.5, unit),
-           NA_real_)
+	switch(x, "x-axis" = 0, "y-axis" = from_piradians(0.5, unit), NA_real_)
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.complex <- function(x,
-                             unit = getOption("affiner_angular_unit", "degrees"),
-                             ...) {
-    unit <- standardize_angular_unit(unit)
-    a <- from_radians(Arg(x), unit)
-    new_angle(a, unit)
+as_angle.complex <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	unit <- standardize_angular_unit(unit)
+	a <- from_radians(Arg(x), unit)
+	new_angle(a, unit)
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.Coord2D <- function(x,
-                             unit = getOption("affiner_angular_unit", "degrees"),
-                             ...) {
-    unit <- standardize_angular_unit(unit)
-    a <- from_radians(atan2(x$y, x$x), unit)
-    new_angle(a, unit)
+as_angle.Coord2D <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	unit <- standardize_angular_unit(unit)
+	a <- from_radians(atan2(x$y, x$x), unit)
+	new_angle(a, unit)
 }
 
 #' @rdname as_angle
 #' @param type Use "azimuth" to calculate the azimuthal angle and "inclination" to calculate the inclination angle aka polar angle.
 #' @export
-as_angle.Coord3D <- function(x,
-                             unit = getOption("affiner_angular_unit", "degrees"),
-                             type = c("azimuth", "inclination"),
-                             ...) {
-    unit <- standardize_angular_unit(unit)
-    type <- match.arg(type)
-    switch(type,
-           azimuth = arctangent(x = x$x, y = x$y, unit = unit),
-           inclination = arccosine(x$z / abs(x), unit = unit)
-           )
+as_angle.Coord3D <- function(
+	x,
+	unit = getOption("affiner_angular_unit", "degrees"),
+	type = c("azimuth", "inclination"),
+	...
+) {
+	unit <- standardize_angular_unit(unit)
+	type <- match.arg(type)
+	switch(
+		type,
+		azimuth = arctangent(x = x$x, y = x$y, unit = unit),
+		inclination = arccosine(x$z / abs(x), unit = unit)
+	)
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.Line2D <- function(x,
-                            unit = getOption("affiner_angular_unit", "degrees"),
-                            ...) {
-    arctangent(y = x$a, x = -x$b, unit = unit)
+as_angle.Line2D <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	arctangent(y = x$a, x = -x$b, unit = unit)
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.Plane3D <- function(x,
-                             unit = getOption("affiner_angular_unit", "degrees"),
-                             type = c("azimuth", "inclination"),
-                             ...) {
-    as_angle.Coord3D(normal3d(x), unit = unit, type = type)
+as_angle.Plane3D <- function(
+	x,
+	unit = getOption("affiner_angular_unit", "degrees"),
+	type = c("azimuth", "inclination"),
+	...
+) {
+	as_angle.Coord3D(normal3d(x), unit = unit, type = type)
 }
 
 #' @rdname as_angle
 #' @export
-as_angle.numeric <- function(x,
-                             unit = getOption("affiner_angular_unit", "degrees"),
-                             ...) {
-    unit <- standardize_angular_unit(unit)
-    new_angle(x, unit)
+as_angle.numeric <- function(x, unit = getOption("affiner_angular_unit", "degrees"), ...) {
+	unit <- standardize_angular_unit(unit)
+	new_angle(x, unit)
 }

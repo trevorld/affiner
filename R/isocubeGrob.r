@@ -81,65 +81,87 @@
 #' }
 #' }
 #' @export
-isocubeGrob <- function(top, right, left,
-                        gp_border = grid::gpar(col = "black", lwd = 12),
-                        name = NULL, gp = grid::gpar(), vp = NULL) {
-    stopifnot(getRversion() >= "4.2.0")
-    if (inherits(top, "ggplot"))
-        top <- ggplot2::ggplotGrob(top)
-    if (inherits(right, "ggplot"))
-        right <- ggplot2::ggplotGrob(right)
-    if (inherits(left, "ggplot"))
-        left <- ggplot2::ggplotGrob(left)
+isocubeGrob <- function(
+	top,
+	right,
+	left,
+	gp_border = grid::gpar(col = "black", lwd = 12),
+	name = NULL,
+	gp = grid::gpar(),
+	vp = NULL
+) {
+	stopifnot(getRversion() >= "4.2.0")
+	if (inherits(top, "ggplot")) {
+		top <- ggplot2::ggplotGrob(top)
+	}
+	if (inherits(right, "ggplot")) {
+		right <- ggplot2::ggplotGrob(right)
+	}
+	if (inherits(left, "ggplot")) {
+		left <- ggplot2::ggplotGrob(left)
+	}
 
-    xy <- as_coord2d(angle(seq(90, 360 + 90, by = 60), "degrees"),
-                     radius = c(rep(0.488, 6), 0))
-    xy$translate(x = 0.5, y = 0.5)
-    l_xy <- list()
-    l_xy$top <- xy[c(1, 2, 7, 6)]
-    l_xy$right <- xy[c(7, 4, 5, 6)]
-    l_xy$left <- xy[c(2, 3, 4, 7)]
+	xy <- as_coord2d(angle(seq(90, 360 + 90, by = 60), "degrees"), radius = c(rep(0.488, 6), 0))
+	xy$translate(x = 0.5, y = 0.5)
+	l_xy <- list()
+	l_xy$top <- xy[c(1, 2, 7, 6)]
+	l_xy$right <- xy[c(7, 4, 5, 6)]
+	l_xy$left <- xy[c(2, 3, 4, 7)]
 
-    vp_define <- grid::viewport(width = grid::unit(1, "snpc"),
-                                height = grid::unit(1, "snpc"))
+	vp_define <- grid::viewport(width = grid::unit(1, "snpc"), height = grid::unit(1, "snpc"))
 
-    grid::gTree(top = top, right = right, left = left,
-                gp_border = gp_border, l_xy = l_xy, vp_define = vp_define,
-                name = name, gp = gp, vp = vp, cl = "isocube")
+	grid::gTree(
+		top = top,
+		right = right,
+		left = left,
+		gp_border = gp_border,
+		l_xy = l_xy,
+		vp_define = vp_define,
+		name = name,
+		gp = gp,
+		vp = vp,
+		cl = "isocube"
+	)
 }
 
 #' @importFrom grid makeContent
 #' @export
 makeContent.isocube <- function(x) {
-    gl <- grid::gList()
-    sides <- c("top", "right", "left")
-    for (i in 1:3) {
-        side <- sides[[i]]
-        xy_side <- x$l_xy[[side]]
-        settings <- affine_settings(xy_side, unit = "snpc")
-        grob <- x[[side]]
-        gl[[i]] <- affineGrob(grob,
-                              vp_define = x$vp_define,
-                              transform = settings$transform,
-                              vp_use = settings$vp)
-    }
+	gl <- grid::gList()
+	sides <- c("top", "right", "left")
+	for (i in 1:3) {
+		side <- sides[[i]]
+		xy_side <- x$l_xy[[side]]
+		settings <- affine_settings(xy_side, unit = "snpc")
+		grob <- x[[side]]
+		gl[[i]] <- affineGrob(
+			grob,
+			vp_define = x$vp_define,
+			transform = settings$transform,
+			vp_use = settings$vp
+		)
+	}
 
-    x$gp_border$fill <- "transparent"
-    for (i in 1:3) {
-        side <- sides[[i]]
-        xy_side <- x$l_xy[[side]]
-        gl[[i + 3L]] <- grid::polygonGrob(xy_side$x, xy_side$y, gp = x$gp_border,
-                                          default.units = "snpc")
-    }
+	x$gp_border$fill <- "transparent"
+	for (i in 1:3) {
+		side <- sides[[i]]
+		xy_side <- x$l_xy[[side]]
+		gl[[i + 3L]] <- grid::polygonGrob(
+			xy_side$x,
+			xy_side$y,
+			gp = x$gp_border,
+			default.units = "snpc"
+		)
+	}
 
-    grid::setChildren(x, gl)
+	grid::setChildren(x, gl)
 }
 
 #' @rdname isocubeGrob
 #' @param ... Passed to `isocubeGrob()`
 #' @export
 grid.isocube <- function(...) {
-    ic_grob <- isocubeGrob(...)
-    grid::grid.draw(ic_grob)
-    invisible(ic_grob)
+	ic_grob <- isocubeGrob(...)
+	grid::grid.draw(ic_grob)
+	invisible(ic_grob)
 }

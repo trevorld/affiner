@@ -23,13 +23,13 @@
 #'
 #' @export
 is_congruent <- function(x, y, ...) {
-    UseMethod("is_congruent")
+	UseMethod("is_congruent")
 }
 
 #' @rdname is_congruent
 #' @export
 is_congruent.numeric <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
-    abs(x - y) < tolerance
+	abs(x - y) < tolerance
 }
 
 #' @rdname is_congruent
@@ -37,21 +37,21 @@ is_congruent.numeric <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps
 #' @param tolerance Angles (coerced to half-turns) or numerics with differences smaller
 #'                  than `tolerance` will be considered \dQuote{congruent}.
 #' @export
-is_congruent.angle <- function(x, y, ..., mod_turns = TRUE,
-                               tolerance = sqrt(.Machine$double.eps)) {
-    if (!is_angle(y))
-        y <- as_angle(y, unit = angular_unit(x))
-    x <- as.numeric(x, "pi-radians")
-    y <- as.numeric(y, "pi-radians")
-    if (mod_turns) {
-        n <- max(length(x), length(y))
-        x <- rep_len(x, n) %% 2
-        y <- rep_len(y, n) %% 2
-        # Half-turn angles near two and zero (within tolerance) are "equivalent"
-        id1 <- which(x < tolerance & y + tolerance > 2 + x)
-        y[id1] <- y[id1] - 2
-        id2 <- which(y < tolerance & x + tolerance > 2 + y)
-        x[id2] <- x[id2] - 2
-    }
-    abs(x - y) < tolerance
+is_congruent.angle <- function(x, y, ..., mod_turns = TRUE, tolerance = sqrt(.Machine$double.eps)) {
+	if (!is_angle(y)) {
+		y <- as_angle(y, unit = angular_unit(x))
+	}
+	x <- as.numeric(x, "pi-radians")
+	y <- as.numeric(y, "pi-radians")
+	if (mod_turns) {
+		n <- max(length(x), length(y))
+		x <- rep_len(x, n) %% 2
+		y <- rep_len(y, n) %% 2
+		# Half-turn angles near two and zero (within tolerance) are "equivalent"
+		id1 <- which(x < tolerance & y + tolerance > 2 + x)
+		y[id1] <- y[id1] - 2
+		id2 <- which(y < tolerance & x + tolerance > 2 + y)
+		x[id2] <- x[id2] - 2
+	}
+	abs(x - y) < tolerance
 }
