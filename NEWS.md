@@ -1,4 +1,4 @@
-affiner 2.0.1
+affiner 0.2.1
 =============
 
 * `has_intersection()` is a generic S3 method which tests whether two objects have an intersection.
