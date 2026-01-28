@@ -1,5 +1,5 @@
-affiner 2.0.0 (development)
-===========================
+affiner 2.0.1
+=============
 
 * `has_intersection()` is a generic S3 method which tests whether two objects have an intersection.
 * `intersection()` is a generic S3 method which computes the intersection of two objects.
@@ -66,7 +66,7 @@ Initial features
     + `*` either applies a "dot" product (if multiplying another `Coord1D`, `Coord2D`, or `Coord3D` object)
           or a "scaling" transformation (if multiplying a numeric value)
     + `/` applies a "scaling" transformation
-    + Unary `-` applies a "scaling" transformation whereas 
+    + Unary `-` applies a "scaling" transformation whereas
       binary `-` and `+` apply a "translation" transformation
 
   + Additional S3 methods:
