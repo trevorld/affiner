@@ -1,3 +1,8 @@
+affiner 0.2.2 (development)
+===========================
+
+* No user facing changes.
+
 affiner 0.2.1
 =============
 
