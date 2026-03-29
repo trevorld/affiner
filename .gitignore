@@ -1,6 +1,7 @@
 README.html
+.claude/
 codecov.yml
 pkgdown
 *.swp
 tmp
-raw-data/*jpeg
+data-raw/*jpeg

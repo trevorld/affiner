@@ -6,6 +6,7 @@
 ^README.rst$
 ^Rakefile$
 ^\.air.toml$
+^\.claude$
 ^\.editorconfig$
 ^\.git$
 ^\.github$
@@ -16,6 +17,6 @@
 ^cran-comments.md$
 ^docs$
 ^pkgdown$
-^raw-data$
+^data-raw$
 ^revdep$
 ^tmp$
