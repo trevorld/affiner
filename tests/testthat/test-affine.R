@@ -430,6 +430,8 @@ test_that("shear2d()", {
 })
 
 test_that("shear3d()", {
+	expect_true(is_transform3d(shear3d()))
+
 	x <- c(2, 5, 7)
 	y <- c(3, 4, 6)
 	z <- c(5, 2, 3)

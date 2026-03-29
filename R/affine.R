@@ -590,7 +590,7 @@ shear3d <- function(
 	mat[3L, 2L] <- yz_shear
 	mat[1L, 3L] <- zx_shear
 	mat[2L, 3L] <- zy_shear
-	new_transform2d(mat)
+	new_transform3d(mat)
 }
 
 #' @rdname transform1d

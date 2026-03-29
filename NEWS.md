@@ -1,7 +1,7 @@
 affiner 0.2.2 (development)
 ===========================
 
-* No user facing changes.
+* `shear3d()` now correctly returns a `transform3d` object instead of a `transform2d` object.
 
 affiner 0.2.1
 =============
