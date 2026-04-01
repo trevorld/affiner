@@ -28,7 +28,7 @@ In `{affiner}` angles are represented by the `angle()` class:
   + "rad" or "radian"
   + "rev", "revolution", "tr", or "turn"
 
-* `degrees()`, `gradians()`, `pi_radians()`, `radians()`, `turns()` are convenience wrappers around `as_angle.()` that specifies the angular unit. 
+* `degrees()`, `gradians()`, `pi_radians()`, `radians()`, `turns()` are convenience wrappers around `as_angle.()` that specifies the angular unit.
 
 * One can use the `affiner_angular_unit` global option to set the default angular unit used by this package from "degrees" to "gradians", (multiples of) "pi-radians", "radians", or "turns".
 
@@ -78,6 +78,7 @@ In `{affiner}` 2D Coordinates are represented by a `Coord2D` R6 class:
     can be applied in an intuitive order.
   +  `abs()` computes Euclidean norm and `distance2d()` computes Euclidean distances
   + `convex_hull2d()` computes the convex hull.
+  * `dot_product2d()` computes dot (inner) products.  You may also use the `*` operator and if R >= 4.3.0 you may also use the `%*%` operator to compute dot (inner) products.
   * `range()` computes the axis-aligned bounding box ranges.
 
 ```{r 2d}
@@ -123,7 +124,8 @@ In `{affiner}` 3D Coordinates are represented by a `Coord3D` R6 class:
     can be applied in an intuitive order.
   +  `abs()` computes Euclidean norm and `distance3d()` computes Euclidean distances
   * `range()` computes the axis-aligned bounding box ranges.
-  * `cross_product3d()` computes cross products (`*` computes inner products).  If R >= 4.4.0 you may also use `crossprod()`.
+  * `cross_product3d()` computes cross products.  If R >= 4.4.0 you may also use `crossprod()`.
+  * `dot_product3d()` computes dot (inner) products.  You may also use the `*` operator and if R >= 4.3.0 you may also use the `%*%` operator to compute dot (inner) products.
 
 ```{r 3d}
 # Cartesian coordinates

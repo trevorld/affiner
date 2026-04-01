@@ -5,3 +5,4 @@ pkgdown
 *.swp
 tmp
 data-raw/*jpeg
+tests/testthat/Rplots.pdf

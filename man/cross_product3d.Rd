@@ -25,3 +25,6 @@ if (getRversion() >= "4.4.0") {
   crossprod(x, y)
 }
 }
+\seealso{
+\code{\link[=dot_product3d]{dot_product3d()}} for the dot product of two \link{Coord3D} vectors.
+}

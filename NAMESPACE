@@ -274,6 +274,9 @@ export(degrees)
 export(distance1d)
 export(distance2d)
 export(distance3d)
+export(dot_product1d)
+export(dot_product2d)
+export(dot_product3d)
 export(gradians)
 export(grid.affine)
 export(grid.isocube)
@@ -325,6 +328,15 @@ export(translate1d)
 export(translate2d)
 export(translate3d)
 export(turns)
+if (getRversion() >= "4.3.0") {
+  S3method("%*%",Coord1D)
+}
+if (getRversion() >= "4.3.0") {
+  S3method("%*%",Coord2D)
+}
+if (getRversion() >= "4.3.0") {
+  S3method("%*%",Coord3D)
+}
 if (getRversion() >= "4.3.0") {
   S3method("%*%",at_matrix)
 }
