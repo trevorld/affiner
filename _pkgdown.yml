@@ -69,6 +69,7 @@ reference:
         - distance1d
         - distance2d
         - distance3d
+        - dot_product1d
         - normal2d
         - normal3d
         - plot.Coord2D

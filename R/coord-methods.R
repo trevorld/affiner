@@ -353,7 +353,7 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 #' @export
 `*.Coord1D` <- function(e1, e2) {
 	if (is_coord1d(e1) && is_coord1d(e2)) {
-		inner_coord1d(e1, e2)
+		dot_product1d(e1, e2)
 	} else if (is_coord1d(e1) && is.numeric(e2)) {
 		e1$clone()$scale(e2)
 	} else if (is.numeric(e1) && is_coord1d(e2)) {
@@ -371,7 +371,7 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 #' @export
 `*.Coord2D` <- function(e1, e2) {
 	if (is_coord2d(e1) && is_coord2d(e2)) {
-		inner_coord2d(e1, e2)
+		dot_product2d(e1, e2)
 	} else if (is_coord2d(e1) && is.numeric(e2)) {
 		e1$clone()$scale(e2)
 	} else if (is.numeric(e1) && is_coord2d(e2)) {
@@ -389,7 +389,7 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 #' @export
 `*.Coord3D` <- function(e1, e2) {
 	if (is_coord3d(e1) && is_coord3d(e2)) {
-		inner_coord3d(e1, e2)
+		dot_product3d(e1, e2)
 	} else if (is_coord3d(e1) && is.numeric(e2)) {
 		e1$clone()$scale(e2)
 	} else if (is.numeric(e1) && is_coord3d(e2)) {
@@ -489,26 +489,68 @@ range.Coord3D <- function(..., na.rm = FALSE) {
 	as_coord3d(range(x$x), range(x$y), range(x$z))
 }
 
-inner_coord1d <- function(p1, p2) {
-	n <- max(length(p1), length(p2))
-	p1 <- rep_len(p1, n)
-	p2 <- rep_len(p2, n)
-	p1$x * p2$x
+#' Compute dot (inner) products
+#'
+#' `dot_product1d()`, `dot_product2d()`, and `dot_product3d()` compute the
+#' dot (inner) product of two coordinate vectors.
+#' You may also use the `*` operator and if R >= 4.3.0 you may also use the `%*%` operator to compute the dot (inner) product.
+#'
+#' @param x A [Coord1D], [Coord2D], or [Coord3D] object.
+#' @param y A [Coord1D], [Coord2D], or [Coord3D] object.
+#' @return A numeric vector of dot products.
+#' @examples
+#' p1 <- as_coord2d(x = c(1, 2), y = c(3, 4))
+#' p2 <- as_coord2d(x = c(5, 6), y = c(7, 8))
+#' dot_product2d(p1, p2)
+#' p1 * p2 # equivalent
+#' if (getRversion() >= "4.3.0") {
+#'   p1 %*% p2
+#' }
+#' @seealso [cross_product3d()] for the cross product of two [Coord3D] vectors.
+#' @name dot_product
+#' @export
+dot_product1d <- function(x, y) {
+	stopifnot(is_coord1d(x), is_coord1d(y))
+	n <- max(length(x), length(y))
+	x <- rep_len(x, n)
+	y <- rep_len(y, n)
+	x$x * y$x
 }
 
-inner_coord2d <- function(p1, p2) {
-	n <- max(length(p1), length(p2))
-	p1 <- rep_len(p1, n)
-	p2 <- rep_len(p2, n)
-	rowSums(p1$xyw[, 1:2, drop = FALSE] * p2$xyw[, 1:2, drop = FALSE])
+#' @rdname dot_product
+#' @export
+dot_product2d <- function(x, y) {
+	stopifnot(is_coord2d(x), is_coord2d(y))
+	n <- max(length(x), length(y))
+	x <- rep_len(x, n)
+	y <- rep_len(y, n)
+	rowSums(x$xyw[, 1:2, drop = FALSE] * y$xyw[, 1:2, drop = FALSE])
 }
 
-inner_coord3d <- function(p1, p2) {
-	n <- max(length(p1), length(p2))
-	p1 <- rep_len(p1, n)
-	p2 <- rep_len(p2, n)
-	rowSums(p1$xyzw[, 1:3, drop = FALSE] * p2$xyzw[, 1:3, drop = FALSE])
+#' @rdname dot_product
+#' @export
+dot_product3d <- function(x, y) {
+	stopifnot(is_coord3d(x), is_coord3d(y))
+	n <- max(length(x), length(y))
+	x <- rep_len(x, n)
+	y <- rep_len(y, n)
+	rowSums(x$xyzw[, 1:3, drop = FALSE] * y$xyzw[, 1:3, drop = FALSE])
 }
+
+#' @rawNamespace if (getRversion() >= "4.3.0") {
+#'   S3method("%*%",Coord1D)
+#' }
+`%*%.Coord1D` <- function(x, y) dot_product1d(x, y)
+
+#' @rawNamespace if (getRversion() >= "4.3.0") {
+#'   S3method("%*%",Coord2D)
+#' }
+`%*%.Coord2D` <- function(x, y) dot_product2d(x, y)
+
+#' @rawNamespace if (getRversion() >= "4.3.0") {
+#'   S3method("%*%",Coord3D)
+#' }
+`%*%.Coord3D` <- function(x, y) dot_product3d(x, y)
 
 plus_coord1d <- function(p1, p2) {
 	stopifnot(is_coord1d(p1), is_coord1d(p2))
@@ -669,6 +711,7 @@ Arg.Coord2D <- function(z) {
 #' if (getRversion() >= "4.4.0") {
 #'   crossprod(x, y)
 #' }
+#' @seealso [dot_product3d()] for the dot product of two [Coord3D] vectors.
 #' @export
 cross_product3d <- function(x, y) {
 	stopifnot(is_coord3d(x), is_coord3d(y))

@@ -417,6 +417,28 @@ test_that("print.Coord3D()", {
 # })
 # nolint end
 
+test_that("dot_product", {
+	p1 <- as_coord1d(2)
+	p2 <- as_coord1d(3)
+	expect_equal(dot_product1d(p1, p2), 6)
+	expect_equal(p1 * p2, 6)
+
+	p1 <- as_coord2d(1, 2)
+	p2 <- as_coord2d(3, 4)
+	expect_equal(dot_product2d(p1, p2), 11)
+	expect_equal(p1 * p2, 11)
+
+	p1 <- as_coord3d(1, 2, 3)
+	p2 <- as_coord3d(4, 5, 6)
+	expect_equal(dot_product3d(p1, p2), 32)
+	expect_equal(p1 * p2, 32)
+
+	skip_if_not(getRversion() >= "4.3.0")
+	expect_equal(as_coord1d(2) %*% as_coord1d(3), 6)
+	expect_equal(as_coord2d(1, 2) %*% as_coord2d(3, 4), 11)
+	expect_equal(as_coord3d(1, 2, 3) %*% as_coord3d(4, 5, 6), 32)
+})
+
 test_that("cross_product3d", {
 	x <- as_coord3d(2, 3, 4)
 	y <- as_coord3d(5, 6, 7)
