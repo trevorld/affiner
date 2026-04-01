@@ -86,10 +86,14 @@ affineGrob <- function(
 	)
 }
 
+dev_supports_transformations <- function() {
+	isTRUE(grDevices::dev.capabilities()$transformations)
+}
+
 #' @importFrom grid makeContent
 #' @export
 makeContent.affine <- function(x) {
-	if (!isTRUE(grDevices::dev.capabilities()$transformations)) {
+	if (!dev_supports_transformations()) {
 		stop(paste(
 			"This graphics device does not support the affine transformation feature.",
 			"See the Details section of `help(\"affineGrob\")` for more info."
