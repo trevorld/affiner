@@ -91,18 +91,21 @@ as_transform3d <- function(x, ...) {
 #' @rdname as_transform1d
 #' @export
 as_transform1d.transform1d <- function(x, ...) {
+	chkDots(...)
 	x
 }
 
 #' @rdname as_transform2d
 #' @export
 as_transform2d.transform2d <- function(x, ...) {
+	chkDots(...)
 	x
 }
 
 #' @rdname as_transform3d
 #' @export
 as_transform3d.transform3d <- function(x, ...) {
+	chkDots(...)
 	x
 }
 
@@ -177,6 +180,7 @@ solve.at_matrix <- function(a, b, ...) {
 
 #' @export
 as.matrix.at_matrix <- function(x, ...) {
+	chkDots(...)
 	class(x) <- NULL
 	x
 }
