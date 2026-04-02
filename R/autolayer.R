@@ -12,7 +12,7 @@ autolayer.Coord2D <- function(x, ...) {
 
 #' @exportS3Method ggplot2::autolayer
 autolayer.Point1D <- function(x, ...) {
-	ggplot2::geom_vline(xintercept = -x$b / x$a)
+	ggplot2::geom_vline(xintercept = -x$b / x$a, ...)
 }
 
 #' @exportS3Method ggplot2::autolayer
