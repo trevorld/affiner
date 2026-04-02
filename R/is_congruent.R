@@ -29,6 +29,7 @@ is_congruent <- function(x, y, ...) {
 #' @rdname is_congruent
 #' @export
 is_congruent.numeric <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps)) {
+	chkDots(...)
 	abs(x - y) < tolerance
 }
 
@@ -38,6 +39,7 @@ is_congruent.numeric <- function(x, y, ..., tolerance = sqrt(.Machine$double.eps
 #'                  than `tolerance` will be considered \dQuote{congruent}.
 #' @export
 is_congruent.angle <- function(x, y, ..., mod_turns = TRUE, tolerance = sqrt(.Machine$double.eps)) {
+	chkDots(...)
 	if (!is_angle(y)) {
 		y <- as_angle(y, unit = angular_unit(x))
 	}
