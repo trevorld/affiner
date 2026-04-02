@@ -20,6 +20,7 @@ normal2d <- function(x, ...) {
 #' @rdname normal2d
 #' @export
 normal2d.Coord2D <- function(x, ..., normalize = TRUE) {
+	chkDots(...)
 	# Two possible normals:
 	# 1: (x, y) => (y, -x) / abs((x, y))
 	# 2: (x, y) => (-y, x) / abs((x, y))
@@ -66,6 +67,7 @@ normal3d.Coord3D <- function(x, cross, ..., normalize = TRUE) {
 #' @rdname normal3d
 #' @export
 normal3d.character <- function(x, ..., normalize = TRUE) {
+	chkDots(...)
 	xc <- vapply(x, normal3d_character_x, double(1), USE.NAMES = FALSE)
 	yc <- vapply(x, normal3d_character_y, double(1), USE.NAMES = FALSE)
 	zc <- vapply(x, normal3d_character_z, double(1), USE.NAMES = FALSE)
@@ -119,6 +121,7 @@ normal3d_character_z <- function(x) {
 #' @rdname normal2d
 #' @export
 normal2d.Line2D <- function(x, ..., normalize = TRUE) {
+	chkDots(...)
 	n <- as_coord2d(x$a, x$b)
 	n$scale(1 / abs(n))
 	n
@@ -127,6 +130,7 @@ normal2d.Line2D <- function(x, ..., normalize = TRUE) {
 #' @rdname normal3d
 #' @export
 normal3d.Plane3D <- function(x, ..., normalize = TRUE) {
+	chkDots(...)
 	n <- as_coord3d(x$a, x$b, x$c)
 	n$scale(1 / abs(n))
 	n
