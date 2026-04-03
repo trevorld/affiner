@@ -30,31 +30,37 @@ length.Plane3D <- function(x) {
 
 #' @export
 as.data.frame.Point1D <- function(x, ...) {
+	chkDots(...)
 	data.frame(a = x$a, b = x$b)
 }
 
 #' @export
 as.data.frame.Line2D <- function(x, ...) {
+	chkDots(...)
 	data.frame(a = x$a, b = x$b, c = x$c)
 }
 
 #' @export
 as.data.frame.Plane3D <- function(x, ...) {
+	chkDots(...)
 	data.frame(a = x$a, b = x$b, c = x$c, d = x$d)
 }
 
 #' @export
 as.list.Point1D <- function(x, ...) {
+	chkDots(...)
 	list(a = x$a, b = x$b)
 }
 
 #' @export
 as.list.Line2D <- function(x, ...) {
+	chkDots(...)
 	list(a = x$a, b = x$b, c = x$c)
 }
 
 #' @export
 as.list.Plane3D <- function(x, ...) {
+	chkDots(...)
 	list(a = x$a, b = x$b, c = x$c, d = x$d)
 }
 
