@@ -175,9 +175,9 @@ as_coord1d.Coord2D <- function(
 	scale = 0
 ) {
 	if (!is_line2d(line)) {
-		line <- as_line2d(line, ..., scale == 0 || line$a == 0)
+		line <- as_line2d(line, ...)
 	}
-	stopifnot(length(line) == 1)
+	stopifnot(length(line) == 1, scale == 0 || line$a == 0)
 	permutation <- match.arg(permutation)
 	denom <- line$a^2 + line$b^2
 	closest <- as_coord2d(-line$a * line$c / denom, -line$b * line$c / denom)
@@ -258,7 +258,7 @@ as_coord1d.data.frame <- function(x, ...) {
 #' @export
 as_coord2d.data.frame <- function(x, ...) {
 	stopifnot(all(hasName(x, c("x", "y"))))
-	Coord2D$new(as_xyw_matrix(x[, c("x", "y")], ...))
+	Coord2D$new(as_xyw_matrix(x[, c("x", "y")]))
 }
 
 #' @rdname as_coord3d
@@ -273,7 +273,7 @@ as_coord3d.data.frame <- function(x, ..., z = NULL) {
 	} else {
 		nms <- c("x", "y")
 	}
-	Coord3D$new(as_xyzw_matrix(x[, nms], ...))
+	Coord3D$new(as_xyzw_matrix(x[, nms]))
 }
 
 #' @rdname as_coord1d
