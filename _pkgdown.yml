@@ -35,6 +35,12 @@ reference:
         - Plane3D
         - as_plane3d
         - is_plane3d
+    - title: "2D polygon objects"
+      desc: "2D polygon objects for overlap detection"
+      contents:
+        - Polygon2D
+        - as_polygon2d
+        - is_polygon2d
     - title: "1D/2D/3D affine transformation matrices"
       desc: "1D/2D/3D affine transformation matrices"
       contents:

@@ -3,31 +3,33 @@
 \name{convex_hull2d}
 \alias{convex_hull2d}
 \alias{convex_hull2d.Coord2D}
+\alias{convex_hull2d.Polygon2D}
 \title{Compute 2D convex hulls}
 \usage{
 convex_hull2d(x, ...)
 
 \method{convex_hull2d}{Coord2D}(x, ...)
+
+\method{convex_hull2d}{Polygon2D}(x, ...)
 }
 \arguments{
-\item{x}{An object representing object to compute convex hull of such as a \link{Coord2D} class object.}
+\item{x}{An object to compute the convex hull of,
+such as a \link{Coord2D} or \link{Polygon2D} object.}
 
 \item{...}{Further arguments passed to or from other methods.}
 }
 \value{
-An object of same class as \code{x} representing just the subset of points on the convex hull.
-The method for \link{Coord2D} class objects returns these points in counter-clockwise order.
+A \link{Polygon2D} object representing the convex hull.
 }
 \description{
-\code{convex_hull2d()} is a S3 generic for computing the convex hull of an object.
-There is an implemented method supporting \link{Coord2D} class objects
-using \code{\link[grDevices:chull]{grDevices::chull()}} to compute the convex hull.
+\code{convex_hull2d()} is a S3 generic for computing the convex hull of an
+object.  It is implemented for \link{Coord2D} and \link{Polygon2D} objects using
+\code{\link[grDevices:chull]{grDevices::chull()}} and returns a \link{Polygon2D} whose vertices are in
+counter-clockwise order.
 }
 \examples{
 p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-print(convex_hull2d(p))
-
-# Equivalent to following caculation using `grDevices::chull()`
-all.equal(convex_hull2d(p),
-          p[rev(grDevices::chull(as.list(p)))])
+hull <- convex_hull2d(p)
+is_polygon2d(hull)
+hull$is_convex
 }

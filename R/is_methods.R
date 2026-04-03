@@ -83,3 +83,16 @@ is_line2d <- function(x) inherits(x, "Line2D")
 #' is_plane3d(p)
 #' @export
 is_plane3d <- function(x) inherits(x, "Plane3D")
+
+#' Test whether an object has a Polygon2D class
+#'
+#' `is_polygon2d()` tests whether an object has a "Polygon2D" class
+#'
+#' @param x An object
+#' @return A logical value
+#'
+#' @examples
+#' p <- as_polygon2d(as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1)))
+#' is_polygon2d(p)
+#' @export
+is_polygon2d <- function(x) inherits(x, "Polygon2D")

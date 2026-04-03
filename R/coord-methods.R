@@ -15,51 +15,61 @@
 
 #' @export
 as.complex.Coord2D <- function(x, ...) {
+	chkDots(...)
 	complex(real = x$x, imaginary = x$y)
 }
 
 #' @export
 as.data.frame.Coord1D <- function(x, ...) {
+	chkDots(...)
 	as.data.frame(x$xw)
 }
 
 #' @export
 as.data.frame.Coord2D <- function(x, ...) {
+	chkDots(...)
 	as.data.frame(x$xyw)
 }
 
 #' @export
 as.data.frame.Coord3D <- function(x, ...) {
+	chkDots(...)
 	as.data.frame(x$xyzw)
 }
 
 #' @export
 as.list.Coord1D <- function(x, ...) {
+	chkDots(...)
 	as.list(as.data.frame(x$xw))
 }
 
 #' @export
 as.list.Coord2D <- function(x, ...) {
+	chkDots(...)
 	as.list(as.data.frame(x$xyw))
 }
 
 #' @export
 as.list.Coord3D <- function(x, ...) {
+	chkDots(...)
 	as.list(as.data.frame(x$xyzw))
 }
 
 #' @export
 as.matrix.Coord1D <- function(x, ...) {
+	chkDots(...)
 	x$xw
 }
 
 #' @export
 as.matrix.Coord2D <- function(x, ...) {
+	chkDots(...)
 	x$xyw
 }
 
 #' @export
 as.matrix.Coord3D <- function(x, ...) {
+	chkDots(...)
 	x$xyzw
 }
 
@@ -163,21 +173,20 @@ mean.Coord3D <- function(x, ...) {
 
 #' Compute 2D convex hulls
 #'
-#' `convex_hull2d()` is a S3 generic for computing the convex hull of an object.
-#' There is an implemented method supporting [Coord2D] class objects
-#' using [grDevices::chull()] to compute the convex hull.
+#' `convex_hull2d()` is a S3 generic for computing the convex hull of an
+#' object.  It is implemented for [Coord2D] and [Polygon2D] objects using
+#' [grDevices::chull()] and returns a [Polygon2D] whose vertices are in
+#' counter-clockwise order.
 #'
-#' @param x An object representing object to compute convex hull of such as a [Coord2D] class object.
+#' @param x An object to compute the convex hull of,
+#'   such as a [Coord2D] or [Polygon2D] object.
 #' @param ... Further arguments passed to or from other methods.
-#' @return An object of same class as `x` representing just the subset of points on the convex hull.
-#'         The method for [Coord2D] class objects returns these points in counter-clockwise order.
+#' @return A [Polygon2D] object representing the convex hull.
 #' @examples
 #' p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-#' print(convex_hull2d(p))
-#'
-#' # Equivalent to following caculation using `grDevices::chull()`
-#' all.equal(convex_hull2d(p),
-#'           p[rev(grDevices::chull(as.list(p)))])
+#' hull <- convex_hull2d(p)
+#' is_polygon2d(hull)
+#' hull$is_convex
 #' @export
 convex_hull2d <- function(x, ...) {
 	UseMethod("convex_hull2d")
@@ -186,7 +195,16 @@ convex_hull2d <- function(x, ...) {
 #' @rdname convex_hull2d
 #' @export
 convex_hull2d.Coord2D <- function(x, ...) {
-	x[rev(grDevices::chull(as.list(x)))]
+	chkDots(...)
+	idx <- rev(grDevices::chull(as.list(x)))
+	Polygon2D$new(x$xyw[idx, , drop = FALSE], convex = TRUE)
+}
+
+#' @rdname convex_hull2d
+#' @export
+convex_hull2d.Polygon2D <- function(x, ...) {
+	chkDots(...)
+	x$convex_hull
 }
 
 # Group "Summary"
@@ -628,16 +646,19 @@ floor.Coord3D <- function(x) {
 
 #' @export
 round.Coord1D <- function(x, digits = 0, ...) {
+	chkDots(...)
 	as_coord1d(round(x$x, digits))
 }
 
 #' @export
 round.Coord2D <- function(x, digits = 0, ...) {
+	chkDots(...)
 	as_coord2d(round(x$x, digits), round(x$y, digits))
 }
 
 #' @export
 round.Coord3D <- function(x, digits = 0, ...) {
+	chkDots(...)
 	as_coord3d(round(x$x, digits), round(x$y, digits), round(x$z, digits))
 }
 
@@ -658,16 +679,19 @@ signif.Coord3D <- function(x, digits = 6) {
 
 #' @export
 trunc.Coord1D <- function(x, ...) {
+	chkDots(...)
 	as_coord1d(trunc(x$x))
 }
 
 #' @export
 trunc.Coord2D <- function(x, ...) {
+	chkDots(...)
 	as_coord2d(trunc(x$x), trunc(x$y))
 }
 
 #' @export
 trunc.Coord3D <- function(x, ...) {
+	chkDots(...)
 	as_coord3d(trunc(x$x), trunc(x$y), trunc(x$z))
 }
 
@@ -728,7 +752,10 @@ cross_product3d <- function(x, y) {
 #' @rawNamespace if (getRversion() >= "4.4.0") {
 #'   S3method("crossprod",Coord3D)
 #' }
-crossprod.Coord3D <- function(x, y, ...) cross_product3d(x, y)
+crossprod.Coord3D <- function(x, y, ...) {
+	chkDots(...)
+	cross_product3d(x, y)
+}
 
 # nolint start
 # #' Scalar projections
