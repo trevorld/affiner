@@ -49,7 +49,13 @@ test_that("coord3d()", {
 
 test_that("convex_hull2d()", {
 	p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-	expect_equal(convex_hull2d(p), p[rev(grDevices::chull(as.list(p)))])
+	hull <- convex_hull2d(p)
+	expect_true(is_polygon2d(hull))
+	expect_true(hull$is_convex)
+	# Same coordinates as manual chull calculation
+	expected <- p[rev(grDevices::chull(as.list(p)))]
+	expect_equal(hull$x, expected$x)
+	expect_equal(hull$y, expected$y)
 })
 
 test_that("mean()", {
