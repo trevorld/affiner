@@ -218,6 +218,11 @@ c.angle <- function(...) {
 }
 
 #' @export
+`[.angle` <- function(x, i) {
+	new_angle(unclass(x)[i], angular_unit(x))
+}
+
+#' @export
 rep.angle <- function(x, ..., length.out = NA_integer_) {
 	if (isTRUE(length(x) == length.out)) {
 		return(x)
