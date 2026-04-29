@@ -7,6 +7,7 @@
 \alias{intersection.Plane3D}
 \alias{intersection.Coord1D}
 \alias{intersection.Coord2D}
+\alias{intersection.Ellipse2D}
 \alias{intersection.Coord3D}
 \title{The intersection of two objects.}
 \usage{
@@ -22,6 +23,8 @@ intersection(x, y, ...)
 
 \method{intersection}{Coord2D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
 
+\method{intersection}{Ellipse2D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
+
 \method{intersection}{Coord3D}(x, y, ..., tolerance = sqrt(.Machine$double.eps))
 }
 \arguments{
@@ -34,6 +37,9 @@ than \code{tolerance} will be considered \dQuote{equivalent}.}
 }
 \value{
 A list of the object intersections (or \code{NULL} if no intersection).
+For \link{Line2D}-\link{Ellipse2D} intersections each list element is a \link{Coord2D}
+of length 2 (two crossing points), length 1 (tangent), or \code{NULL}
+(no intersection).
 }
 \description{
 \code{intersection()} is an S3 method that returns the intersection of two objects.
@@ -49,4 +55,16 @@ line3 <- as_line2d(a = 0, b = 1, c = 2) # y + 2 = 0
 intersection(line1, line1)
 intersection(line1, line2)
 intersection(line1, line3)
+
+# Unit circle vs x-axis: two points at (1, 0) and (-1, 0)
+circ <- as_ellipse2d(as_coord2d("origin"), r = 1)
+intersection(circ, line1)
+
+# Tangent: circle vs line y = 1 (touches top of circle)
+line_top <- as_line2d(a = 0, b = 1, c = -1) # y - 1 = 0
+intersection(circ, line_top)
+
+# No intersection: circle vs y = 2
+line_above <- as_line2d(a = 0, b = 1, c = -2) # y - 2 = 0
+intersection(circ, line_above)
 }

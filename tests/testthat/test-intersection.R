@@ -85,3 +85,40 @@ test_that("`intersection()`", {
 	expect_equal(intersection(p1, "origin"), list(p1))
 	expect_equal(intersection(p1, p2), list(NULL))
 })
+
+test_that("intersection() Line2D and Ellipse2D", {
+	circ <- as_ellipse2d(as_coord2d("origin"), r = 1)
+	xax <- as_line2d("x-axis") # y = 0
+
+	# Two crossing points: (1, 0) and (-1, 0)
+	res <- intersection(circ, xax)
+	expect_equal(length(res), 1L)
+	expect_equal(length(res[[1L]]), 2L)
+	expect_equal(sort(res[[1L]]$x), c(-1, 1), tolerance = 1e-10)
+	expect_equal(res[[1L]]$y, c(0, 0), tolerance = 1e-10)
+
+	# Both dispatch directions give same result
+	expect_equal(intersection(xax, circ), res)
+
+	# Tangent: y = 1 touches top of unit circle at (0, 1)
+	line_top <- as_line2d(a = 0, b = 1, c = -1)
+	res_tan <- intersection(circ, line_top)
+	expect_equal(length(res_tan[[1L]]), 1L)
+	expect_equal(res_tan[[1L]]$x, 0, tolerance = 1e-10)
+	expect_equal(res_tan[[1L]]$y, 1, tolerance = 1e-10)
+
+	# No intersection: y = 2 is above the unit circle
+	line_above <- as_line2d(a = 0, b = 1, c = -2)
+	expect_equal(intersection(circ, line_above), list(NULL))
+
+	# Rotated ellipse: center (0,0), rx=2, ry=1, theta=0 vs x-axis
+	e <- as_ellipse2d(as_coord2d(0, 0), rx = 2, ry = 1)
+	res_e <- intersection(e, xax)
+	expect_equal(length(res_e[[1L]]), 2L)
+	expect_equal(sort(res_e[[1L]]$x), c(-2, 2), tolerance = 1e-10)
+	expect_equal(res_e[[1L]]$y, c(0, 0), tolerance = 1e-10)
+
+	# has_intersection uses intersection() internally
+	expect_true(has_intersection(circ, xax))
+	expect_false(has_intersection(circ, line_above))
+})
