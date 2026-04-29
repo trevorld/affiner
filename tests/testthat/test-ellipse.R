@@ -164,3 +164,8 @@ test_that("has_overlap2d() non-circle ellipse uses bracketing", {
 	e_out <- as_ellipse2d(as_coord2d(5, 5), rx = 0.3, ry = 0.1)
 	expect_false(has_overlap2d(e_out, sq))
 })
+
+test_that("has_overlap2d.Ellipse2D() errors on unsupported y class", {
+	circ <- as_ellipse2d(as_coord2d(0, 0), r = 1)
+	expect_error(has_overlap2d(circ, "foo"), "Don't know how to check overlap with")
+})

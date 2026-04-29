@@ -208,3 +208,8 @@ test_that("has_overlap2d() concave polygon and circle (bbox_overlap_pc)", {
 	)
 	expect_true(is.na(res))
 })
+
+test_that("has_overlap2d.Polygon2D() errors on unsupported y class", {
+	sq <- as_polygon2d(as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1)))
+	expect_error(has_overlap2d(sq, "foo"), "Don't know how to check overlap with")
+})
