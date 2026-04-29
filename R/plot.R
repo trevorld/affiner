@@ -7,8 +7,8 @@
 #' objects to an existing plot.
 #' If the suggested [ggplot2][ggplot2::ggplot2] and [rgl][rgl::rgl] packages
 #' are available we also register [ggplot2::autolayer()] methods for [Coord1D],
-#' [Coord2D], [Point1D], and [Line2D] class objects and a [rgl::plot3d()]
-#' method for [Coord3D] class objects.
+#' [Coord2D], [Ellipse2D], [Line2D], [Point1D], and [Polygon2D] class objects
+#' and a [rgl::plot3d()] method for [Coord3D] class objects.
 #'
 #' @param x A supported object to plot.
 #' @param ... Passed to the underlying plot method.

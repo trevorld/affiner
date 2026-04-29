@@ -57,8 +57,8 @@ objects.
 objects to an existing plot.
 If the suggested \link[ggplot2:ggplot2-package]{ggplot2} and \link[rgl:rgl-package]{rgl} packages
 are available we also register \code{\link[ggplot2:autolayer]{ggplot2::autolayer()}} methods for \link{Coord1D},
-\link{Coord2D}, \link{Point1D}, and \link{Line2D} class objects and a \code{\link[rgl:plot3d]{rgl::plot3d()}}
-method for \link{Coord3D} class objects.
+\link{Coord2D}, \link{Ellipse2D}, \link{Line2D}, \link{Point1D}, and \link{Polygon2D} class objects
+and a \code{\link[rgl:plot3d]{rgl::plot3d()}} method for \link{Coord3D} class objects.
 }
 \examples{
 c1 <- as_coord2d(x = 0, y = 1:10)

@@ -87,6 +87,28 @@ test_that("lines.Coord2D, plot.Polygon2D, lines/plot.Ellipse2D", {
 	})
 })
 
+test_that("autolayer.Polygon2D and autolayer.Ellipse2D", {
+	skip_if_not_installed("ggplot2")
+	skip_if_not_installed("vdiffr")
+	suppressPackageStartupMessages(library("ggplot2"))
+	library("vdiffr")
+
+	sq <- as_polygon2d(as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1)))
+	circ <- as_ellipse2d(as_coord2d(0.5, 0.5), r = 0.4)
+	ell <- as_ellipse2d(as_coord2d(0.5, 0.5), rx = 0.4, ry = 0.2, theta = pi / 6)
+
+	expect_doppelganger("autolayer.Polygon2D", {
+		ggplot() + autolayer(sq, fill = "lightblue")
+	})
+	expect_doppelganger("autolayer.Ellipse2D circle", {
+		ggplot() + autolayer(circ, fill = "lightyellow")
+	})
+	expect_doppelganger("autolayer.Ellipse2D multiple", {
+		e2 <- as_ellipse2d(x = c(0, 1), y = c(0, 1), rx = c(0.4, 0.3), ry = c(0.2, 0.3))
+		ggplot() + autolayer(e2, fill = "lightblue")
+	})
+})
+
 test_that("rgl works", {
 	skip_on_cran()
 	skip_if_not_installed("rgl")
