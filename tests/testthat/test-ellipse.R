@@ -131,6 +131,26 @@ test_that("has_overlap2d() circle-circle", {
 	expect_equal(res, c(TRUE, FALSE))
 })
 
+test_that("has_overlap2d() ellipse-ellipse (non-circle branches)", {
+	e <- as_ellipse2d(as_coord2d(0, 0), rx = 1, ry = 0.5)
+	c_near <- as_ellipse2d(as_coord2d(0.5, 0), r = 0.4)
+	c_far <- as_ellipse2d(as_coord2d(5, 0), r = 0.3)
+
+	# e1 non-circle, e2 circle
+	expect_true(has_overlap2d(e, c_near))
+	expect_false(has_overlap2d(e, c_far))
+
+	# e1 circle, e2 non-circle
+	expect_true(has_overlap2d(c_near, e))
+	expect_false(has_overlap2d(c_far, e))
+
+	# both non-circle
+	e_near <- as_ellipse2d(as_coord2d(0.5, 0), rx = 1, ry = 0.5)
+	e_far <- as_ellipse2d(as_coord2d(5, 0), rx = 1, ry = 0.5)
+	expect_true(has_overlap2d(e, e_near))
+	expect_false(has_overlap2d(e, e_far))
+})
+
 test_that("has_overlap2d() ellipse-polygon (circle case uses SAT)", {
 	sq <- as_polygon2d(as_coord2d(
 		x = c(0, 1, 1, 0),
