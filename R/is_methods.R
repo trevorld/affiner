@@ -96,3 +96,20 @@ is_plane3d <- function(x) inherits(x, "Plane3D")
 #' is_polygon2d(p)
 #' @export
 is_polygon2d <- function(x) inherits(x, "Polygon2D")
+
+#' Test whether an object has an Ellipse2D class
+#'
+#' `is_ellipse2d()` tests whether an object has an "Ellipse2D" class
+#'
+#' @param x An object
+#' @return A logical value
+#'
+#' @examples
+#' c1 <- as_ellipse2d(as_coord2d(0.5, 0.5), r = 0.5)
+#' is_ellipse2d(c1)
+#' is_ellipse2d(c1) && all(c1$is_circle)
+#' e1 <- as_ellipse2d(as_coord2d(0, 0), rx = 2, ry = 1)
+#' is_ellipse2d(e1)
+#' is_ellipse2d(e1) && all(e1$is_circle)
+#' @export
+is_ellipse2d <- function(x) inherits(x, "Ellipse2D")

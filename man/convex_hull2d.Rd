@@ -28,8 +28,10 @@ object.  It is implemented for \link{Coord2D} and \link{Polygon2D} objects using
 counter-clockwise order.
 }
 \examples{
-p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-hull <- convex_hull2d(p)
+pts <- as_coord2d(x = rnorm(20), y = rnorm(20))
+hull <- convex_hull2d(pts)
 is_polygon2d(hull)
 hull$is_convex
+plot(hull)
+points(pts)
 }

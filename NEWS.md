@@ -1,7 +1,9 @@
 affiner 0.3.0 (development)
 ===========================
 
+* `as_ellipse2d()` creates an `Ellipse2D` R6 object representing a 2D ellipse (or vector of ellipses) (#46).
 * `as_polygon2d()` creates a `Polygon2D` R6 object representing a 2D polygon (#46).
+* `has_overlap2d()` tests whether two 2D objects (ellipses/circles or convex polygons) have a non-zero-area overlap (#46).
 * `dot_product1d()`, `dot_product2d()`, and `dot_product3d()` are new exported functions that compute the dot (inner) product of two coordinate vectors (#61).
   You may also (continue to) use the `*` and (if R >= 4.3) the `%*%` operators to compute the dot (inner) product.
 * `shear3d()` now correctly returns a `transform3d` object instead of a `transform2d` object.

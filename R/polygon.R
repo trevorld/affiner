@@ -121,12 +121,9 @@ Polygon2D <- R6Class(
 #' @examples
 #' vertices <- as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1))
 #' p <- as_polygon2d(vertices)
-#' p$convex
-#'
-#' # Pipe from convex_hull2d()
-#' pts <- as_coord2d(x = rnorm(20), y = rnorm(20))
-#' hull <- convex_hull2d(pts)
-#' is_polygon2d(hull)
+#' p$is_convex
+#' print(p)
+#' plot(p)
 #' @export
 as_polygon2d <- function(x, ...) {
 	UseMethod("as_polygon2d")
@@ -159,6 +156,29 @@ as_polygon2d.numeric <- function(x, y = 0, convex = NA, ...) {
 	as_polygon2d(as_coord2d(x = x, y = y), convex = convex)
 }
 
+#' @rdname as_polygon2d
+#' @param n Number of vertices in the approximating polygon (default `60L`).
+#' @param type `"inner"` (default) for an inscribed polygon whose vertices lie
+#'   on the ellipse, or `"outer"` for a circumscribed polygon whose edges are
+#'   tangent to the ellipse.  Both polygons are convex.
+#' @export
+as_polygon2d.Ellipse2D <- function(x, n = 60L, type = c("inner", "outer"), ...) {
+	chkDots(...)
+	stopifnot(length(x) == 1L)
+	type <- match.arg(type)
+	by <- 360 / n
+	from <- switch(type, inner = 0, outer = -by / 2)
+	t <- seq(from, by = by, length.out = n)
+	scale <- if (type == "outer") 1 / cospi(1 / n) else 1
+	rx <- x$rx * scale
+	ry <- x$ry * scale
+	ct <- cos(x$theta)
+	st <- sin(x$theta)
+	vx <- x$x + rx * cospi(t / 180) * ct - ry * sinpi(t / 180) * st
+	vy <- x$y + rx * cospi(t / 180) * st + ry * sinpi(t / 180) * ct
+	as_polygon2d(as_coord2d(vx, vy), convex = TRUE)
+}
+
 # Internal: check convexity of a polygon from its raw xyw matrix
 is_convex_xyw <- function(xyw) {
 	n <- nrow(xyw)
@@ -173,6 +193,12 @@ is_convex_xyw <- function(xyw) {
 	dy1 <- y[i2] - y
 	dx2 <- x[i3] - x[i2]
 	dy2 <- y[i3] - y[i2]
+	# z-component of the 3D cross product of those two edge vectors.
+	# Its sign tells you which way you turned at vertex i+1.
+	# - cross > 0: left turn (counterclockwise)
+	# - cross < 0: right turn (clockwise)
+	# - cross = 0: straight (collinear)
 	cross <- dx1 * dy2 - dy1 * dx2
+	# polygon is convex if and only if all turns go the same direction
 	all(cross >= 0) || all(cross <= 0)
 }

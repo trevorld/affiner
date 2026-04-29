@@ -7,8 +7,13 @@
 \alias{lines.Point1D}
 \alias{plot.Coord2D}
 \alias{points.Coord2D}
+\alias{lines.Coord2D}
+\alias{lines.Polygon2D}
+\alias{lines.Ellipse2D}
+\alias{plot.Polygon2D}
+\alias{plot.Ellipse2D}
 \alias{lines.Line2D}
-\title{Plot coordinates, points, lines, and planes}
+\title{Plot coordinates, points, lines, polygons, and ellipses}
 \usage{
 \method{plot}{Coord1D}(x, ...)
 
@@ -16,9 +21,19 @@
 
 \method{lines}{Point1D}(x, ...)
 
-\method{plot}{Coord2D}(x, ...)
+\method{plot}{Coord2D}(x, ..., asp = 1)
 
 \method{points}{Coord2D}(x, ...)
+
+\method{lines}{Coord2D}(x, ...)
+
+\method{lines}{Polygon2D}(x, ...)
+
+\method{lines}{Ellipse2D}(x, n = 60L, ...)
+
+\method{plot}{Polygon2D}(x, ..., asp = 1)
+
+\method{plot}{Ellipse2D}(x, n = 60L, ..., asp = 1)
 
 \method{lines}{Line2D}(x, ...)
 }
@@ -26,15 +41,24 @@
 \item{x}{A supported object to plot.}
 
 \item{...}{Passed to the underlying plot method.}
+
+\item{asp}{the y/x aspect ratio.}
+
+\item{n}{Number of vertices used to approximate each ellipse (default \code{60L}).}
 }
 \value{
 Used for its side effect of drawing to the graphics device.
 }
 \description{
-\code{\link[=plot]{plot()}} plots \link{Coord1D} and \link{Coord2D} class objects while
-\code{\link[=points]{points()}} draws \link{Coord1D} and \link{Coord2D} class objects
-and \code{\link[=lines]{lines()}} draws \link{Point1D} and \link{Line2D} class objects to an existing plot.
-If the suggested \link[ggplot2:ggplot2-package]{ggplot2} and \link[rgl:rgl-package]{rgl} packages are available we also register \code{\link[ggplot2:autolayer]{ggplot2::autolayer()}} methods for \link{Coord1D}, \link{Coord2D}, \link{Point1D}, and \link{Line2D} class objects and a \code{\link[rgl:plot3d]{rgl::plot3d()}} method for \link{Coord3D} class objects.
+\code{\link[=plot]{plot()}} plots \link{Coord1D}, \link{Coord2D}, \link{Polygon2D}, and \link{Ellipse2D} class
+objects.
+\code{\link[=points]{points()}} draws \link{Coord1D} and \link{Coord2D} class objects to an existing plot.
+\code{\link[=lines]{lines()}} draws \link{Coord2D}, \link{Ellipse2D}, \link{Point1D}, and \link{Line2D} class
+objects to an existing plot.
+If the suggested \link[ggplot2:ggplot2-package]{ggplot2} and \link[rgl:rgl-package]{rgl} packages
+are available we also register \code{\link[ggplot2:autolayer]{ggplot2::autolayer()}} methods for \link{Coord1D},
+\link{Coord2D}, \link{Point1D}, and \link{Line2D} class objects and a \code{\link[rgl:plot3d]{rgl::plot3d()}}
+method for \link{Coord3D} class objects.
 }
 \examples{
 c1 <- as_coord2d(x = 0, y = 1:10)
