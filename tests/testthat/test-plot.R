@@ -117,7 +117,7 @@ test_that("rgl works", {
 	pl <- as_plane3d(a = 0, b = 0, c = -1, d = 2) # z = 2
 	c2 <- c1$clone()$reflect(pl)
 	rgl::plot3d(c1, size = 8)
-	rgl::planes3d(as.data.frame(pl), d = pl$d, color = "grey", alpha = 0.6)
+	rgl::plot3d(pl, color = "grey", alpha = 0.6)
 	rgl::points3d(as.data.frame(c2), col = "red", size = 8)
 	expect_true(nrow(rgl::ids3d()) >= 6L)
 	rgl::close3d()

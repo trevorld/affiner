@@ -8,7 +8,7 @@
 #' If the suggested [ggplot2][ggplot2::ggplot2] and [rgl][rgl::rgl] packages
 #' are available we also register [ggplot2::autolayer()] methods for [Coord1D],
 #' [Coord2D], [Ellipse2D], [Line2D], [Point1D], and [Polygon2D] class objects
-#' and a [rgl::plot3d()] method for [Coord3D] class objects.
+#' and [rgl::plot3d()] methods for [Coord3D] and [Plane3D] class objects.
 #'
 #' @param x A supported object to plot.
 #' @param ... Passed to the underlying plot method.
@@ -45,11 +45,10 @@
 #' c1 <- as_coord3d(x = 1:10, y = 1:10, z = 1:10)
 #' pl <- as_plane3d(a = 0, b = 0, c = -1, d = 2) # z = 2
 #' c2 <- c1$clone()$reflect(pl)
-#' if (require("rgl", quietly = TRUE,
-#'             include.only = c("plot3d", "planes3d", "points3d"))) {
-#'   plot3d(c1, size = 8)
-#'   planes3d(as.data.frame(pl), d =  pl$d, color = "grey", alpha = 0.6)
-#'   points3d(as.data.frame(c2), col = "red", size = 8)
+#' if (require("rgl", quietly = TRUE, include.only = "plot3d")) {
+#'   plot3d(c1, col = "blue", size = 8)
+#'   plot3d(pl, color = "grey", alpha = 0.6)
+#'   plot3d(c2, add = TRUE, col = "red", size = 8)
 #' }
 #' @name graphics
 #' @export
@@ -159,4 +158,9 @@ lines.Line2D <- function(x, ...) {
 #' @exportS3Method rgl::plot3d
 plot3d.Coord3D <- function(x, ...) {
 	rgl::plot3d(as.data.frame(x), ...)
+}
+
+#' @exportS3Method rgl::plot3d
+plot3d.Plane3D <- function(x, ...) {
+	rgl::planes3d(a = x$a, b = x$b, c = x$c, d = x$d, ...)
 }

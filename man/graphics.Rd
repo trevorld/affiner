@@ -58,7 +58,7 @@ objects to an existing plot.
 If the suggested \link[ggplot2:ggplot2-package]{ggplot2} and \link[rgl:rgl-package]{rgl} packages
 are available we also register \code{\link[ggplot2:autolayer]{ggplot2::autolayer()}} methods for \link{Coord1D},
 \link{Coord2D}, \link{Ellipse2D}, \link{Line2D}, \link{Point1D}, and \link{Polygon2D} class objects
-and a \code{\link[rgl:plot3d]{rgl::plot3d()}} method for \link{Coord3D} class objects.
+and \code{\link[rgl:plot3d]{rgl::plot3d()}} methods for \link{Coord3D} and \link{Plane3D} class objects.
 }
 \examples{
 c1 <- as_coord2d(x = 0, y = 1:10)
@@ -92,10 +92,9 @@ points(c2, col = "red")
 c1 <- as_coord3d(x = 1:10, y = 1:10, z = 1:10)
 pl <- as_plane3d(a = 0, b = 0, c = -1, d = 2) # z = 2
 c2 <- c1$clone()$reflect(pl)
-if (require("rgl", quietly = TRUE,
-            include.only = c("plot3d", "planes3d", "points3d"))) {
-  plot3d(c1, size = 8)
-  planes3d(as.data.frame(pl), d =  pl$d, color = "grey", alpha = 0.6)
-  points3d(as.data.frame(c2), col = "red", size = 8)
+if (require("rgl", quietly = TRUE, include.only = "plot3d")) {
+  plot3d(c1, col = "blue", size = 8)
+  plot3d(pl, color = "grey", alpha = 0.6)
+  plot3d(c2, add = TRUE, col = "red", size = 8)
 }
 }
