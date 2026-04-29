@@ -1,4 +1,4 @@
-utils::globalVariables(c("x", "y"))
+utils::globalVariables(c("group", "x", "y"))
 
 #' @exportS3Method ggplot2::autolayer
 autolayer.Coord1D <- function(x, ...) {
@@ -13,6 +13,21 @@ autolayer.Coord2D <- function(x, ...) {
 #' @exportS3Method ggplot2::autolayer
 autolayer.Point1D <- function(x, ...) {
 	ggplot2::geom_vline(xintercept = -x$b / x$a, ...)
+}
+
+#' @exportS3Method ggplot2::autolayer
+autolayer.Polygon2D <- function(x, ...) {
+	ggplot2::geom_polygon(ggplot2::aes(x = x, y = y), ..., data = data.frame(x = x$x, y = x$y))
+}
+
+#' @exportS3Method ggplot2::autolayer
+autolayer.Ellipse2D <- function(x, n = 60L, ...) {
+	polys <- lapply(seq_len(length(x)), function(i) {
+		p <- as_polygon2d(x[i], n = n)
+		data.frame(x = p$x, y = p$y, group = i)
+	})
+	df <- do.call(rbind, polys)
+	ggplot2::geom_polygon(ggplot2::aes(x = x, y = y, group = group), ..., data = df)
 }
 
 #' @exportS3Method ggplot2::autolayer
