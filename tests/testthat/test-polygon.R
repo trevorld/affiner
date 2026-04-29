@@ -23,6 +23,12 @@ test_that("as_polygon2d()", {
 	expect_snapshot(print(p))
 })
 
+test_that("as_polygon2d.Polygon2D()", {
+	p <- as_polygon2d(as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1)))
+	expect_identical(as_polygon2d(p), p)
+	expect_false(as_polygon2d(p, convex = FALSE)$is_convex)
+})
+
 test_that("Polygon2D normals", {
 	# Unit square vertices CCW
 	v <- as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1))
@@ -183,4 +189,22 @@ test_that("has_overlap2d() concave polygon returns NA with warning", {
 		y = c(5, 5, 6, 6)
 	))
 	expect_false(has_overlap2d(pc, sq_far))
+})
+
+test_that("has_overlap2d() concave polygon and circle (bbox_overlap_pc)", {
+	pc <- as_polygon2d(
+		as_coord2d(
+			x = c(0, 0.5, 0.5, 1, 1, 0.5, 0.5, 0),
+			y = c(0, 0, 0.4, 0.4, 0.6, 0.6, 1, 1)
+		),
+		convex = FALSE
+	)
+	# Circle outside bbox → FALSE via bbox_overlap_pc
+	expect_false(has_overlap2d(pc, as_ellipse2d(as_coord2d(5, 5), r = 0.3)))
+	# Circle inside bbox, overlapping convex hull → NA with warning
+	expect_warning(
+		res <- has_overlap2d(pc, as_ellipse2d(as_coord2d(0.5, 0.5), r = 0.3)),
+		"concave"
+	)
+	expect_true(is.na(res))
 })
