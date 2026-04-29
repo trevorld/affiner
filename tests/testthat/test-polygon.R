@@ -140,9 +140,9 @@ test_that("has_overlap2d() polygon-circle", {
 		x = c(0, 1, 1, 0),
 		y = c(0, 0, 1, 1)
 	))
-	circ_in <- as_circle2d(as_coord2d(0.5, 0.5), r = 0.3)
-	circ_out <- as_circle2d(as_coord2d(3, 3), r = 0.3)
-	circ_corner <- as_circle2d(as_coord2d(1.5, 1.5), r = 0.3)
+	circ_in <- as_ellipse2d(as_coord2d(0.5, 0.5), r = 0.3)
+	circ_out <- as_ellipse2d(as_coord2d(3, 3), r = 0.3)
+	circ_corner <- as_ellipse2d(as_coord2d(1.5, 1.5), r = 0.3)
 
 	expect_true(has_overlap2d(sq, circ_in))
 	expect_false(has_overlap2d(sq, circ_out))
@@ -153,7 +153,7 @@ test_that("has_overlap2d() polygon-circle", {
 	expect_false(has_overlap2d(circ_out, sq))
 
 	# Vectorized circles
-	circs <- as_circle2d(
+	circs <- as_ellipse2d(
 		x = c(0.5, 3),
 		y = c(0.5, 3),
 		r = c(0.3, 0.3)

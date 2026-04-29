@@ -9,6 +9,11 @@
 }
 
 #' @export
+`[.Ellipse2D` <- function(x, i) {
+	Ellipse2D$new(x$xyw[i, , drop = FALSE], rx = x$rx[i], ry = x$ry[i], theta = x$theta[i])
+}
+
+#' @export
 `[.Coord3D` <- function(x, i) {
 	Coord3D$new(x$xyzw[i, , drop = FALSE])
 }
@@ -32,6 +37,12 @@ as.data.frame.Coord2D <- function(x, ...) {
 }
 
 #' @export
+as.data.frame.Ellipse2D <- function(x, ...) {
+	chkDots(...)
+	data.frame(x = x$x, y = x$y, rx = x$rx, ry = x$ry, theta = x$theta)
+}
+
+#' @export
 as.data.frame.Coord3D <- function(x, ...) {
 	chkDots(...)
 	as.data.frame(x$xyzw)
@@ -47,6 +58,12 @@ as.list.Coord1D <- function(x, ...) {
 as.list.Coord2D <- function(x, ...) {
 	chkDots(...)
 	as.list(as.data.frame(x$xyw))
+}
+
+#' @export
+as.list.Ellipse2D <- function(x, ...) {
+	chkDots(...)
+	list(x = x$x, y = x$y, rx = x$rx, ry = x$ry, theta = x$theta)
 }
 
 #' @export
@@ -183,10 +200,12 @@ mean.Coord3D <- function(x, ...) {
 #' @param ... Further arguments passed to or from other methods.
 #' @return A [Polygon2D] object representing the convex hull.
 #' @examples
-#' p <- as_coord2d(x = rnorm(25), y = rnorm(25))
-#' hull <- convex_hull2d(p)
+#' pts <- as_coord2d(x = rnorm(20), y = rnorm(20))
+#' hull <- convex_hull2d(pts)
 #' is_polygon2d(hull)
 #' hull$is_convex
+#' plot(hull)
+#' points(pts)
 #' @export
 convex_hull2d <- function(x, ...) {
 	UseMethod("convex_hull2d")

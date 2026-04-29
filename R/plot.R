@@ -1,9 +1,14 @@
-#' Plot coordinates, points, lines, and planes
+#' Plot coordinates, points, lines, polygons, and ellipses
 #'
-#' [plot()] plots [Coord1D] and [Coord2D] class objects while
-#' [points()] draws [Coord1D] and [Coord2D] class objects
-#' and [lines()] draws [Point1D] and [Line2D] class objects to an existing plot.
-#' If the suggested [ggplot2][ggplot2::ggplot2] and [rgl][rgl::rgl] packages are available we also register [ggplot2::autolayer()] methods for [Coord1D], [Coord2D], [Point1D], and [Line2D] class objects and a [rgl::plot3d()] method for [Coord3D] class objects.
+#' [plot()] plots [Coord1D], [Coord2D], [Polygon2D], and [Ellipse2D] class
+#' objects.
+#' [points()] draws [Coord1D] and [Coord2D] class objects to an existing plot.
+#' [lines()] draws [Coord2D], [Ellipse2D], [Point1D], and [Line2D] class
+#' objects to an existing plot.
+#' If the suggested [ggplot2][ggplot2::ggplot2] and [rgl][rgl::rgl] packages
+#' are available we also register [ggplot2::autolayer()] methods for [Coord1D],
+#' [Coord2D], [Point1D], and [Line2D] class objects and a [rgl::plot3d()]
+#' method for [Coord3D] class objects.
 #'
 #' @param x A supported object to plot.
 #' @param ... Passed to the underlying plot method.
@@ -67,9 +72,10 @@ lines.Point1D <- function(x, ...) {
 }
 
 #' @rdname graphics
+#' @param asp the y/x aspect ratio.
 #' @export
-plot.Coord2D <- function(x, ...) {
-	plot(as.data.frame(x)[, 1:2], ...)
+plot.Coord2D <- function(x, ..., asp = 1) {
+	plot(as.data.frame(x)[, 1:2], ..., asp = asp)
 }
 
 #' @rdname graphics
@@ -77,6 +83,57 @@ plot.Coord2D <- function(x, ...) {
 #' @export
 points.Coord2D <- function(x, ...) {
 	points(as.data.frame(x)[, 1:2], ...)
+}
+
+#' @rdname graphics
+#' @importFrom graphics lines
+#' @export
+lines.Coord2D <- function(x, ...) {
+	graphics::lines(x$x, x$y, ...)
+	invisible(x)
+}
+
+#' @rdname graphics
+#' @importFrom graphics lines
+#' @export
+lines.Polygon2D <- function(x, ...) {
+	graphics::lines(c(x$x, x$x[1L]), c(x$y, x$y[1L]), ...)
+	invisible(x)
+}
+
+#' @rdname graphics
+#' @param n Number of vertices used to approximate each ellipse (default `60L`).
+#' @importFrom graphics lines
+#' @export
+lines.Ellipse2D <- function(x, n = 60L, ...) {
+	for (i in seq_len(length(x))) {
+		p <- as_polygon2d(x[i], n = n)
+		graphics::lines(c(p$x, p$x[1L]), c(p$y, p$y[1L]), ...)
+	}
+	invisible(x)
+}
+
+#' @rdname graphics
+#' @importFrom graphics polygon
+#' @export
+plot.Polygon2D <- function(x, ..., asp = 1) {
+	plot(data.frame(x = x$x, y = x$y), type = "n", ..., asp = asp)
+	graphics::polygon(x$x, x$y, ...)
+	invisible(x)
+}
+
+#' @rdname graphics
+#' @importFrom graphics polygon
+#' @export
+plot.Ellipse2D <- function(x, n = 60L, ..., asp = 1) {
+	polys <- lapply(seq_len(length(x)), function(i) as_polygon2d(x[i], n = n))
+	all_x <- unlist(lapply(polys, `[[`, "x"))
+	all_y <- unlist(lapply(polys, `[[`, "y"))
+	plot(data.frame(x = all_x, y = all_y), type = "n", ..., asp = asp)
+	for (p in polys) {
+		graphics::polygon(p$x, p$y, ...)
+	}
+	invisible(x)
 }
 
 #' @rdname graphics

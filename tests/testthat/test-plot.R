@@ -50,6 +50,43 @@ test_that("`plot()` and `autolayer()` methods", {
 	})
 })
 
+test_that("lines.Coord2D, plot.Polygon2D, lines/plot.Ellipse2D", {
+	skip_if_not_installed("vdiffr")
+	library("vdiffr")
+
+	pts <- as_coord2d(x = c(0, 0.5, 1, 0.5), y = c(0.5, 1, 0.5, 0))
+	sq <- as_polygon2d(as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1)))
+	circ <- as_ellipse2d(as_coord2d(0.5, 0.5), r = 0.4)
+	ell <- as_ellipse2d(as_coord2d(0.5, 0.5), rx = 0.4, ry = 0.2, theta = pi / 6)
+
+	expect_doppelganger("lines.Coord2D", function() {
+		plot(pts, xlim = c(0, 1), ylim = c(0, 1))
+		lines(pts)
+	})
+	expect_doppelganger("lines.Polygon2D", function() {
+		plot(pts, xlim = c(0, 1), ylim = c(0, 1))
+		lines(sq)
+	})
+	expect_doppelganger("plot.Polygon2D", function() {
+		plot(sq, col = "lightblue")
+	})
+	expect_doppelganger("lines.Ellipse2D circle", function() {
+		plot(sq, col = "lightblue")
+		lines(circ, col = "red")
+	})
+	expect_doppelganger("lines.Ellipse2D ellipse", function() {
+		plot(sq, col = "lightblue")
+		lines(ell, col = "darkgreen")
+	})
+	expect_doppelganger("plot.Ellipse2D circle", function() {
+		plot(circ, col = "lightyellow")
+	})
+	expect_doppelganger("plot.Ellipse2D multiple", function() {
+		e2 <- as_ellipse2d(x = c(0, 1), y = c(0, 1), rx = c(0.4, 0.3), ry = c(0.2, 0.3))
+		plot(e2, col = "lightblue")
+	})
+})
+
 test_that("rgl works", {
 	skip_on_cran()
 	skip_if_not_installed("rgl")

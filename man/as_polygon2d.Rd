@@ -5,6 +5,7 @@
 \alias{as_polygon2d.Coord2D}
 \alias{as_polygon2d.Polygon2D}
 \alias{as_polygon2d.numeric}
+\alias{as_polygon2d.Ellipse2D}
 \title{Cast to Polygon2D object}
 \usage{
 as_polygon2d(x, ...)
@@ -14,6 +15,8 @@ as_polygon2d(x, ...)
 \method{as_polygon2d}{Polygon2D}(x, convex = NA, ...)
 
 \method{as_polygon2d}{numeric}(x, y = 0, convex = NA, ...)
+
+\method{as_polygon2d}{Ellipse2D}(x, n = 60L, type = c("inner", "outer"), ...)
 }
 \arguments{
 \item{x}{Object to cast.  Either a \link{Coord2D} object of vertices or a
@@ -25,6 +28,12 @@ numeric vector of x-coordinates.}
 \code{FALSE} to mark as concave.}
 
 \item{y}{Numeric vector of y-coordinates (used when \code{x} is numeric).}
+
+\item{n}{Number of vertices in the approximating polygon (default \code{60L}).}
+
+\item{type}{\code{"inner"} (default) for an inscribed polygon whose vertices lie
+on the ellipse, or \code{"outer"} for a circumscribed polygon whose edges are
+tangent to the ellipse.  Both polygons are convex.}
 }
 \value{
 A \link{Polygon2D} object.
@@ -35,10 +44,7 @@ A \link{Polygon2D} object.
 \examples{
 vertices <- as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1))
 p <- as_polygon2d(vertices)
-p$convex
-
-# Pipe from convex_hull2d()
-pts <- as_coord2d(x = rnorm(20), y = rnorm(20))
-hull <- convex_hull2d(pts)
-is_polygon2d(hull)
+p$is_convex
+print(p)
+plot(p)
 }
