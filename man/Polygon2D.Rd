@@ -111,11 +111,12 @@ concave.}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{mat}}{A 2x2 matrix representing a post-multiplied affine transformation matrix.
-The last \strong{column} must be equal to \code{c(0, 1)}.
-If the last \strong{row} is \code{c(0, 1)} you may need to transpose it
+\item{\code{mat}}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
+The last \strong{column} must be equal to \code{c(0, 0, 1)}.
+If the last \strong{row} is \code{c(0, 0, 1)} you may need to transpose it
 to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
-If a 1x1 matrix we'll quietly add a final column/row equal to \code{c(0, 1)}.}
+If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
+we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
 }
 \if{html}{\out{</div>}}
 }

@@ -279,7 +279,8 @@ ellipse_bracket_overlap <- function(e, other, n, tol = sqrt(.Machine$double.eps)
 	}
 	warning(
 		"Exact overlap detection is not yet supported for non-circular ellipses; ",
-		"the result is in the boundary region between the inner and outer polygon approximations."
+		"the result is in the boundary region between the inner and outer polygon approximations. ",
+		"Increase `n` for a tighter approximation."
 	)
 	NA
 }

@@ -4,7 +4,7 @@
 \alias{Coord1D}
 \title{1D coordinate vector R6 Class}
 \description{
-\code{Coord1D} is an \code{\link[R6:R6Class]{R6::R6Class()}} object representing two-dimensional points
+\code{Coord1D} is an \code{\link[R6:R6Class]{R6::R6Class()}} object representing one-dimensional points
 represented by Cartesian Coordinates.
 }
 \examples{
