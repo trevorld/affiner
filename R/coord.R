@@ -1,6 +1,6 @@
 #' 1D coordinate vector R6 Class
 #'
-#' `Coord1D` is an [R6::R6Class()] object representing two-dimensional points
+#' `Coord1D` is an [R6::R6Class()] object representing one-dimensional points
 #' represented by Cartesian Coordinates.
 #'
 #' @examples

@@ -74,6 +74,8 @@ test_that("permute2d()", {
 })
 
 test_that("permute3d()", {
+	expect_true(is_transform3d(permute3d("xzy")))
+
 	x <- c(2, 5, 7)
 	y <- c(3, 4, 6)
 	z <- c(4, 9, 3)
@@ -331,6 +333,8 @@ test_that("rotate2d()", {
 })
 
 test_that("rotate3d()", {
+	expect_true(is_transform3d(rotate3d("z-axis", degrees(90))))
+
 	skip_if_not_installed("withr")
 	withr::local_options(affiner_options(default = TRUE))
 	x <- c(2, 5, 7)

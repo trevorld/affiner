@@ -1,6 +1,6 @@
 #' 1D affine transformation matrices
 #'
-#' `transform1d()`, `reflect1d()`, `scale2d()`,
+#' `transform1d()`, `reflect1d()`, `scale1d()`,
 #'  and `translate1d()` create 1D affine transformation matrix objects.
 #'
 #' \describe{
@@ -15,7 +15,7 @@
 #' Note the [Coord1D] class object methods auto-pre-multiply affine transformations
 #' when "method chaining" so pre-multiplying affine transformation matrices
 #' to do a single cumulative transformation instead of a method chain of multiple transformations
-#' will not improve performance as much as as it does in other R packages.
+#' will not improve performance as much as it does in other R packages.
 #'
 #' To convert a pre-multiplied 1D affine transformation matrix to a post-multiplied one
 #' simply compute its transpose using [t()].  To get an inverse transformation matrix
@@ -36,7 +36,7 @@
 #'   clone()$
 #'   transform(mat)
 #'
-#' # The equivalent result appyling affine transformations via method chaining
+#' # The equivalent result applying affine transformations via method chaining
 #' p2 <- p$
 #'   clone()$
 #'   transform(diag(2))$
@@ -77,7 +77,7 @@ transform1d <- function(mat = diag(2L)) {
 #' Note the [Coord2D] class object methods auto-pre-multiply affine transformations
 #' when "method chaining" so pre-multiplying affine transformation matrices
 #' to do a single cumulative transformation instead of a method chain of multiple transformations
-#' will not improve performance as much as as it does in other R packages.
+#' will not improve performance as much as it does in other R packages.
 #'
 #' To convert a pre-multiplied 2D affine transformation matrix to a post-multiplied one
 #' simply compute its transpose using [t()].  To get an inverse transformation matrix
@@ -101,7 +101,7 @@ transform1d <- function(mat = diag(2L)) {
 #'   clone()$
 #'   transform(mat)
 #'
-#' # The equivalent result appyling affine transformations via method chaining
+#' # The equivalent result applying affine transformations via method chaining
 #' p2 <- p$
 #'   clone()$
 #'   transform(diag(3L))$
@@ -142,7 +142,7 @@ transform2d <- function(mat = diag(3L)) {
 #' Note the [Coord3D] class object methods auto-pre-multiply affine transformations
 #' when "method chaining" so pre-multiplying affine transformation matrices
 #' to do a single cumulative transformation instead of a method chain of multiple transformations
-#' will not improve performance as much as as it does in other R packages.
+#' will not improve performance as much as it does in other R packages.
 #'
 #' To convert a pre-multiplied 3D affine transformation matrix to a post-multiplied one
 #' simply compute its transpose using [t()].  To get an inverse transformation matrix
@@ -164,7 +164,7 @@ transform2d <- function(mat = diag(3L)) {
 #'   clone()$
 #'   transform(mat)
 #'
-#' # The equivalent result appyling affine transformations via method chaining
+#' # The equivalent result applying affine transformations via method chaining
 #' p2 <- p$
 #'   clone()$
 #'   transform(diag(4L))$
@@ -305,7 +305,7 @@ permute3d <- function(permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"))
 			nrow = 4
 		)
 	)
-	new_transform2d(mat)
+	new_transform3d(mat)
 }
 
 #' @rdname transform1d
@@ -501,7 +501,7 @@ rotate3d <- function(axis = as_coord3d("z-axis"), theta = angle(0), ...) {
 
 	mat <- diag(4L)
 	mat[1:3, 1:3] <- R
-	mat
+	new_transform3d(mat)
 }
 
 # "cross" product matrix

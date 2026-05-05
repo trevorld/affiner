@@ -84,7 +84,7 @@ post-multiplied and therefore should \strong{not} be multiplied in reverse order
 Note the \link{Coord2D} class object methods auto-pre-multiply affine transformations
 when "method chaining" so pre-multiplying affine transformation matrices
 to do a single cumulative transformation instead of a method chain of multiple transformations
-will not improve performance as much as as it does in other R packages.
+will not improve performance as much as it does in other R packages.
 
 To convert a pre-multiplied 2D affine transformation matrix to a post-multiplied one
 simply compute its transpose using \code{\link[=t]{t()}}.  To get an inverse transformation matrix
@@ -106,7 +106,7 @@ p1 <- p$
   clone()$
   transform(mat)
 
-# The equivalent result appyling affine transformations via method chaining
+# The equivalent result applying affine transformations via method chaining
 p2 <- p$
   clone()$
   transform(diag(3L))$

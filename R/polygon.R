@@ -52,7 +52,7 @@ Polygon2D <- R6Class(
 			}
 			invisible(self)
 		},
-		#' @param mat `r r2i_transform1d_mat`
+		#' @param mat `r r2i_transform2d_mat`
 		transform = function(mat = transform2d()) {
 			private$hull_cache <- NULL
 			private$normals_cache <- NULL

@@ -8,6 +8,8 @@ affiner 0.3.0 (development)
 * `rgl::plot3d()` method added for `Plane3D` objects (wraps `rgl::planes3d()`).
 * `dot_product1d()`, `dot_product2d()`, and `dot_product3d()` are new exported functions that compute the dot (inner) product of two coordinate vectors (#61).
   You may also (continue to) use the `*` and (if R >= 4.3) the `%*%` operators to compute the dot (inner) product.
+* `permute3d()` now correctly returns a `transform3d` object instead of a `transform2d` object.
+* `rotate3d()` now correctly returns a `transform3d` object instead of a plain matrix.
 * `shear3d()` now correctly returns a `transform3d` object instead of a `transform2d` object.
 
 affiner 0.2.1
