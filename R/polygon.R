@@ -56,13 +56,15 @@ Polygon2D <- R6Class(
 		transform = function(mat = transform2d()) {
 			private$hull_cache <- NULL
 			private$normals_cache <- NULL
+			private$edges_cache <- NULL
 			super$transform(mat)
 		}
 	),
 	private = list(
 		convex = NA,
 		hull_cache = NULL,
-		normals_cache = NULL
+		normals_cache = NULL,
+		edges_cache = NULL
 	),
 	active = list(
 		#' @field is_convex Logical indicating whether the polygon is convex
@@ -106,6 +108,24 @@ Polygon2D <- R6Class(
 			norms <- normal2d(edges)
 			private$normals_cache <- norms
 			norms
+		},
+		#' @field edges A [Segment2D] object of the `n` polygon edges
+		#'   (computed on demand and cached until the next transformation).
+		edges = function() {
+			if (!is.null(private$edges_cache)) {
+				return(private$edges_cache)
+			}
+			private$apply_any_delayed_transformations()
+			xyw <- private$mat_xyw
+			n <- nrow(xyw)
+			idx <- c(seq_len(n - 1L) + 1L, 1L)
+			vec <- cbind(
+				x = xyw[idx, 1L] - xyw[, 1L],
+				y = xyw[idx, 2L] - xyw[, 2L]
+			)
+			seg <- Segment2D$new(xyw, vec)
+			private$edges_cache <- seg
+			seg
 		}
 	)
 )

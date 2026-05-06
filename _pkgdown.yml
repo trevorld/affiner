@@ -35,12 +35,15 @@ reference:
         - Plane3D
         - as_plane3d
         - is_plane3d
-    - title: "2D polygon and ellipse objects"
-      desc: "2D polygon and ellipse objects for overlap detection"
+    - title: "2D polygon, segment, and ellipse objects"
+      desc: "2D polygon, segment, and ellipse objects"
       contents:
         - Polygon2D
         - as_polygon2d
         - is_polygon2d
+        - Segment2D
+        - as_segment2d
+        - is_segment2d
         - Ellipse2D
         - as_ellipse2d
         - is_ellipse2d
