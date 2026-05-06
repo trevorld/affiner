@@ -179,6 +179,18 @@ test_that("as_coord2d()", {
 	expect_equal(p6$x, x)
 	expect_equal(p6$y, y)
 
+	# roll rotates the in-plane coordinate frame around the plane normal
+	roll <- angle(90, "degrees")
+	p_roll <- as_coord2d(p, roll = roll)
+	expect_equal(p_roll$x, -y)
+	expect_equal(p_roll$y, x)
+
+	# oblique projection onto non-xy-plane (xz-plane, normal = (0,-1,0))
+	# aligned in-plane coords are (-z, x); depth component is -y
+	p7 <- as_coord2d(p, plane = "xz-plane", scale = 0.5, alpha = 60, unit = "degrees")
+	expect_equal(p7$x, -z - scale * cos(alpha) * y)
+	expect_equal(p7$y, x - scale * sin(alpha) * y)
+
 	# orthographic projections to axis-aligned planes through origin
 	p_xy1 <- as_coord2d(p, plane = "xy-plane")
 	p_xy2 <- as_coord2d(p, permutation = "xyz")

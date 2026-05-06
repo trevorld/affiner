@@ -84,6 +84,7 @@ reference:
         - dot_product1d
         - normal2d
         - normal3d
+        - painter_depth
         - plot.Coord2D
     - title: "Other geometry functions"
       desc: ""
