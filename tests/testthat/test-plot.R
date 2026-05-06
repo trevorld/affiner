@@ -109,6 +109,41 @@ test_that("autolayer.Polygon2D and autolayer.Ellipse2D", {
 	})
 })
 
+test_that("plot.Segment2D, lines.Segment2D, autolayer.Segment2D", {
+	skip_if_not_installed("vdiffr")
+	library("vdiffr")
+
+	s <- as_segment2d(
+		as_coord2d(x = c(0, 0), y = c(0, 1)),
+		p2 = as_coord2d(x = c(1, 1), y = c(1, 0))
+	)
+	sq <- as_polygon2d(as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1)))
+
+	expect_doppelganger("plot.Segment2D", function() {
+		plot(s)
+	})
+	expect_doppelganger("lines.Segment2D", function() {
+		plot(sq, col = "lightblue")
+		lines(s, col = "red")
+	})
+})
+
+test_that("autolayer.Segment2D", {
+	skip_if_not_installed("ggplot2")
+	skip_if_not_installed("vdiffr")
+	suppressPackageStartupMessages(library("ggplot2"))
+	library("vdiffr")
+
+	s <- as_segment2d(
+		as_coord2d(x = c(0, 0), y = c(0, 1)),
+		p2 = as_coord2d(x = c(1, 1), y = c(1, 0))
+	)
+
+	expect_doppelganger("autolayer.Segment2D", {
+		ggplot() + autolayer(s, color = "blue")
+	})
+})
+
 test_that("rgl works", {
 	skip_on_cran()
 	skip_if_not_installed("rgl")

@@ -1,14 +1,15 @@
-#' Plot coordinates, points, lines, polygons, and ellipses
+#' Plot coordinates, points, lines, polygons, ellipses, and segments
 #'
-#' [plot()] plots [Coord1D], [Coord2D], [Polygon2D], and [Ellipse2D] class
-#' objects.
+#' [plot()] plots [Coord1D], [Coord2D], [Polygon2D], [Ellipse2D], and
+#' [Segment2D] class objects.
 #' [points()] draws [Coord1D] and [Coord2D] class objects to an existing plot.
-#' [lines()] draws [Coord2D], [Ellipse2D], [Point1D], and [Line2D] class
-#' objects to an existing plot.
+#' [lines()] draws [Coord2D], [Ellipse2D], [Point1D], [Line2D], and [Segment2D]
+#' class objects to an existing plot.
 #' If the suggested [ggplot2][ggplot2::ggplot2] and [rgl][rgl::rgl] packages
 #' are available we also register [ggplot2::autolayer()] methods for [Coord1D],
-#' [Coord2D], [Ellipse2D], [Line2D], [Point1D], and [Polygon2D] class objects
-#' and [rgl::plot3d()] methods for [Coord3D] and [Plane3D] class objects.
+#' [Coord2D], [Ellipse2D], [Line2D], [Point1D], [Polygon2D], and [Segment2D]
+#' class objects and [rgl::plot3d()] methods for [Coord3D] and [Plane3D] class
+#' objects.
 #'
 #' @param x A supported object to plot.
 #' @param ... Passed to the underlying plot method.
@@ -153,6 +154,25 @@ lines.Line2D <- function(x, ...) {
 			graphics::abline(a = intercept[i], b = slope[i], ...)
 		}
 	}
+}
+
+#' @rdname graphics
+#' @importFrom graphics segments
+#' @export
+plot.Segment2D <- function(x, ..., asp = 1) {
+	xlim <- range(c(x$p1$x, x$p2$x))
+	ylim <- range(c(x$p1$y, x$p2$y))
+	graphics::plot.default(NULL, xlim = xlim, ylim = ylim, asp = asp)
+	graphics::segments(x$p1$x, x$p1$y, x$p2$x, x$p2$y, ...)
+	invisible(x)
+}
+
+#' @rdname graphics
+#' @importFrom graphics segments
+#' @export
+lines.Segment2D <- function(x, ...) {
+	graphics::segments(x$p1$x, x$p1$y, x$p2$x, x$p2$y, ...)
+	invisible(x)
 }
 
 #' @exportS3Method rgl::plot3d

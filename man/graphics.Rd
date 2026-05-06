@@ -13,7 +13,9 @@
 \alias{plot.Polygon2D}
 \alias{plot.Ellipse2D}
 \alias{lines.Line2D}
-\title{Plot coordinates, points, lines, polygons, and ellipses}
+\alias{plot.Segment2D}
+\alias{lines.Segment2D}
+\title{Plot coordinates, points, lines, polygons, ellipses, and segments}
 \usage{
 \method{plot}{Coord1D}(x, ...)
 
@@ -36,6 +38,10 @@
 \method{plot}{Ellipse2D}(x, n = 60L, ..., asp = 1)
 
 \method{lines}{Line2D}(x, ...)
+
+\method{plot}{Segment2D}(x, ..., asp = 1)
+
+\method{lines}{Segment2D}(x, ...)
 }
 \arguments{
 \item{x}{A supported object to plot.}
@@ -50,15 +56,16 @@
 Used for its side effect of drawing to the graphics device.
 }
 \description{
-\code{\link[=plot]{plot()}} plots \link{Coord1D}, \link{Coord2D}, \link{Polygon2D}, and \link{Ellipse2D} class
-objects.
+\code{\link[=plot]{plot()}} plots \link{Coord1D}, \link{Coord2D}, \link{Polygon2D}, \link{Ellipse2D}, and
+\link{Segment2D} class objects.
 \code{\link[=points]{points()}} draws \link{Coord1D} and \link{Coord2D} class objects to an existing plot.
-\code{\link[=lines]{lines()}} draws \link{Coord2D}, \link{Ellipse2D}, \link{Point1D}, and \link{Line2D} class
-objects to an existing plot.
+\code{\link[=lines]{lines()}} draws \link{Coord2D}, \link{Ellipse2D}, \link{Point1D}, \link{Line2D}, and \link{Segment2D}
+class objects to an existing plot.
 If the suggested \link[ggplot2:ggplot2-package]{ggplot2} and \link[rgl:rgl-package]{rgl} packages
 are available we also register \code{\link[ggplot2:autolayer]{ggplot2::autolayer()}} methods for \link{Coord1D},
-\link{Coord2D}, \link{Ellipse2D}, \link{Line2D}, \link{Point1D}, and \link{Polygon2D} class objects
-and \code{\link[rgl:plot3d]{rgl::plot3d()}} methods for \link{Coord3D} and \link{Plane3D} class objects.
+\link{Coord2D}, \link{Ellipse2D}, \link{Line2D}, \link{Point1D}, \link{Polygon2D}, and \link{Segment2D}
+class objects and \code{\link[rgl:plot3d]{rgl::plot3d()}} methods for \link{Coord3D} and \link{Plane3D} class
+objects.
 }
 \examples{
 c1 <- as_coord2d(x = 0, y = 1:10)
