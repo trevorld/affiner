@@ -27,7 +27,8 @@ as_coord2d(x, ...)
   ...,
   plane = as_plane3d("xy-plane"),
   scale = 0,
-  alpha = angle(45, "degrees")
+  alpha = angle(45, "degrees"),
+  roll = angle(0, "degrees")
 )
 
 \method{as_coord2d}{data.frame}(x, ...)
@@ -65,6 +66,11 @@ while a value of \code{1.0} is used by a \dQuote{cavalier projection}.}
 \item{alpha}{Oblique projection angle (the angle the third axis is projected going off at).
 An \code{\link[=angle]{angle()}} object or one coercible to one with \code{as_angle(alpha, ...)}.
 Popular angles are 45 degrees, 60 degrees, and \code{arctangent(2)} degrees.}
+
+\item{roll}{Rotation of the in-plane coordinate frame around the plane normal
+after the azimuth/inclination alignment.
+An \code{\link[=angle]{angle()}} object or one coercible to one with \code{as_angle(roll, ...)}.
+Defaults to \code{angle(0)} (no roll), which preserves the azimuth/inclination convention.}
 
 \item{y}{Numeric vector of y-coordinates to be used.}
 }

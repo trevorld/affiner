@@ -10,10 +10,12 @@ New features
 * `dot_product1d()`, `dot_product2d()`, and `dot_product3d()` are new exported functions that compute the dot (inner) product of two coordinate vectors (#61).
   You may also (continue to) use the `*` and (if R >= 4.3) the `%*%` operators to compute the dot (inner) product.
 * `has_overlap2d()` tests whether two 2D objects (ellipses/circles or convex polygons) have a non-zero-area overlap (#46).
+* `as_coord2d.Coord3D()` now supports oblique projections onto arbitrary planes (not just the xy-plane) and gains a `roll` parameter to rotate the in-plane coordinate frame around the plane normal after the azimuth/inclination alignment.
 * `intersection()` now supports `Line2D` and `Ellipse2D` pairs, returning 0, 1, or 2 intersection points.
 * `is_ellipse2d()` tests whether an object is a `Ellipse2D` R6 class.
 * `is_segment2d()` tests whether an object is a `Segment2D` R6 class.
 * `is_polygon2d()` tests whether an object is a `Polygon2D` R6 class.
+* `painter_depth()` computes painter's algorithm depth values for `Coord2D`, `Coord3D`, `Polygon2D`, and `Segment2D` objects under parallel (orthographic or oblique) projections.
 
 Bug fixes and minor improvements
 --------------------------------

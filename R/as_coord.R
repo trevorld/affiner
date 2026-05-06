@@ -203,6 +203,10 @@ as_coord1d.Coord2D <- function(
 #' @param alpha Oblique projection angle (the angle the third axis is projected going off at).
 #'              An [angle()] object or one coercible to one with `as_angle(alpha, ...)`.
 #'              Popular angles are 45 degrees, 60 degrees, and `arctangent(2)` degrees.
+#' @param roll Rotation of the in-plane coordinate frame around the plane normal
+#'             after the azimuth/inclination alignment.
+#'             An [angle()] object or one coercible to one with `as_angle(roll, ...)`.
+#'             Defaults to `angle(0)` (no roll), which preserves the azimuth/inclination convention.
 #' @export
 as_coord2d.Coord3D <- function(
 	x,
@@ -210,7 +214,8 @@ as_coord2d.Coord3D <- function(
 	...,
 	plane = as_plane3d("xy-plane"),
 	scale = 0,
-	alpha = angle(45, "degrees")
+	alpha = angle(45, "degrees"),
+	roll = angle(0, "degrees")
 ) {
 	if (!is_plane3d(plane)) {
 		plane <- as_plane3d(plane, ...)
@@ -218,8 +223,10 @@ as_coord2d.Coord3D <- function(
 	if (!is_angle(alpha)) {
 		alpha <- as_angle(alpha, ...)
 	}
-	stopifnot(length(plane) == 1, scale == 0 || (plane$a == 0 && plane$b == 0), length(alpha) == 1)
-	stopifnot(length(alpha) == 1)
+	if (!is_angle(roll)) {
+		roll <- as_angle(roll, ...)
+	}
+	stopifnot(length(plane) == 1, length(alpha) == 1, length(roll) == 1)
 	permutation <- match.arg(permutation)
 
 	denom <- plane$a^2 + plane$b^2 + plane$c^2
@@ -243,7 +250,7 @@ as_coord2d.Coord3D <- function(
 	p <- x$clone()$permute(permutation)$translate(-closest)$rotate(z_axis, -azimuth)$rotate(
 		y_axis,
 		-inclination
-	)$shear(xz_shear = scale * cos(alpha), yz_shear = scale * sin(alpha))
+	)$rotate(z_axis, roll)$shear(xz_shear = scale * cos(alpha), yz_shear = scale * sin(alpha))
 	as_coord2d(p$x, p$y)
 }
 
