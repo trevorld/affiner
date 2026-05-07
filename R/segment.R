@@ -152,30 +152,3 @@ as_segment2d.Polygon2D <- function(p, ...) {
 	chkDots(...)
 	p$edges
 }
-
-#' Sort segments by painter's depth
-#'
-#' `sort.Segment2D()` sorts a [Segment2D] vector by painter's depth at each
-#' segment's midpoint (see [painter_depth()]).
-#' The default order (farthest first) is the draw order required by the
-#' painter's algorithm.
-#'
-#' @param x A [Segment2D] object.
-#' @param decreasing If `TRUE` sort closest first instead of farthest first.
-#' @param ... Passed to [painter_depth.Segment2D()].
-#' @param scale,alpha Oblique projection parameters passed to [painter_depth.Segment2D()].
-#'   Defaults to `scale = 1` rather than `0` because `scale = 0` yields zero depth
-#'   for all `Coord2D` points (z is always 0), making sorting impossible.
-#'   All positive `scale` values produce the same ordering, so `1` is used to
-#'   avoid floating-point attenuation from small values.
-#' @return A [Segment2D] object sorted by painter's depth.
-#' @examples
-#' p1 <- as_coord2d(x = c(0, 2, 1), y = c(0, 0, 2))
-#' p2 <- as_coord2d(x = c(2, 1, 0), y = c(0, 2, 0))
-#' s <- as_segment2d(p1, p2 = p2)
-#' sort(s, alpha = degrees(45))
-#' @export
-sort.Segment2D <- function(x, decreasing = FALSE, ..., scale = 1, alpha = angle(45, "degrees")) {
-	depths <- painter_depth(x, ..., scale = scale, alpha = alpha)
-	x[order(depths, decreasing = decreasing)]
-}

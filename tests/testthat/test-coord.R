@@ -504,3 +504,19 @@ test_that("range()", {
 	expect_equal(range(as_coord2d(x, y), na.rm = TRUE), as_coord2d(c(2, 7), c(3, 6)))
 	expect_equal(range(as_coord3d(x, y, z), na.rm = TRUE), as_coord3d(c(2, 7), c(3, 6), c(2, 7)))
 })
+
+test_that("sort.Coord2D() orders farthest first by default", {
+	p <- as_coord2d(x = c(1, 3, 2), y = c(3, 1, 2))
+	p_sorted <- sort(p, alpha = degrees(45))
+	depths <- painter_depth(p, scale = 1, alpha = degrees(45))
+	expect_r6_class(p_sorted, "Coord2D")
+	expect_equal(length(p_sorted), length(p))
+	expect_equal(painter_depth(p_sorted, scale = 1, alpha = degrees(45)), sort(depths))
+})
+
+test_that("sort.Coord3D() orthographic sorts by z by default", {
+	p <- as_coord3d(x = 1:3, y = 1:3, z = c(3, 1, 2))
+	p_sorted <- sort(p)
+	expect_r6_class(p_sorted, "Coord3D")
+	expect_equal(p_sorted$z, c(1, 2, 3))
+})

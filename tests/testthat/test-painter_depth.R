@@ -52,3 +52,27 @@ test_that("painter_depth.Polygon2D() gives one depth per edge", {
 	expect_length(d, 4L)
 	expect_equal(d, painter_depth(poly$edges, scale = 0.5, alpha = degrees(45)))
 })
+
+test_that("painter_order() returns order() of painter_depth()", {
+	p <- as_coord2d(x = c(1, 3, 2), y = c(3, 1, 2))
+	expect_equal(painter_order(p), order(painter_depth(p)))
+	expect_equal(painter_order(p, decreasing = TRUE), order(painter_depth(p), decreasing = TRUE))
+})
+
+test_that("painter_order.Coord3D() returns order() of painter_depth()", {
+	p <- as_coord3d(x = 1:3, y = 1:3, z = c(3, 1, 2))
+	expect_equal(painter_order(p), order(painter_depth(p)))
+})
+
+test_that("painter_order() dispatches painter_depth.Segment2D() via Coord2D inheritance", {
+	p1 <- as_coord2d(x = c(0, 2), y = c(0, 0))
+	p2 <- as_coord2d(x = c(2, 2), y = c(0, 2))
+	s <- as_segment2d(p1, p2 = p2)
+	expect_equal(painter_order(s), order(painter_depth(s)))
+})
+
+test_that("painter_order.Polygon2D() returns order() of painter_depth()", {
+	vertices <- as_coord2d(x = c(0, 0.5, 1, 0.5), y = c(0.5, 1, 0.5, 0))
+	poly <- as_polygon2d(vertices)
+	expect_equal(painter_order(poly), order(painter_depth(poly)))
+})

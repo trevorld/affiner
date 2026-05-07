@@ -16,7 +16,8 @@ New features
 * `is_segment2d()` tests whether an object is a `Segment2D` R6 class.
 * `is_polygon2d()` tests whether an object is a `Polygon2D` R6 class.
 * `painter_depth()` computes painter's algorithm depth values for `Coord2D`, `Coord3D`, `Polygon2D`, and `Segment2D` objects under parallel (orthographic or oblique) projections.
-* `sort.Segment2D()` sorts a `Segment2D` vector by painter's depth (farthest first by default), for use with the painter's algorithm.
+* `painter_order()` wraps `painter_depth()` and `order()` to return the integer indices for painter's algorithm draw order (farthest first) for `Coord2D`, `Coord3D`, `Segment2D`, and `Polygon2D` objects.
+* `sort.Coord2D()` and `sort.Coord3D()` sort coordinate/segment vectors by painter's depth (farthest first by default), for use with the painter's algorithm.
 
 Bug fixes and minor improvements
 --------------------------------
