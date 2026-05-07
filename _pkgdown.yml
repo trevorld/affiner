@@ -35,12 +35,15 @@ reference:
         - Plane3D
         - as_plane3d
         - is_plane3d
-    - title: "2D polygon and ellipse objects"
-      desc: "2D polygon and ellipse objects for overlap detection"
+    - title: "2D polygon, segment, and ellipse objects"
+      desc: "2D polygon, segment, and ellipse objects"
       contents:
         - Polygon2D
         - as_polygon2d
         - is_polygon2d
+        - Segment2D
+        - as_segment2d
+        - is_segment2d
         - Ellipse2D
         - as_ellipse2d
         - is_ellipse2d
@@ -68,7 +71,7 @@ reference:
         - arcsine
         - print.angle
     - title: "Additional coordinate calculations"
-      desc: "Compute centroids, Euclidean norms, axis-aligned ranges, convex hulls, cross products, and vector normals"
+      desc: "Compute centroids, Euclidean norms, axis-aligned ranges, convex hulls, cross/dot products, vector normals, painter depths, plot objects, and sort coordinates"
       contents:
         - mean.Coord2D
         - abs.Coord2D
@@ -81,6 +84,7 @@ reference:
         - dot_product1d
         - normal2d
         - normal3d
+        - painter_depth
         - plot.Coord2D
     - title: "Other geometry functions"
       desc: ""

@@ -1,16 +1,31 @@
 affiner 0.3.0 (development)
 ===========================
 
+New features
+------------
+
 * `as_ellipse2d()` creates an `Ellipse2D` R6 object representing a 2D ellipse (or vector of ellipses) (#46).
 * `as_polygon2d()` creates a `Polygon2D` R6 object representing a 2D polygon (#46).
-* `has_overlap2d()` tests whether two 2D objects (ellipses/circles or convex polygons) have a non-zero-area overlap (#46).
-* `intersection()` now supports `Line2D` and `Ellipse2D` pairs, returning 0, 1, or 2 intersection points.
-* `rgl::plot3d()` method added for `Plane3D` objects (wraps `rgl::planes3d()`).
+* `as_segment2d()` creates a `Segment2D` R6 object representing a vector of 2D line segments (#75).
 * `dot_product1d()`, `dot_product2d()`, and `dot_product3d()` are new exported functions that compute the dot (inner) product of two coordinate vectors (#61).
   You may also (continue to) use the `*` and (if R >= 4.3) the `%*%` operators to compute the dot (inner) product.
+* `has_overlap2d()` tests whether two 2D objects (ellipses/circles or convex polygons) have a non-zero-area overlap (#46).
+* `as_coord2d.Coord3D()` now supports oblique projections onto arbitrary planes (not just the xy-plane) and gains a `roll` parameter to rotate the in-plane coordinate frame around the plane normal after the azimuth/inclination alignment.
+* `intersection()` now supports `Line2D` and `Ellipse2D` pairs, returning 0, 1, or 2 intersection points.
+* `is_ellipse2d()` tests whether an object is a `Ellipse2D` R6 class.
+* `is_segment2d()` tests whether an object is a `Segment2D` R6 class.
+* `is_polygon2d()` tests whether an object is a `Polygon2D` R6 class.
+* `painter_depth()` computes painter's algorithm depth values for `Coord2D`, `Coord3D`, `Polygon2D`, and `Segment2D` objects under parallel (orthographic or oblique) projections.
+* `painter_order()` wraps `painter_depth()` and `order()` to return the integer indices for painter's algorithm draw order (farthest first) for `Coord2D`, `Coord3D`, `Segment2D`, and `Polygon2D` objects.
+* `sort.Coord2D()` and `sort.Coord3D()` sort coordinate/segment vectors by painter's depth (farthest first by default), for use with the painter's algorithm.
+
+Bug fixes and minor improvements
+--------------------------------
+
 * `permute3d()` now correctly returns a `transform3d` object instead of a `transform2d` object.
 * `rotate3d()` now correctly returns a `transform3d` object instead of a plain matrix.
 * `shear3d()` now correctly returns a `transform3d` object instead of a `transform2d` object.
+* `rgl::plot3d()` method added for `Plane3D` objects (wraps `rgl::planes3d()`).
 
 affiner 0.2.1
 =============

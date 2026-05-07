@@ -97,6 +97,21 @@ is_plane3d <- function(x) inherits(x, "Plane3D")
 #' @export
 is_polygon2d <- function(x) inherits(x, "Polygon2D")
 
+#' Test whether an object has a Segment2D class
+#'
+#' `is_segment2d()` tests whether an object has a "Segment2D" class
+#'
+#' @param x An object
+#' @return A logical value
+#'
+#' @examples
+#' p1 <- as_coord2d(x = c(0, 1), y = c(0, 0))
+#' p2 <- as_coord2d(x = c(1, 1), y = c(0, 1))
+#' s <- as_segment2d(p1, p2 = p2)
+#' is_segment2d(s)
+#' @export
+is_segment2d <- function(x) inherits(x, "Segment2D")
+
 #' Test whether an object has an Ellipse2D class
 #'
 #' `is_ellipse2d()` tests whether an object has an "Ellipse2D" class

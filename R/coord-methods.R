@@ -9,6 +9,13 @@
 }
 
 #' @export
+`[.Segment2D` <- function(x, i) {
+	xyw <- x$xyw
+	vec <- x$.__enclos_env__$private$vec
+	Segment2D$new(xyw[i, , drop = FALSE], vec[i, , drop = FALSE])
+}
+
+#' @export
 `[.Ellipse2D` <- function(x, i) {
 	Ellipse2D$new(x$xyw[i, , drop = FALSE], rx = x$rx[i], ry = x$ry[i], theta = x$theta[i])
 }
@@ -145,6 +152,15 @@ rep.Coord2D <- function(x, ..., length.out = NA_integer_) {
 	}
 	id <- rep(seq.int(length(x)), ..., length.out = length.out)
 	Coord2D$new(x$xyw[id, , drop = FALSE])
+}
+
+#' @export
+rep.Segment2D <- function(x, ..., length.out = NA_integer_) {
+	if (isTRUE(length(x) == length.out)) {
+		return(x)
+	}
+	id <- rep(seq.int(length(x)), ..., length.out = length.out)
+	x[id]
 }
 
 #' @export

@@ -1,4 +1,4 @@
-utils::globalVariables(c("group", "x", "y"))
+utils::globalVariables(c("group", "x", "xend", "y", "yend"))
 
 #' @exportS3Method ggplot2::autolayer
 autolayer.Coord1D <- function(x, ...) {
@@ -28,6 +28,12 @@ autolayer.Ellipse2D <- function(x, n = 60L, ...) {
 	})
 	df <- do.call(rbind, polys)
 	ggplot2::geom_polygon(ggplot2::aes(x = x, y = y, group = group), ..., data = df)
+}
+
+#' @exportS3Method ggplot2::autolayer
+autolayer.Segment2D <- function(x, ...) {
+	df <- data.frame(x = x$p1$x, y = x$p1$y, xend = x$p2$x, yend = x$p2$y)
+	ggplot2::geom_segment(ggplot2::aes(x = x, y = y, xend = xend, yend = yend), ..., data = df)
 }
 
 #' @exportS3Method ggplot2::autolayer
