@@ -44,7 +44,7 @@ painter_depth <- function(x, ...) {
 
 #' @rdname painter_depth
 #' @export
-painter_depth.Coord2D <- function(x, ..., scale = 0, alpha = angle(45, "degrees")) {
+painter_depth.Coord2D <- function(x, ..., scale = 1, alpha = angle(45, "degrees")) {
 	if (!is_angle(alpha)) {
 		alpha <- as_angle(alpha, ...)
 	}
@@ -112,12 +112,12 @@ painter_depth.Coord3D <- function(
 
 #' @rdname painter_depth
 #' @export
-painter_depth.Segment2D <- function(x, ..., scale = 0, alpha = angle(45, "degrees")) {
+painter_depth.Segment2D <- function(x, ..., scale = 1, alpha = angle(45, "degrees")) {
 	painter_depth(x$mid_point, ..., scale = scale, alpha = alpha)
 }
 
 #' @rdname painter_depth
 #' @export
-painter_depth.Polygon2D <- function(x, ..., scale = 0, alpha = angle(45, "degrees")) {
+painter_depth.Polygon2D <- function(x, ..., scale = 1, alpha = angle(45, "degrees")) {
 	painter_depth(x$edges, ..., scale = scale, alpha = alpha)
 }
