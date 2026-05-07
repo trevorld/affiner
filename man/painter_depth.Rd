@@ -10,7 +10,7 @@
 \usage{
 painter_depth(x, ...)
 
-\method{painter_depth}{Coord2D}(x, ..., scale = 0, alpha = angle(45, "degrees"))
+\method{painter_depth}{Coord2D}(x, ..., scale = 1, alpha = angle(45, "degrees"))
 
 \method{painter_depth}{Coord3D}(
   x,
@@ -22,9 +22,9 @@ painter_depth(x, ...)
   roll = angle(0, "degrees")
 )
 
-\method{painter_depth}{Segment2D}(x, ..., scale = 0, alpha = angle(45, "degrees"))
+\method{painter_depth}{Segment2D}(x, ..., scale = 1, alpha = angle(45, "degrees"))
 
-\method{painter_depth}{Polygon2D}(x, ..., scale = 0, alpha = angle(45, "degrees"))
+\method{painter_depth}{Polygon2D}(x, ..., scale = 1, alpha = angle(45, "degrees"))
 }
 \arguments{
 \item{x}{Object to compute painter's depth for.}

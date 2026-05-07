@@ -1,6 +1,6 @@
-test_that("painter_depth.Coord2D() orthographic gives zero depth", {
+test_that("painter_depth.Coord2D() scale = 0 gives zero depth", {
 	p <- as_coord2d(x = 1:3, y = 1:3)
-	expect_equal(painter_depth(p), rep(0, 3))
+	expect_equal(painter_depth(p, scale = 0), rep(0, 3))
 })
 
 test_that("painter_depth.Coord2D() oblique matches formula", {

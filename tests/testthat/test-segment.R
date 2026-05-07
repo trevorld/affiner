@@ -115,3 +115,26 @@ test_that("Polygon2D$edges cache is invalidated by transformation", {
 	expect_equal(e2$p1$x[1], 1)
 	expect_false(identical(e1, e2))
 })
+
+test_that("sort.Segment2D() orders farthest first by default", {
+	p1 <- as_coord2d(x = c(0, 2, 1), y = c(0, 0, 2))
+	p2 <- as_coord2d(x = c(2, 1, 0), y = c(0, 2, 0))
+	s <- as_segment2d(p1, p2 = p2)
+	s_sorted <- sort(s, alpha = degrees(45))
+	depths <- painter_depth(s, scale = 1, alpha = degrees(45))
+	expect_r6_class(s_sorted, "Segment2D")
+	expect_equal(length(s_sorted), length(s))
+	expect_equal(painter_depth(s_sorted, scale = 1, alpha = degrees(45)), sort(depths))
+})
+
+test_that("sort.Segment2D() decreasing = TRUE gives closest first", {
+	p1 <- as_coord2d(x = c(0, 2, 1), y = c(0, 0, 2))
+	p2 <- as_coord2d(x = c(2, 1, 0), y = c(0, 2, 0))
+	s <- as_segment2d(p1, p2 = p2)
+	s_asc <- sort(s, alpha = degrees(45))
+	s_desc <- sort(s, decreasing = TRUE, alpha = degrees(45))
+	expect_equal(
+		painter_depth(s_asc, scale = 1, alpha = degrees(45)),
+		rev(painter_depth(s_desc, scale = 1, alpha = degrees(45)))
+	)
+})
