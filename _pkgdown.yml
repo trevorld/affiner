@@ -71,7 +71,7 @@ reference:
         - arcsine
         - print.angle
     - title: "Additional coordinate calculations"
-      desc: "Compute centroids, Euclidean norms, axis-aligned ranges, convex hulls, cross/dot products, vector normals, painter depths, plot objects, and sort polygon edges"
+      desc: "Compute centroids, Euclidean norms, axis-aligned ranges, convex hulls, cross/dot products, vector normals, painter depths, plot objects, and sort coordinates"
       contents:
         - mean.Coord2D
         - abs.Coord2D
@@ -86,7 +86,6 @@ reference:
         - normal3d
         - painter_depth
         - plot.Coord2D
-        - sort.Segment2D
     - title: "Other geometry functions"
       desc: ""
       contents:

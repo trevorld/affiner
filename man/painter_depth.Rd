@@ -6,7 +6,13 @@
 \alias{painter_depth.Coord3D}
 \alias{painter_depth.Segment2D}
 \alias{painter_depth.Polygon2D}
-\title{Compute painter's depth}
+\alias{painter_order}
+\alias{painter_order.Coord2D}
+\alias{painter_order.Coord3D}
+\alias{painter_order.Polygon2D}
+\alias{sort.Coord2D}
+\alias{sort.Coord3D}
+\title{Painter's depth, order, and sort methods}
 \usage{
 painter_depth(x, ...)
 
@@ -25,16 +31,61 @@ painter_depth(x, ...)
 \method{painter_depth}{Segment2D}(x, ..., scale = 1, alpha = angle(45, "degrees"))
 
 \method{painter_depth}{Polygon2D}(x, ..., scale = 1, alpha = angle(45, "degrees"))
+
+painter_order(x, ...)
+
+\method{painter_order}{Coord2D}(
+  x,
+  ...,
+  decreasing = FALSE,
+  scale = 1,
+  alpha = angle(45, "degrees")
+)
+
+\method{painter_order}{Coord3D}(
+  x,
+  permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
+  ...,
+  decreasing = FALSE,
+  plane = as_plane3d("xy-plane"),
+  scale = 0,
+  alpha = angle(45, "degrees"),
+  roll = angle(0, "degrees")
+)
+
+\method{painter_order}{Polygon2D}(
+  x,
+  ...,
+  decreasing = FALSE,
+  scale = 1,
+  alpha = angle(45, "degrees")
+)
+
+\method{sort}{Coord2D}(x, decreasing = FALSE, ..., scale = 1, alpha = angle(45, "degrees"))
+
+\method{sort}{Coord3D}(
+  x,
+  decreasing = FALSE,
+  ...,
+  permutation = c("xyz", "xzy", "yxz", "yzx", "zyx", "zxy"),
+  plane = as_plane3d("xy-plane"),
+  scale = 0,
+  alpha = angle(45, "degrees"),
+  roll = angle(0, "degrees")
+)
 }
 \arguments{
-\item{x}{Object to compute painter's depth for.}
+\item{x}{Object to compute painter's depth/order for, or to sort.}
 
 \item{...}{Passed to \code{\link[=as_plane3d]{as_plane3d()}} or \code{\link[=as_angle]{as_angle()}} as needed.}
 
 \item{scale}{Oblique projection foreshortening scale factor.
-A value of \code{0} (default) indicates an orthographic projection.
+The 2D methods default to \code{1} since \code{0} yields zero depth for all
+\code{Coord2D} points (z is always 0), making depth-based ordering impossible.
+The \code{Coord3D} method defaults to \code{0} (orthographic projection, depth = z).
 A value of \code{0.5} is used by a \dQuote{cabinet projection}
-while a value of \code{1.0} is used by a \dQuote{cavalier projection}.}
+while a value of \code{1.0} is used by a \dQuote{cavalier projection}.
+All positive values produce the same ordering.}
 
 \item{alpha}{Oblique projection angle (the angle the off-axis direction is
 projected going off at).
@@ -54,34 +105,52 @@ projected onto, or an object coercible to one using
 after the azimuth/inclination alignment.
 An \code{\link[=angle]{angle()}} object or one coercible to one with \code{as_angle(roll, ...)}.
 Defaults to \code{angle(0)} (no roll), which preserves the azimuth/inclination convention.}
+
+\item{decreasing}{If \code{TRUE} sort/order closest first instead of farthest
+first.}
 }
 \value{
-A numeric vector of depth values.
+\code{painter_order()} returns an integer vector of indices.
+
+\code{sort.Coord2D()} and \code{sort.Coord3D()} return a sorted object of the
+same class as \code{x}.
 }
 \description{
-\code{painter_depth()} computes a depth value for use with the painter's algorithm
-(render lowest depth first).
+\code{painter_depth()} computes depth values for use with the painter's algorithm.
 For parallel (orthographic or oblique) projections, depth is a dot product
 of the point with the projection direction vector derived from the plane and
 oblique parameters.
+\code{painter_order()} wraps \code{\link[=painter_depth]{painter_depth()}} and \code{\link[=order]{order()}} to return the integer
+indices that sort objects farthest-first (the draw order for the painter's
+algorithm).
+\code{sort.Coord2D()} and \code{sort.Coord3D()} wrap
+\code{painter_order()} to return the sorted object directly.
+\code{sort.Coord2D()} also handles \link{Segment2D} objects via inheritance.
 }
 \examples{
-# Coord2D: oblique projection with scale = 0.5, alpha = 45 degrees
-p <- as_coord2d(x = c(1, 2, 3), y = c(1, 1, 2))
-painter_depth(p, scale = 0.5, alpha = degrees(45))
+# Coord2D: oblique projection with scale = 1, alpha = 45 degrees
+p <- as_coord2d(x = c(1, 2, 3), y = c(3, 1, 2))
+painter_depth(p)
+painter_order(p)
+sort(p)
 
 # Coord3D: orthographic projection onto xy-plane (depth = z)
-p3 <- as_coord3d(x = 1:3, y = 1:3, z = c(1, 2, 3))
+p3 <- as_coord3d(x = 1:3, y = 1:3, z = c(3, 1, 2))
 painter_depth(p3)
+painter_order(p3)
+sort(p3)
 
-# Segment2D: depth at midpoints
+# Segment2D: depth/order at midpoints
 p1 <- as_coord2d(x = c(0, 2), y = c(0, 0))
 p2 <- as_coord2d(x = c(2, 2), y = c(0, 2))
 s <- as_segment2d(p1, p2 = p2)
-painter_depth(s, scale = 0.5, alpha = degrees(45))
+painter_depth(s)
+painter_order(s)
+sort(s)
 
-# Polygon2D: depth of each edge (for ordering edge rendering)
+# Polygon2D: depth/order of each edge
 vertices <- as_coord2d(x = c(0, 0.5, 1, 0.5), y = c(0.5, 1, 0.5, 0))
 poly <- as_polygon2d(vertices)
-painter_depth(poly, scale = 0.5, alpha = degrees(45))
+painter_depth(poly)
+painter_order(poly)
 }
