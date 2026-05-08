@@ -62,5 +62,9 @@ isotoxal_2ngon_inner_radius(8, alpha = 45)
 isotoxal_2ngon_inner_radius(8, beta_ext = 90)
 }
 \seealso{
-\url{https://en.wikipedia.org/wiki/Isotoxal_figure#Isotoxal_polygons} and \url{https://en.wikipedia.org/wiki/Star_polygon#Isotoxal_star_simple_polygons} for more information on isotoxal polygons.
+\code{\link[=isotoxal_2ngon_polygon2d]{isotoxal_2ngon_polygon2d()}} to construct an isotoxal \verb{2n}-gon
+\link{Polygon2D} object.
+\url{https://en.wikipedia.org/wiki/Isotoxal_figure#Isotoxal_polygons} and
+\url{https://en.wikipedia.org/wiki/Star_polygon#Isotoxal_star_simple_polygons}
+for more information on isotoxal polygons.
 }

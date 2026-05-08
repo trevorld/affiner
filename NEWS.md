@@ -6,6 +6,10 @@ New features
 
 * `as_ellipse2d()` creates an `Ellipse2D` R6 object representing a 2D ellipse (or vector of ellipses) (#46).
 * `as_polygon2d()` creates a `Polygon2D` R6 object representing a 2D polygon (#46).
+
+  + `isotoxal_2ngon_polygon2d()` creates an isotoxal `2n`-gon [Polygon2D] object; `star_polygon2d()` is an alias (#78).
+  + `regular_ngon_polygon2d()` creates a regular n-gon [Polygon2D] object (#78).
+
 * `as_segment2d()` creates a `Segment2D` R6 object representing a vector of 2D line segments (#75).
 * `dot_product1d()`, `dot_product2d()`, and `dot_product3d()` are new exported functions that compute the dot (inner) product of two coordinate vectors (#61).
   You may also (continue to) use the `*` and (if R >= 4.3) the `%*%` operators to compute the dot (inner) product.
