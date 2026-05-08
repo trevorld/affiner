@@ -26,6 +26,7 @@
 #' @param d Density (winding number) of the star polygon `|n/d|`.
 #' @return A [Polygon2D] object.
 #' @seealso [isotoxal_2ngon_inner_radius()] to compute the radial scale.
+#'   [rectangle_polygon2d()] for rectangles.
 #'   [regular_ngon_polygon2d()] for regular convex polygons.
 #'   <https://en.wikipedia.org/wiki/Isotoxal_figure#Isotoxal_polygons> and
 #'   <https://en.wikipedia.org/wiki/Star_polygon#Isotoxal_star_simple_polygons>

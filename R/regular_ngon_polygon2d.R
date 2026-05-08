@@ -12,6 +12,7 @@
 #'   Will be coerced by [degrees()].
 #' @return A [Polygon2D] object with `$is_convex == TRUE`.
 #' @seealso [isotoxal_2ngon_polygon2d()] for isotoxal star polygons.
+#'   [rectangle_polygon2d()] for rectangles.
 #' @examples
 #' # A regular hexagon
 #' p <- regular_ngon_polygon2d(6)

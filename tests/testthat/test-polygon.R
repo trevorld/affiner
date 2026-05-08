@@ -227,6 +227,24 @@ test_that("regular_ngon_polygon2d()", {
 	expect_equal(p0$y[1], 0, tolerance = 1e-10)
 })
 
+test_that("rectangle_polygon2d()", {
+	p <- rectangle_polygon2d()
+	expect_r6_class(p, "Polygon2D")
+	expect_true(p$is_convex)
+	expect_equal(length(p), 4L)
+	expect_equal(range(p)$x, c(-0.5, 0.5), tolerance = 1e-10)
+	expect_equal(range(p)$y, c(-0.5, 0.5), tolerance = 1e-10)
+
+	# width, height, center respected
+	p2 <- rectangle_polygon2d(width = 2, height = 3, x = 1, y = -1)
+	expect_equal(range(p2)$x, c(0, 2), tolerance = 1e-10)
+	expect_equal(range(p2)$y, c(-2.5, 0.5), tolerance = 1e-10)
+
+	# rotation: a 45-degree square has equal x and y extents
+	p3 <- rectangle_polygon2d(width = 1, height = 1, theta = degrees(45))
+	expect_equal(range(p3)$x, range(p3)$y, tolerance = 1e-10)
+})
+
 test_that("isotoxal_2ngon_polygon2d()", {
 	p <- isotoxal_2ngon_polygon2d(5, d = 2)
 	expect_r6_class(p, "Polygon2D")
