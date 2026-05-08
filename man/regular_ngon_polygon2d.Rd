@@ -34,4 +34,5 @@ plot(p)
 }
 \seealso{
 \code{\link[=isotoxal_2ngon_polygon2d]{isotoxal_2ngon_polygon2d()}} for isotoxal star polygons.
+\code{\link[=rectangle_polygon2d]{rectangle_polygon2d()}} for rectangles.
 }

@@ -8,6 +8,7 @@ New features
 * `as_polygon2d()` creates a `Polygon2D` R6 object representing a 2D polygon (#46).
 
   + `isotoxal_2ngon_polygon2d()` creates an isotoxal `2n`-gon [Polygon2D] object; `star_polygon2d()` is an alias (#78).
+  + `rectangle_polygon2d()` creates a rectangle [Polygon2D] object (#78).
   + `regular_ngon_polygon2d()` creates a regular n-gon [Polygon2D] object (#78).
 
 * `as_segment2d()` creates a `Segment2D` R6 object representing a vector of 2D line segments (#75).

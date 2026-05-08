@@ -81,9 +81,11 @@ plot(p, col = "#008000", border = NA)
 
 # `star_polygon2d()` is an alias
 p2 <- star_polygon2d(5, d = 2)
+all.equal(p, p2)
 }
 \seealso{
 \code{\link[=isotoxal_2ngon_inner_radius]{isotoxal_2ngon_inner_radius()}} to compute the radial scale.
+\code{\link[=rectangle_polygon2d]{rectangle_polygon2d()}} for rectangles.
 \code{\link[=regular_ngon_polygon2d]{regular_ngon_polygon2d()}} for regular convex polygons.
 \url{https://en.wikipedia.org/wiki/Isotoxal_figure#Isotoxal_polygons} and
 \url{https://en.wikipedia.org/wiki/Star_polygon#Isotoxal_star_simple_polygons}
