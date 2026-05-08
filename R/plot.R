@@ -115,23 +115,59 @@ lines.Ellipse2D <- function(x, n = 60L, ...) {
 
 #' @rdname graphics
 #' @importFrom graphics polygon
+#' @param col,border,density,angle,fillOddEven Passed to [graphics::polygon()].
 #' @export
-plot.Polygon2D <- function(x, ..., asp = 1) {
+plot.Polygon2D <- function(
+	x,
+	...,
+	col = NA,
+	border = NULL,
+	density = NULL,
+	angle = 45,
+	fillOddEven = FALSE,
+	asp = 1
+) {
 	plot(data.frame(x = x$x, y = x$y), type = "n", ..., asp = asp)
-	graphics::polygon(x$x, x$y, ...)
+	graphics::polygon(
+		x$x,
+		x$y,
+		col = col,
+		border = border,
+		density = density,
+		angle = angle,
+		fillOddEven = fillOddEven
+	)
 	invisible(x)
 }
 
 #' @rdname graphics
 #' @importFrom graphics polygon
 #' @export
-plot.Ellipse2D <- function(x, n = 60L, ..., asp = 1) {
+plot.Ellipse2D <- function(
+	x,
+	n = 60L,
+	...,
+	col = NA,
+	border = NULL,
+	density = NULL,
+	angle = 45,
+	fillOddEven = FALSE,
+	asp = 1
+) {
 	polys <- lapply(seq_len(length(x)), function(i) as_polygon2d(x[i], n = n))
 	all_x <- unlist(lapply(polys, `[[`, "x"))
 	all_y <- unlist(lapply(polys, `[[`, "y"))
 	plot(data.frame(x = all_x, y = all_y), type = "n", ..., asp = asp)
 	for (p in polys) {
-		graphics::polygon(p$x, p$y, ...)
+		graphics::polygon(
+			p$x,
+			p$y,
+			col = col,
+			border = border,
+			density = density,
+			angle = angle,
+			fillOddEven = fillOddEven
+		)
 	}
 	invisible(x)
 }

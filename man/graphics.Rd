@@ -33,9 +33,28 @@
 
 \method{lines}{Ellipse2D}(x, n = 60L, ...)
 
-\method{plot}{Polygon2D}(x, ..., asp = 1)
+\method{plot}{Polygon2D}(
+  x,
+  ...,
+  col = NA,
+  border = NULL,
+  density = NULL,
+  angle = 45,
+  fillOddEven = FALSE,
+  asp = 1
+)
 
-\method{plot}{Ellipse2D}(x, n = 60L, ..., asp = 1)
+\method{plot}{Ellipse2D}(
+  x,
+  n = 60L,
+  ...,
+  col = NA,
+  border = NULL,
+  density = NULL,
+  angle = 45,
+  fillOddEven = FALSE,
+  asp = 1
+)
 
 \method{lines}{Line2D}(x, ...)
 
@@ -51,6 +70,8 @@
 \item{asp}{the y/x aspect ratio.}
 
 \item{n}{Number of vertices used to approximate each ellipse (default \code{60L}).}
+
+\item{col, border, density, angle, fillOddEven}{Passed to \code{\link[graphics:polygon]{graphics::polygon()}}.}
 }
 \value{
 Used for its side effect of drawing to the graphics device.
