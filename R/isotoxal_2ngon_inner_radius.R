@@ -23,7 +23,11 @@
 #' isotoxal_2ngon_inner_radius(8, d = 3)
 #' isotoxal_2ngon_inner_radius(8, alpha = 45)
 #' isotoxal_2ngon_inner_radius(8, beta_ext = 90)
-#' @seealso <https://en.wikipedia.org/wiki/Isotoxal_figure#Isotoxal_polygons> and <https://en.wikipedia.org/wiki/Star_polygon#Isotoxal_star_simple_polygons> for more information on isotoxal polygons.
+#' @seealso [isotoxal_2ngon_polygon2d()] to construct an isotoxal `2n`-gon
+#'   [Polygon2D] object.
+#'   <https://en.wikipedia.org/wiki/Isotoxal_figure#Isotoxal_polygons> and
+#'   <https://en.wikipedia.org/wiki/Star_polygon#Isotoxal_star_simple_polygons>
+#'   for more information on isotoxal polygons.
 #' @return A numeric vector
 #' @export
 isotoxal_2ngon_inner_radius <- function(

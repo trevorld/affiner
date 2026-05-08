@@ -48,3 +48,7 @@ p$is_convex
 print(p)
 plot(p)
 }
+\seealso{
+\code{\link[=isotoxal_2ngon_polygon2d]{isotoxal_2ngon_polygon2d()}} and \code{\link[=regular_ngon_polygon2d]{regular_ngon_polygon2d()}} to
+directly construct common polygon shapes.
+}

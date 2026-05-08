@@ -138,6 +138,8 @@ Polygon2D <- R6Class(
 #'   numeric vector of x-coordinates.
 #' @param ... Ignored; only included for S3 method consistency.
 #' @return A [Polygon2D] object.
+#' @seealso [isotoxal_2ngon_polygon2d()] and [regular_ngon_polygon2d()] to
+#'   directly construct common polygon shapes.
 #' @examples
 #' vertices <- as_coord2d(x = c(0, 1, 1, 0), y = c(0, 0, 1, 1))
 #' p <- as_polygon2d(vertices)
