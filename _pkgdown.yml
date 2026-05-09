@@ -4,6 +4,7 @@ development:
     mode: auto
 template:
   bootstrap: 5
+llm-docs: false
 reference:
     - title: "{grid} affine transformation utilities"
       desc: "Utilities to use the {grid} group affine transformation feature"

@@ -38,4 +38,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Trevor L. Davis \email{trevor.l.davis@gmail.com} (\href{https://orcid.org/0000-0001-6341-4639}{ORCID})
 
+Authors:
+\itemize{
+  \item Trevor L. Davis \email{trevor.l.davis@gmail.com} (\href{https://orcid.org/0000-0001-6341-4639}{ORCID})
+}
+
 }

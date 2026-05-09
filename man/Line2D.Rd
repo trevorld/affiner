@@ -14,77 +14,80 @@ as_line2d(theta, p1)
 as_line2d(p1, p2)
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 
-\item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
+    \item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
 
-\item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Line2D-new}{\code{Line2D$new()}}
-\item \href{#method-Line2D-print}{\code{Line2D$print()}}
-\item \href{#method-Line2D-clone}{\code{Line2D$clone()}}
-}
+  \itemize{
+    \item \href{#method-Line2D-initialize}{\code{Line2D$new()}}
+    \item \href{#method-Line2D-print}{\code{Line2D$print()}}
+    \item \href{#method-Line2D-clone}{\code{Line2D$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Line2D-new"></a>}}
-\if{latex}{\out{\hypertarget{method-Line2D-new}{}}}
-\subsection{Method \code{new()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Line2D$new(a, b, c)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-Line2D-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Line2D-initialize}{}}}
+\subsection{\code{Line2D$new()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Line2D$new(a, b, c)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
+      \item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
+      \item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{a}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
-
-\item{\code{b}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
-
-\item{\code{c}}{Numeric vector that parameterizes the line via the equation \code{a * x + b * y + c = 0}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Line2D-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Line2D-print}{}}}
-\subsection{Method \code{print()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Line2D$print(n = NULL, ...)}\if{html}{\out{</div>}}
+\subsection{\code{Line2D$print()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Line2D$print(n = NULL, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{Number of lines to print.  If \code{NULL} print all of them.}
+      \item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{Number of lines to print.  If \code{NULL} print all of them.}
-
-\item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Line2D-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Line2D-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Line2D$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Line2D$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Line2D$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -21,124 +21,128 @@ h <- p$convex_hull
 p$rotate(degrees(45))
 }
 \section{Super class}{
-\code{\link[affiner:Coord2D]{affiner::Coord2D}} -> \code{Polygon2D}
+\code{\link[affiner:Coord2D]{Coord2D}} -> \code{Polygon2D}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{is_convex}}{Logical indicating whether the polygon is convex
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{is_convex}}{Logical indicating whether the polygon is convex
 (\code{TRUE}), concave (\code{FALSE}), or unknown (\code{NA}).}
 
-\item{\code{convex_hull}}{A \link{Polygon2D} object of the convex hull.
+    \item{\code{convex_hull}}{A \link{Polygon2D} object of the convex hull.
 If the polygon is already convex (\verb{$convex == TRUE}) it returns itself.
 For concave polygons the hull is computed on demand and cached until the next transformation.}
 
-\item{\code{normals}}{A \link{Coord2D} object of unit edge normals}
+    \item{\code{normals}}{A \link{Coord2D} object of unit edge normals}
 
-\item{\code{edges}}{A \link{Segment2D} object of the \code{n} polygon edges
+    \item{\code{edges}}{A \link{Segment2D} object of the \code{n} polygon edges
 (computed on demand and cached until the next transformation).}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Polygon2D-new}{\code{Polygon2D$new()}}
-\item \href{#method-Polygon2D-print}{\code{Polygon2D$print()}}
-\item \href{#method-Polygon2D-transform}{\code{Polygon2D$transform()}}
-\item \href{#method-Polygon2D-clone}{\code{Polygon2D$clone()}}
+  \itemize{
+    \item \href{#method-Polygon2D-initialize}{\code{Polygon2D$new()}}
+    \item \href{#method-Polygon2D-print}{\code{Polygon2D$print()}}
+    \item \href{#method-Polygon2D-transform}{\code{Polygon2D$transform()}}
+    \item \href{#method-Polygon2D-clone}{\code{Polygon2D$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="permute"><a href='../../affiner/html/Coord2D.html#method-Coord2D-permute'><code>affiner::Coord2D$permute()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="project"><a href='../../affiner/html/Coord2D.html#method-Coord2D-project'><code>affiner::Coord2D$project()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="reflect"><a href='../../affiner/html/Coord2D.html#method-Coord2D-reflect'><code>affiner::Coord2D$reflect()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="rotate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-rotate'><code>affiner::Coord2D$rotate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="scale"><a href='../../affiner/html/Coord2D.html#method-Coord2D-scale'><code>affiner::Coord2D$scale()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="shear"><a href='../../affiner/html/Coord2D.html#method-Coord2D-shear'><code>affiner::Coord2D$shear()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="translate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-translate'><code>affiner::Coord2D$translate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="permute"><a href='../../affiner/html/Coord2D.html#method-Coord2D-permute'><code>Coord2D$permute()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="project"><a href='../../affiner/html/Coord2D.html#method-Coord2D-project'><code>Coord2D$project()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="reflect"><a href='../../affiner/html/Coord2D.html#method-Coord2D-reflect'><code>Coord2D$reflect()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="rotate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-rotate'><code>Coord2D$rotate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="scale"><a href='../../affiner/html/Coord2D.html#method-Coord2D-scale'><code>Coord2D$scale()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="shear"><a href='../../affiner/html/Coord2D.html#method-Coord2D-shear'><code>Coord2D$shear()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="translate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-translate'><code>Coord2D$translate()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Polygon2D-new"></a>}}
-\if{latex}{\out{\hypertarget{method-Polygon2D-new}{}}}
-\subsection{Method \code{new()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Polygon2D$new(xyw, convex = NA)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{xyw}}{A matrix with three columns representing (homogeneous)
+\if{html}{\out{<a id="method-Polygon2D-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Polygon2D-initialize}{}}}
+\subsection{\code{Polygon2D$new()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Polygon2D$new(xyw, convex = NA)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{xyw}}{A matrix with three columns representing (homogeneous)
 coordinates.  The first two columns are x/y coordinates and the
 last column is all ones.  Column names should be \code{"x"}, \code{"y"},
 and \code{"w"}.}
-
-\item{\code{convex}}{\code{NA} (default) to auto-detect convexity from \code{xyw},
+      \item{\code{convex}}{\code{NA} (default) to auto-detect convexity from \code{xyw},
 \code{TRUE} to assert convex (skip detection), or \code{FALSE} to mark as
 concave.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Polygon2D-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Polygon2D-print}{}}}
-\subsection{Method \code{print()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Polygon2D$print(n = NULL, ...)}\if{html}{\out{</div>}}
+\subsection{\code{Polygon2D$print()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Polygon2D$print(n = NULL, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{Number of vertices to print.  If \code{NULL} print all.}
+      \item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{Number of vertices to print.  If \code{NULL} print all.}
-
-\item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Polygon2D-transform"></a>}}
 \if{latex}{\out{\hypertarget{method-Polygon2D-transform}{}}}
-\subsection{Method \code{transform()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Polygon2D$transform(mat = transform2d())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{mat}}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
+\subsection{\code{Polygon2D$transform()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Polygon2D$transform(mat = transform2d())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{mat}}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
 The last \strong{column} must be equal to \code{c(0, 0, 1)}.
 If the last \strong{row} is \code{c(0, 0, 1)} you may need to transpose it
 to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
 If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
 we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Polygon2D-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Polygon2D-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Polygon2D$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Polygon2D$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Polygon2D$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
