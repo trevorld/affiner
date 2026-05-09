@@ -20,116 +20,120 @@ length(s)
 s[1]
 }
 \section{Super class}{
-\code{\link[affiner:Coord2D]{affiner::Coord2D}} -> \code{Segment2D}
+\code{\link[affiner:Coord2D]{Coord2D}} -> \code{Segment2D}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{p1}}{A \link{Coord2D} object of the first endpoints.}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{p1}}{A \link{Coord2D} object of the first endpoints.}
 
-\item{\code{p2}}{A \link{Coord2D} object of the second endpoints.}
+    \item{\code{p2}}{A \link{Coord2D} object of the second endpoints.}
 
-\item{\code{mid_point}}{A \link{Coord2D} object of the segment midpoints
+    \item{\code{mid_point}}{A \link{Coord2D} object of the segment midpoints
 (computed on demand and cached until the next transformation).}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Segment2D-new}{\code{Segment2D$new()}}
-\item \href{#method-Segment2D-print}{\code{Segment2D$print()}}
-\item \href{#method-Segment2D-transform}{\code{Segment2D$transform()}}
-\item \href{#method-Segment2D-clone}{\code{Segment2D$clone()}}
+  \itemize{
+    \item \href{#method-Segment2D-initialize}{\code{Segment2D$new()}}
+    \item \href{#method-Segment2D-print}{\code{Segment2D$print()}}
+    \item \href{#method-Segment2D-transform}{\code{Segment2D$transform()}}
+    \item \href{#method-Segment2D-clone}{\code{Segment2D$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="permute"><a href='../../affiner/html/Coord2D.html#method-Coord2D-permute'><code>affiner::Coord2D$permute()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="project"><a href='../../affiner/html/Coord2D.html#method-Coord2D-project'><code>affiner::Coord2D$project()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="reflect"><a href='../../affiner/html/Coord2D.html#method-Coord2D-reflect'><code>affiner::Coord2D$reflect()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="rotate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-rotate'><code>affiner::Coord2D$rotate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="scale"><a href='../../affiner/html/Coord2D.html#method-Coord2D-scale'><code>affiner::Coord2D$scale()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="shear"><a href='../../affiner/html/Coord2D.html#method-Coord2D-shear'><code>affiner::Coord2D$shear()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="translate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-translate'><code>affiner::Coord2D$translate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="permute"><a href='../../affiner/html/Coord2D.html#method-Coord2D-permute'><code>Coord2D$permute()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="project"><a href='../../affiner/html/Coord2D.html#method-Coord2D-project'><code>Coord2D$project()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="reflect"><a href='../../affiner/html/Coord2D.html#method-Coord2D-reflect'><code>Coord2D$reflect()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="rotate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-rotate'><code>Coord2D$rotate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="scale"><a href='../../affiner/html/Coord2D.html#method-Coord2D-scale'><code>Coord2D$scale()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="shear"><a href='../../affiner/html/Coord2D.html#method-Coord2D-shear'><code>Coord2D$shear()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="affiner" data-topic="Coord2D" data-id="translate"><a href='../../affiner/html/Coord2D.html#method-Coord2D-translate'><code>Coord2D$translate()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Segment2D-new"></a>}}
-\if{latex}{\out{\hypertarget{method-Segment2D-new}{}}}
-\subsection{Method \code{new()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Segment2D$new(xyw, vec)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{xyw}}{A matrix with three columns for homogeneous \code{p1} coordinates.
+\if{html}{\out{<a id="method-Segment2D-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Segment2D-initialize}{}}}
+\subsection{\code{Segment2D$new()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Segment2D$new(xyw, vec)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{xyw}}{A matrix with three columns for homogeneous \code{p1} coordinates.
 Column names should be \code{"x"}, \code{"y"}, and \code{"w"}.}
-
-\item{\code{vec}}{A two-column matrix of edge vectors \code{p2 - p1}.
+      \item{\code{vec}}{A two-column matrix of edge vectors \code{p2 - p1}.
 Column names should be \code{"x"} and \code{"y"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Segment2D-print"></a>}}
 \if{latex}{\out{\hypertarget{method-Segment2D-print}{}}}
-\subsection{Method \code{print()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Segment2D$print(n = NULL, ...)}\if{html}{\out{</div>}}
+\subsection{\code{Segment2D$print()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Segment2D$print(n = NULL, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{n}}{Number of segments to print.  If \code{NULL} print all.}
+      \item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{n}}{Number of segments to print.  If \code{NULL} print all.}
-
-\item{\code{...}}{Passed to \code{\link[=format.default]{format.default()}}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Segment2D-transform"></a>}}
 \if{latex}{\out{\hypertarget{method-Segment2D-transform}{}}}
-\subsection{Method \code{transform()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Segment2D$transform(mat = transform2d())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{mat}}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
+\subsection{\code{Segment2D$transform()}}{
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Segment2D$transform(mat = transform2d())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{mat}}{A 3x3 matrix representing a post-multiplied affine transformation matrix.
 The last \strong{column} must be equal to \code{c(0, 0, 1)}.
 If the last \strong{row} is \code{c(0, 0, 1)} you may need to transpose it
 to convert it from a pre-multiplied affine transformation matrix to a post-multiplied one.
 If a 2x2 matrix (such as a 2x2 post-multiplied 2D rotation matrix)
 we'll quietly add a final column/row equal to \code{c(0, 0, 1)}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Segment2D-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Segment2D-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Segment2D$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Segment2D$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Segment2D$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

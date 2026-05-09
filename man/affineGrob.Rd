@@ -18,18 +18,18 @@ affineGrob(
 grid.affine(...)
 }
 \arguments{
-\item{grob}{A grid grob to perform affine transformations on.  Passed to \code{\link[grid:grid.group]{grid::defineGrob()}} as its \code{src} argument.}
+\item{grob}{A grid grob to perform affine transformations on.  Passed to \code{\link[grid:defineGrob]{grid::defineGrob()}} as its \code{src} argument.}
 
-\item{vp_define}{\code{\link[grid:viewport]{grid::viewport()}} to define grid group in.  Passed to \code{\link[grid:grid.group]{grid::defineGrob()}} as its \code{vp} argument.
+\item{vp_define}{\code{\link[grid:viewport]{grid::viewport()}} to define grid group in.  Passed to \code{\link[grid:defineGrob]{grid::defineGrob()}} as its \code{vp} argument.
 This will cumulative with the current viewport and the \code{vp} argument (if any),
 if this cumulative viewport falls outside the graphics device drawing area this
 grob may be clipped on certain graphics devices.}
 
 \item{transform}{An affine transformation function.
 If \code{NULL} default to \code{\link[grid:viewportTransform]{grid::viewportTransform()}}.
-Passed to \code{\link[grid:grid.group]{grid::useGrob()}} as its \code{transform} argument.}
+Passed to \code{\link[grid:useGrob]{grid::useGrob()}} as its \code{transform} argument.}
 
-\item{vp_use}{\code{\link[grid:viewport]{grid::viewport()}} passed to \code{\link[grid:grid.group]{grid::useGrob()}} as its \code{vp} argument.}
+\item{vp_use}{\code{\link[grid:viewport]{grid::viewport()}} passed to \code{\link[grid:useGrob]{grid::useGrob()}} as its \code{vp} argument.}
 
 \item{name}{A character identifier (for grid).}
 
@@ -40,7 +40,7 @@ Passed to \code{\link[grid:grid.group]{grid::useGrob()}} as its \code{transform}
 \item{...}{Passed to \code{affineGrob()}}
 }
 \value{
-A \code{\link[grid:grid.grob]{grid::gTree()}} (grob) object of class "affine".
+A \code{\link[grid:gTree]{grid::gTree()}} (grob) object of class "affine".
 As a side effect \code{grid.affine()} draws to the active graphics device.
 }
 \description{
@@ -53,7 +53,7 @@ If \code{isTRUE(getRversion() >= '4.2.0')} then the active graphics device shoul
 In particular the following graphics devices should support the affine transformation feature:
 \itemize{
 \item R's \code{\link[grDevices:pdf]{grDevices::pdf()}} device
-\item R's 'cairo' devices e.g. \code{\link[grDevices:cairo]{grDevices::cairo_pdf()}}, \code{grDevices::png(type = 'cairo')}, \code{\link[grDevices:cairo]{grDevices::svg()}}, \code{grDevices::x11(type = 'cairo')}, etc. If \code{isTRUE(capabilities('cairo'))} then R was compiled with support for the 'cairo' devices .
+\item R's 'cairo' devices e.g. \code{\link[grDevices:cairo_pdf]{grDevices::cairo_pdf()}}, \code{grDevices::png(type = 'cairo')}, \code{\link[grDevices:svg]{grDevices::svg()}}, \code{grDevices::x11(type = 'cairo')}, etc. If \code{isTRUE(capabilities('cairo'))} then R was compiled with support for the 'cairo' devices .
 \item R's 'quartz' devices (since R 4.3.0) e.g. \code{\link[grDevices:quartz]{grDevices::quartz()}}, \code{grDevices::png(type = 'quartz')}, etc. If \code{isTRUE(capabilities('aqua'))} then R was compiled with support for the 'quartz' devices (generally only \code{TRUE} on macOS systems).
 \item \code{ragg}'s devices (since v1.3.0) e.g. \code{\link[ragg:agg_png]{ragg::agg_png()}}, \code{\link[ragg:agg_capture]{ragg::agg_capture()}}, etc.
 }

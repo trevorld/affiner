@@ -1,5 +1,5 @@
-affiner 0.3.0 (development)
-===========================
+affiner 0.3.1
+=============
 
 New features
 ------------

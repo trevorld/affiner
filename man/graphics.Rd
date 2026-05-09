@@ -82,7 +82,7 @@ Used for its side effect of drawing to the graphics device.
 \code{\link[=points]{points()}} draws \link{Coord1D} and \link{Coord2D} class objects to an existing plot.
 \code{\link[=lines]{lines()}} draws \link{Coord2D}, \link{Ellipse2D}, \link{Point1D}, \link{Line2D}, and \link{Segment2D}
 class objects to an existing plot.
-If the suggested \link[ggplot2:ggplot2-package]{ggplot2} and \link[rgl:rgl-package]{rgl} packages
+If the suggested \link[ggplot2:ggplot2]{ggplot2} and \link[rgl:rgl]{rgl} packages
 are available we also register \code{\link[ggplot2:autolayer]{ggplot2::autolayer()}} methods for \link{Coord1D},
 \link{Coord2D}, \link{Ellipse2D}, \link{Line2D}, \link{Point1D}, \link{Polygon2D}, and \link{Segment2D}
 class objects and \code{\link[rgl:plot3d]{rgl::plot3d()}} methods for \link{Coord3D} and \link{Plane3D} class

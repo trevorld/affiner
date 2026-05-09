@@ -93,7 +93,7 @@ if (require("grid") &&
 }
 }
 \seealso{
-Intended for use with \code{\link[=affineGrob]{affineGrob()}} and \code{\link[grid:grid.group]{grid::useGrob()}}.
+Intended for use with \code{\link[=affineGrob]{affineGrob()}} and \code{\link[grid:useGrob]{grid::useGrob()}}.
 See \url{https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/groups/groups.html}
 for more information about the group affine transformation feature.
 }

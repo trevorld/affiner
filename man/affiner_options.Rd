@@ -15,7 +15,7 @@ The return list will use any of these instead of the current/default values.}
 \value{
 A list of option values.
 Note this function \strong{does not} set option values itself but
-this list can be passed to \code{\link[=options]{options()}}, \code{\link[withr:with_options]{withr::local_options()}}, or \code{\link[withr:with_options]{withr::with_options()}}.
+this list can be passed to \code{\link[=options]{options()}}, \code{\link[withr:local_options]{withr::local_options()}}, or \code{\link[withr:with_options]{withr::with_options()}}.
 }
 \description{
 \code{affiner_options()} returns the \code{affiner} package's global options.
