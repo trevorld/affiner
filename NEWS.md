@@ -4,6 +4,7 @@ affiner 0.4.0 (development)
 New features
 ------------
 
+* `aabb_polygon2d()` creates an axis-aligned bounding box `Polygon2D` object covering the range of its input (#81).
 * `range()` now has methods for `Ellipse2D`, `Line2D`, `Plane3D`, `Point1D`, and `Segment2D` objects (#82).
 
 Bug fixes and minor improvements
