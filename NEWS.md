@@ -1,3 +1,11 @@
+affiner 0.4.0 (development)
+===========================
+
+Bug fixes and minor improvements
+--------------------------------
+
+* `c()` methods added for `Ellipse2D` and `Segment2D` objects.
+
 affiner 0.3.1
 =============
 

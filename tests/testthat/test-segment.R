@@ -138,3 +138,15 @@ test_that("sort() on Segment2D with decreasing = TRUE gives closest first", {
 		rev(painter_depth(s_desc, scale = 1, alpha = degrees(45)))
 	)
 })
+
+test_that("c.Segment2D()", {
+	p1 <- as_coord2d(x = c(0, 1), y = c(0, 0))
+	p2 <- as_coord2d(x = c(1, 1), y = c(0, 1))
+	s1 <- as_segment2d(p1, p2 = p2)
+	s2 <- as_segment2d(as_coord2d(-2, 3), p2 = as_coord2d(5, -1))
+	combined <- c(s1, s2)
+	expect_r6_class(combined, "Segment2D")
+	expect_length(combined, 3L)
+	expect_equal(combined$p1, c(s1$p1, s2$p1))
+	expect_equal(combined$p2, c(s1$p2, s2$p2))
+})
