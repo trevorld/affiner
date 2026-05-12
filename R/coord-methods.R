@@ -521,10 +521,14 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 
 #' Compute axis-aligned ranges
 #'
-#' `range()` computes axis-aligned ranges for
-#' [Coord1D], [Coord2D], and [Coord3D] class objects.
+#' `range()` computes axis-aligned ranges for [Coord1D], [Coord2D],
+#' [Coord3D], [Ellipse2D], [Line2D], [Plane3D], [Point1D], and [Segment2D]
+#' class objects.
+#' Note that for [Line2D] and [Plane3D] objects the range may be `-Inf` to
+#' `Inf` in one or more dimensions since lines and planes have infinite extent.
 #' @param na.rm logical, indicating if `NA`'s should be omitted
-#' @param ... [Coord1D], [Coord2D], or [Coord3D] object(s)
+#' @param ... [Coord1D], [Coord2D], [Coord3D], [Ellipse2D], [Line2D],
+#'   [Plane3D], [Point1D], or [Segment2D] object(s)
 #' @name bounding_ranges
 #' @return Either a [Coord1D], [Coord2D], or [Coord3D] object of length two.
 #'         The first element will have the minimum x/y(/z) coordinates
@@ -533,6 +537,23 @@ sum.Coord3D <- function(..., na.rm = FALSE) {
 #' @examples
 #' range(as_coord2d(rnorm(5), rnorm(5)))
 #' range(as_coord3d(rnorm(5), rnorm(5), rnorm(5)))
+#'
+#' e <- as_ellipse2d(as_coord2d(c(0, 1), c(0, 1)), rx = c(1, 2), ry = c(0.5, 1))
+#' range(e)
+#'
+#' # A vertical line (x = 2) and a horizontal line (y = 3):
+#' # x range covers only {2}, but y is Inf for the vertical line
+#' l <- as_line2d(a = c(1, 0), b = c(0, 1), c = c(-2, -3))
+#' range(l)
+#'
+#' # A plane perpendicular to the x-axis at x = 5
+#' range(as_plane3d(a = 1, b = 0, c = 0, d = -5))
+#'
+#' range(as_point1d(a = c(1, 1), b = c(-2, -5)))
+#'
+#' s <- as_segment2d(as_coord2d(c(0, 1), c(0, 0)),
+#'                   p2 = as_coord2d(c(1, 1), c(0, 1)))
+#' range(s)
 #' @export
 range.Coord1D <- function(..., na.rm = FALSE) {
 	x <- c.Coord1D(...)
@@ -560,6 +581,37 @@ range.Coord3D <- function(..., na.rm = FALSE) {
 		x <- x[!is.na(x)]
 	}
 	as_coord3d(range(x$x), range(x$y), range(x$z))
+}
+
+#' @rdname bounding_ranges
+#' @export
+range.Segment2D <- function(..., na.rm = FALSE) {
+	l <- list(...)
+	p1x <- unlist(lapply(l, function(s) s$p1$x))
+	p1y <- unlist(lapply(l, function(s) s$p1$y))
+	p2x <- unlist(lapply(l, function(s) s$p2$x))
+	p2y <- unlist(lapply(l, function(s) s$p2$y))
+	as_coord2d(
+		range(c(p1x, p2x), na.rm = na.rm),
+		range(c(p1y, p2y), na.rm = na.rm)
+	)
+}
+
+#' @rdname bounding_ranges
+#' @export
+range.Ellipse2D <- function(..., na.rm = FALSE) {
+	l <- list(...)
+	cx <- unlist(lapply(l, function(e) e$x))
+	cy <- unlist(lapply(l, function(e) e$y))
+	rx <- unlist(lapply(l, function(e) e$rx))
+	ry <- unlist(lapply(l, function(e) e$ry))
+	theta <- do.call(c, lapply(l, function(e) e$theta))
+	x_hw <- sqrt((rx * cos(theta))^2 + (ry * sin(theta))^2)
+	y_hw <- sqrt((rx * sin(theta))^2 + (ry * cos(theta))^2)
+	as_coord2d(
+		range(c(cx - x_hw, cx + x_hw), na.rm = na.rm),
+		range(c(cy - y_hw, cy + y_hw), na.rm = na.rm)
+	)
 }
 
 #' Compute dot (inner) products

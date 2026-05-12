@@ -159,6 +159,53 @@ is.infinite.Plane3D <- function(x) {
 	is.infinite(x$a) | is.infinite(x$b) | is.infinite(x$c) | is.infinite(x$d)
 }
 
+#' @rdname bounding_ranges
+#' @export
+range.Point1D <- function(..., na.rm = FALSE) {
+	l <- list(...)
+	x <- unlist(lapply(l, function(p) -p$b / p$a))
+	as_coord1d(range(x, na.rm = na.rm))
+}
+
+#' @rdname bounding_ranges
+#' @export
+range.Line2D <- function(..., na.rm = FALSE) {
+	l <- list(...)
+	a <- unlist(lapply(l, function(x) x$a))
+	b <- unlist(lapply(l, function(x) x$b))
+	cv <- unlist(lapply(l, function(x) x$c))
+	if (na.rm) {
+		keep <- !is.na(a) & !is.na(b) & !is.na(cv)
+		a <- a[keep]
+		b <- b[keep]
+		cv <- cv[keep]
+	}
+	x_range <- if (any(b != 0)) c(-Inf, Inf) else range(-cv / a)
+	y_range <- if (any(a != 0)) c(-Inf, Inf) else range(-cv / b)
+	as_coord2d(x_range, y_range)
+}
+
+#' @rdname bounding_ranges
+#' @export
+range.Plane3D <- function(..., na.rm = FALSE) {
+	l <- list(...)
+	a <- unlist(lapply(l, function(x) x$a))
+	b <- unlist(lapply(l, function(x) x$b))
+	cv <- unlist(lapply(l, function(x) x$c))
+	d <- unlist(lapply(l, function(x) x$d))
+	if (na.rm) {
+		keep <- !is.na(a) & !is.na(b) & !is.na(cv) & !is.na(d)
+		a <- a[keep]
+		b <- b[keep]
+		cv <- cv[keep]
+		d <- d[keep]
+	}
+	x_range <- if (any(b != 0 | cv != 0)) c(-Inf, Inf) else range(-d / a)
+	y_range <- if (any(a != 0 | cv != 0)) c(-Inf, Inf) else range(-d / b)
+	z_range <- if (any(a != 0 | b != 0)) c(-Inf, Inf) else range(-d / cv)
+	as_coord3d(x_range, y_range, z_range)
+}
+
 # "equality" is tricky unless we "normalize" the lines
 # `==.Line2D`
 # `==.Plane3D`

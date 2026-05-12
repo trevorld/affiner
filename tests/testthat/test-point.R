@@ -32,3 +32,11 @@ test_that("`is_equivalent.Point1D()`", {
 	expect_equal(is_equivalent(as_point1d(a = 2, b = -10), p1), c(FALSE, TRUE, FALSE))
 	expect_equal(is_equivalent(p1, c1), rep(TRUE, 3L))
 })
+
+test_that("range.Point1D()", {
+	p <- as_point1d(a = c(1, 1), b = c(-2, -5))
+	expect_equal(range(p), as_coord1d(c(2, 5)))
+
+	p2 <- as_point1d(a = 2, b = -6)
+	expect_equal(range(p, p2), as_coord1d(c(2, 5)))
+})

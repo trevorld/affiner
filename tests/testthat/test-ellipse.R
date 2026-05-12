@@ -206,3 +206,14 @@ test_that("c.Ellipse2D()", {
 	expect_equal(combined$ry, c(0.5, 1, 2))
 	expect_equal(combined$theta, degrees(c(0, 30, 45)))
 })
+
+test_that("range.Ellipse2D()", {
+	e <- as_ellipse2d(as_coord2d(1, 2), rx = 3, ry = 1, theta = degrees(0))
+	expect_equal(range(e), as_coord2d(c(-2, 4), c(1, 3)))
+
+	circ <- as_ellipse2d(as_coord2d(0, 0), rx = 1, ry = 1)
+	expect_equal(range(circ), as_coord2d(c(-1, 1), c(-1, 1)))
+
+	e2 <- as_ellipse2d(as_coord2d(c(0, 3), c(0, 0)), rx = c(1, 2), ry = c(1, 1), theta = degrees(0))
+	expect_equal(range(e2), as_coord2d(c(-1, 5), c(-1, 1)))
+})

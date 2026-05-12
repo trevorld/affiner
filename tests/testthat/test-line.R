@@ -79,3 +79,23 @@ test_that("as_line2d()", {
 
 	expect_equal(normal2d(as_line2d(a = 1, b = 1, c = 0)), as_coord2d(sqrt(2) / 2, sqrt(2) / 2))
 })
+
+test_that("range.Line2D()", {
+	# All vertical lines (b=0): x is finite, y is infinite
+	vl <- as_line2d(a = c(1, 1), b = c(0, 0), c = c(-2, -5))
+	r <- range(vl)
+	expect_equal(r$x, c(2, 5))
+	expect_equal(r$y, c(-Inf, Inf))
+
+	# All horizontal lines (a=0): y is finite, x is infinite
+	hl <- as_line2d(a = c(0, 0), b = c(1, 1), c = c(-3, -7))
+	r2 <- range(hl)
+	expect_equal(r2$x, c(-Inf, Inf))
+	expect_equal(r2$y, c(3, 7))
+
+	# General line: both dimensions are infinite
+	gl <- as_line2d(a = 1, b = 1, c = 0)
+	r3 <- range(gl)
+	expect_equal(r3$x, c(-Inf, Inf))
+	expect_equal(r3$y, c(-Inf, Inf))
+})

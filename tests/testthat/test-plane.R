@@ -33,3 +33,26 @@ test_that("as_plane3d()", {
 	pt <- as_point1d(a = 1, b = -1)
 	expect_equal(as_plane3d(pt, b = 3, c = 4), as_plane3d(a = 1, b = 3, c = 4, d = -1))
 })
+
+test_that("range.Plane3D()", {
+	# x-perpendicular planes: x is finite, y and z are infinite
+	xp <- as_plane3d(a = c(1, 1), b = c(0, 0), c = c(0, 0), d = c(-2, -5))
+	r <- range(xp)
+	expect_equal(r$x, c(2, 5))
+	expect_equal(r$y, c(-Inf, Inf))
+	expect_equal(r$z, c(-Inf, Inf))
+
+	# y-perpendicular plane: y is finite, x and z are infinite
+	yp <- as_plane3d(a = 0, b = 1, c = 0, d = -4)
+	r2 <- range(yp)
+	expect_equal(r2$x, c(-Inf, Inf))
+	expect_equal(r2$y, c(4, 4))
+	expect_equal(r2$z, c(-Inf, Inf))
+
+	# General plane: all dimensions are infinite
+	gp <- as_plane3d(a = 1, b = 1, c = 1, d = 0)
+	r3 <- range(gp)
+	expect_equal(r3$x, c(-Inf, Inf))
+	expect_equal(r3$y, c(-Inf, Inf))
+	expect_equal(r3$z, c(-Inf, Inf))
+})

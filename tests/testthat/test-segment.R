@@ -150,3 +150,13 @@ test_that("c.Segment2D()", {
 	expect_equal(combined$p1, c(s1$p1, s2$p1))
 	expect_equal(combined$p2, c(s1$p2, s2$p2))
 })
+
+test_that("range.Segment2D()", {
+	p1 <- as_coord2d(x = c(0, 1), y = c(0, 0))
+	p2 <- as_coord2d(x = c(1, 1), y = c(0, 1))
+	s <- as_segment2d(p1, p2 = p2)
+	expect_equal(range(s), as_coord2d(c(0, 1), c(0, 1)))
+
+	s2 <- as_segment2d(as_coord2d(-2, 3), p2 = as_coord2d(5, -1))
+	expect_equal(range(c(s, s2)), as_coord2d(c(-2, 5), c(-1, 3)))
+})

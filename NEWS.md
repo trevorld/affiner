@@ -1,6 +1,11 @@
 affiner 0.4.0 (development)
 ===========================
 
+New features
+------------
+
+* `range()` now has methods for `Ellipse2D`, `Line2D`, `Plane3D`, `Point1D`, and `Segment2D` objects (#82).
+
 Bug fixes and minor improvements
 --------------------------------
 
