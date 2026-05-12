@@ -16,8 +16,28 @@
 }
 
 #' @export
+c.Segment2D <- function(...) {
+	l <- list(...)
+	stopifnot(all(vapply(l, is_segment2d, logical(1))))
+	xyw <- do.call(rbind, lapply(l, function(s) s$xyw))
+	vec <- do.call(rbind, lapply(l, function(s) s$.__enclos_env__$private$vec))
+	Segment2D$new(xyw, vec)
+}
+
+#' @export
 `[.Ellipse2D` <- function(x, i) {
 	Ellipse2D$new(x$xyw[i, , drop = FALSE], rx = x$rx[i], ry = x$ry[i], theta = x$theta[i])
+}
+
+#' @export
+c.Ellipse2D <- function(...) {
+	l <- list(...)
+	stopifnot(all(vapply(l, is_ellipse2d, logical(1))))
+	xyw <- do.call(rbind, lapply(l, function(e) e$xyw))
+	rx <- unlist(lapply(l, function(e) e$rx))
+	ry <- unlist(lapply(l, function(e) e$ry))
+	theta <- do.call(c, lapply(l, function(e) e$theta))
+	Ellipse2D$new(xyw, rx = rx, ry = ry, theta = theta)
 }
 
 #' @export

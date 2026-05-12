@@ -189,3 +189,20 @@ test_that("has_overlap2d.Ellipse2D() errors on unsupported y class", {
 	circ <- as_ellipse2d(as_coord2d(0, 0), r = 1)
 	expect_error(has_overlap2d(circ, "foo"), "Don't know how to check overlap with")
 })
+
+test_that("c.Ellipse2D()", {
+	e1 <- as_ellipse2d(as_coord2d(0, 0), rx = 1, ry = 0.5, theta = degrees(0))
+	e2 <- as_ellipse2d(
+		as_coord2d(c(1, 2), c(3, 4)),
+		rx = c(2, 3),
+		ry = c(1, 2),
+		theta = degrees(c(30, 45))
+	)
+	combined <- c(e1, e2)
+	expect_r6_class(combined, "Ellipse2D")
+	expect_length(combined, 3L)
+	expect_equal(combined$x, c(0, 1, 2))
+	expect_equal(combined$rx, c(1, 2, 3))
+	expect_equal(combined$ry, c(0.5, 1, 2))
+	expect_equal(combined$theta, degrees(c(0, 30, 45)))
+})
