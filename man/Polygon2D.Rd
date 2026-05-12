@@ -20,6 +20,11 @@ h <- p$convex_hull
 # Transformations are inherited from Coord2D
 p$rotate(degrees(45))
 }
+\seealso{
+\code{\link[=aabb_polygon2d]{aabb_polygon2d()}}, \code{\link[=isotoxal_2ngon_polygon2d]{isotoxal_2ngon_polygon2d()}},
+\code{\link[=rectangle_polygon2d]{rectangle_polygon2d()}}, \code{\link[=regular_ngon_polygon2d]{regular_ngon_polygon2d()}} for constructors
+that return \link{Polygon2D} objects.
+}
 \section{Super class}{
 \code{\link[affiner:Coord2D]{Coord2D}} -> \code{Polygon2D}
 }

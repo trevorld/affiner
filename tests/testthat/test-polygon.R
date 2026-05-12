@@ -227,6 +227,22 @@ test_that("regular_ngon_polygon2d()", {
 	expect_equal(p0$y[1], 0, tolerance = 1e-10)
 })
 
+test_that("aabb_polygon2d()", {
+	pts <- as_coord2d(c(1, 3, 2), c(4, 1, 5))
+	p <- aabb_polygon2d(pts)
+	expect_r6_class(p, "Polygon2D")
+	expect_true(p$is_convex)
+	expect_equal(length(p), 4L)
+	expect_equal(range(p)$x, c(1, 3), tolerance = 1e-10)
+	expect_equal(range(p)$y, c(1, 5), tolerance = 1e-10)
+
+	# Works with Ellipse2D
+	e <- as_ellipse2d(as_coord2d(0, 0), rx = 2, ry = 1)
+	pe <- aabb_polygon2d(e)
+	expect_equal(range(pe)$x, c(-2, 2), tolerance = 1e-10)
+	expect_equal(range(pe)$y, c(-1, 1), tolerance = 1e-10)
+})
+
 test_that("rectangle_polygon2d()", {
 	p <- rectangle_polygon2d()
 	expect_r6_class(p, "Polygon2D")

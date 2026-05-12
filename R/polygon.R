@@ -15,6 +15,9 @@
 #'
 #' # Transformations are inherited from Coord2D
 #' p$rotate(degrees(45))
+#' @seealso [aabb_polygon2d()], [isotoxal_2ngon_polygon2d()],
+#'   [rectangle_polygon2d()], [regular_ngon_polygon2d()] for constructors
+#'   that return [Polygon2D] objects.
 #' @export
 Polygon2D <- R6Class(
 	"Polygon2D",

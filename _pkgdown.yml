@@ -42,6 +42,7 @@ reference:
         - Polygon2D
         - as_polygon2d
         - is_polygon2d
+        - aabb_polygon2d
         - isotoxal_2ngon_polygon2d
         - rectangle_polygon2d
         - regular_ngon_polygon2d

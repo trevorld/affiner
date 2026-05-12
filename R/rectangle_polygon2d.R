@@ -10,7 +10,8 @@
 #' @param theta Rotation angle (default `degrees(0)`).
 #'   Will be coerced by [degrees()].
 #' @return A [Polygon2D] object with `$is_convex == TRUE`.
-#' @seealso [isotoxal_2ngon_polygon2d()] for isotoxal star polygons.
+#' @seealso [aabb_polygon2d()] for an axis-aligned bounding box polygon.
+#'   [isotoxal_2ngon_polygon2d()] for isotoxal star polygons.
 #'   [regular_ngon_polygon2d()] for regular convex polygons.
 #' @examples
 #' # A unit square

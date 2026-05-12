@@ -36,6 +36,7 @@ p2 <- rectangle_polygon2d(width = 2, height = 1, theta = degrees(45))
 plot(p2)
 }
 \seealso{
+\code{\link[=aabb_polygon2d]{aabb_polygon2d()}} for an axis-aligned bounding box polygon.
 \code{\link[=isotoxal_2ngon_polygon2d]{isotoxal_2ngon_polygon2d()}} for isotoxal star polygons.
 \code{\link[=regular_ngon_polygon2d]{regular_ngon_polygon2d()}} for regular convex polygons.
 }
