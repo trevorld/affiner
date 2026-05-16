@@ -457,6 +457,15 @@ test_that("dot_product", {
 	expect_equal(as_coord3d(1, 2, 3) %*% as_coord3d(4, 5, 6), 32)
 })
 
+test_that("cross_product2d", {
+	x <- as_coord2d(2, 3)
+	y <- as_coord2d(5, 6)
+	expect_equal(cross_product2d(x, y), 2 * 6 - 3 * 5)
+
+	skip_if_not(getRversion() >= "4.4.0")
+	expect_equal(crossprod(x, y), 2 * 6 - 3 * 5)
+})
+
 test_that("cross_product3d", {
 	x <- as_coord3d(2, 3, 4)
 	y <- as_coord3d(5, 6, 7)

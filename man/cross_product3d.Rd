@@ -27,4 +27,5 @@ if (getRversion() >= "4.4.0") {
 }
 \seealso{
 \code{\link[=dot_product3d]{dot_product3d()}} for the dot product of two \link{Coord3D} vectors.
+\code{\link[=cross_product2d]{cross_product2d()}} for the cross product of two \link{Coord2D} vectors.
 }

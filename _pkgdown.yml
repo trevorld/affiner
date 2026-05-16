@@ -82,6 +82,7 @@ reference:
         - abs.Coord2D
         - range.Coord2D
         - convex_hull2d.Coord2D
+        - cross_product2d
         - cross_product3d
         - distance1d
         - distance2d

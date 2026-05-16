@@ -631,7 +631,8 @@ range.Ellipse2D <- function(..., na.rm = FALSE) {
 #' if (getRversion() >= "4.3.0") {
 #'   p1 %*% p2
 #' }
-#' @seealso [cross_product3d()] for the cross product of two [Coord3D] vectors.
+#' @seealso [cross_product2d()] for the cross product of two [Coord2D] vectors.
+#'   [cross_product3d()] for the cross product of two [Coord3D] vectors.
 #' @name dot_product
 #' @export
 dot_product1d <- function(x, y) {
@@ -829,6 +830,41 @@ Arg.Coord2D <- function(z) {
 	atan2(z$y, z$x)
 }
 
+#' Compute 2D vector cross product
+#'
+#' `cross_product2d()` computes the 2D cross product (also known as the
+#' perp dot product) of two [Coord2D] class vectors.
+#' The 2D cross product of vectors \eqn{(x_1, y_1)} and \eqn{(x_2, y_2)} is the
+#' scalar \eqn{x_1 y_2 - y_1 x_2}.
+#' @param x A [Coord2D] class vector.
+#' @param y A [Coord2D] class vector.
+#' @return A numeric vector of 2D cross products.
+#' @examples
+#' x <- as_coord2d(2, 3)
+#' y <- as_coord2d(5, 6)
+#' cross_product2d(x, y)
+#' if (getRversion() >= "4.4.0") {
+#'   crossprod(x, y)
+#' }
+#' @seealso [dot_product2d()] for the dot product of two [Coord2D] vectors.
+#'   [cross_product3d()] for the cross product of two [Coord3D] vectors.
+#' @export
+cross_product2d <- function(x, y) {
+	stopifnot(is_coord2d(x), is_coord2d(y))
+	n <- max(length(x), length(y))
+	x <- rep_len(x, n)
+	y <- rep_len(y, n)
+	x$x * y$y - x$y * y$x
+}
+
+#' @rawNamespace if (getRversion() >= "4.4.0") {
+#'   S3method("crossprod",Coord2D)
+#' }
+crossprod.Coord2D <- function(x, y, ...) {
+	chkDots(...)
+	cross_product2d(x, y)
+}
+
 #' Compute 3D vector cross product
 #'
 #' `cross_product3d()` computes the cross product of two [Coord3D] class vectors.
@@ -843,6 +879,7 @@ Arg.Coord2D <- function(z) {
 #'   crossprod(x, y)
 #' }
 #' @seealso [dot_product3d()] for the dot product of two [Coord3D] vectors.
+#'   [cross_product2d()] for the cross product of two [Coord2D] vectors.
 #' @export
 cross_product3d <- function(x, y) {
 	stopifnot(is_coord3d(x), is_coord3d(y))
