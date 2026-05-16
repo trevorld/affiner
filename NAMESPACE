@@ -321,6 +321,7 @@ export(convex_hull2d)
 export(cosecant)
 export(cosine)
 export(cotangent)
+export(cross_product2d)
 export(cross_product3d)
 export(degrees)
 export(distance1d)
@@ -401,6 +402,9 @@ if (getRversion() >= "4.3.0") {
 }
 if (getRversion() >= "4.3.0") {
   S3method("%*%",at_matrix)
+}
+if (getRversion() >= "4.4.0") {
+  S3method("crossprod",Coord2D)
 }
 if (getRversion() >= "4.4.0") {
   S3method("crossprod",Coord3D)

@@ -36,5 +36,6 @@ if (getRversion() >= "4.3.0") {
 }
 }
 \seealso{
+\code{\link[=cross_product2d]{cross_product2d()}} for the cross product of two \link{Coord2D} vectors.
 \code{\link[=cross_product3d]{cross_product3d()}} for the cross product of two \link{Coord3D} vectors.
 }
