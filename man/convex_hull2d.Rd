@@ -19,13 +19,13 @@ such as a \link{Coord2D} or \link{Polygon2D} object.}
 \item{...}{Further arguments passed to or from other methods.}
 }
 \value{
-A \link{Polygon2D} object representing the convex hull.
+A \link{Polygon2D} object representing the convex hull whose vertices are
+in counter-clockwise order.
 }
 \description{
 \code{convex_hull2d()} is a S3 generic for computing the convex hull of an
 object.  It is implemented for \link{Coord2D} and \link{Polygon2D} objects using
-\code{\link[grDevices:chull]{grDevices::chull()}} and returns a \link{Polygon2D} whose vertices are in
-counter-clockwise order.
+\code{\link[grDevices:chull]{grDevices::chull()}}.
 }
 \examples{
 pts <- as_coord2d(x = rnorm(20), y = rnorm(20))

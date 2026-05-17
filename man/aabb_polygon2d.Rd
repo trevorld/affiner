@@ -13,7 +13,8 @@ of length two (e.g. \link{Coord2D}, \link{Ellipse2D}, \link{Segment2D}).}
 \item{...}{Passed to \code{\link[=range]{range()}}.}
 }
 \value{
-A \link{Polygon2D} object with \verb{$is_convex == TRUE}.
+A \link{Polygon2D} object with \verb{$is_convex == TRUE} whose vertices are in
+counter-clockwise order.
 }
 \description{
 \code{aabb_polygon2d()} creates an axis-aligned bounding box \link{Polygon2D} object

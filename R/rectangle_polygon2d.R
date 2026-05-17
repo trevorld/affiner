@@ -9,7 +9,8 @@
 #' @param y Y-coordinate of the center (default `0`).
 #' @param theta Rotation angle (default `degrees(0)`).
 #'   Will be coerced by [degrees()].
-#' @return A [Polygon2D] object with `$is_convex == TRUE`.
+#' @return A [Polygon2D] object with `$is_convex == TRUE` whose vertices are in
+#'   counter-clockwise order.
 #' @seealso [aabb_polygon2d()] for an axis-aligned bounding box polygon.
 #'   [isotoxal_2ngon_polygon2d()] for isotoxal star polygons.
 #'   [regular_ngon_polygon2d()] for regular convex polygons.

@@ -10,7 +10,8 @@
 #'   (default `0.5`).
 #' @param theta Angle of the first vertex (default `degrees(90)`).
 #'   Will be coerced by [degrees()].
-#' @return A [Polygon2D] object with `$is_convex == TRUE`.
+#' @return A [Polygon2D] object with `$is_convex == TRUE` whose vertices are in
+#'   counter-clockwise order.
 #' @seealso [isotoxal_2ngon_polygon2d()] for isotoxal star polygons.
 #'   [rectangle_polygon2d()] for rectangles.
 #' @examples

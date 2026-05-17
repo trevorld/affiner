@@ -19,7 +19,8 @@ rectangle_polygon2d(width = 1, height = 1, x = 0, y = 0, theta = degrees(0))
 Will be coerced by \code{\link[=degrees]{degrees()}}.}
 }
 \value{
-A \link{Polygon2D} object with \verb{$is_convex == TRUE}.
+A \link{Polygon2D} object with \verb{$is_convex == TRUE} whose vertices are in
+counter-clockwise order.
 }
 \description{
 \code{rectangle_polygon2d()} creates a rectangle \link{Polygon2D} object

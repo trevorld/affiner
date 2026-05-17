@@ -6,7 +6,8 @@
 #' @param x A 2D object with a [range()] method that returns a [Coord2D]
 #'   of length two (e.g. [Coord2D], [Ellipse2D], [Segment2D]).
 #' @param ... Passed to [range()].
-#' @return A [Polygon2D] object with `$is_convex == TRUE`.
+#' @return A [Polygon2D] object with `$is_convex == TRUE` whose vertices are in
+#'   counter-clockwise order.
 #' @seealso [rectangle_polygon2d()] for creating a rectangle by center and
 #'   dimensions. [range()] for the bounding-range methods.
 #' @examples

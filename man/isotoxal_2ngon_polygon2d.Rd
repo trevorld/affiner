@@ -61,7 +61,7 @@ Will be coerced by \code{\link[=degrees]{degrees()}}.}
 \item{d}{Density (winding number) of the star polygon \verb{|n/d|}.}
 }
 \value{
-A \link{Polygon2D} object.
+A \link{Polygon2D} object whose vertices are in counter-clockwise order.
 }
 \description{
 \code{isotoxal_2ngon_polygon2d()} creates an isotoxal \verb{2n}-gon \link{Polygon2D}

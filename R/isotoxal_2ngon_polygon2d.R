@@ -24,7 +24,7 @@
 #' @param beta_ext Exterior angle of an inner vertex.  Will be coerced by
 #'   [degrees()].
 #' @param d Density (winding number) of the star polygon `|n/d|`.
-#' @return A [Polygon2D] object.
+#' @return A [Polygon2D] object whose vertices are in counter-clockwise order.
 #' @seealso [isotoxal_2ngon_inner_radius()] to compute the radial scale.
 #'   [rectangle_polygon2d()] for rectangles.
 #'   [regular_ngon_polygon2d()] for regular convex polygons.

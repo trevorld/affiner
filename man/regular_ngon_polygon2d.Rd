@@ -20,7 +20,8 @@ regular_ngon_polygon2d(n, x = 0, y = 0, radius = 0.5, theta = degrees(90))
 Will be coerced by \code{\link[=degrees]{degrees()}}.}
 }
 \value{
-A \link{Polygon2D} object with \verb{$is_convex == TRUE}.
+A \link{Polygon2D} object with \verb{$is_convex == TRUE} whose vertices are in
+counter-clockwise order.
 }
 \description{
 \code{regular_ngon_polygon2d()} creates a regular n-gon \link{Polygon2D} object

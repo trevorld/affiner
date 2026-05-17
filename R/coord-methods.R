@@ -228,13 +228,13 @@ mean.Coord3D <- function(x, ...) {
 #'
 #' `convex_hull2d()` is a S3 generic for computing the convex hull of an
 #' object.  It is implemented for [Coord2D] and [Polygon2D] objects using
-#' [grDevices::chull()] and returns a [Polygon2D] whose vertices are in
-#' counter-clockwise order.
+#' [grDevices::chull()].
 #'
 #' @param x An object to compute the convex hull of,
 #'   such as a [Coord2D] or [Polygon2D] object.
 #' @param ... Further arguments passed to or from other methods.
-#' @return A [Polygon2D] object representing the convex hull.
+#' @return A [Polygon2D] object representing the convex hull whose vertices are
+#'   in counter-clockwise order.
 #' @examples
 #' pts <- as_coord2d(x = rnorm(20), y = rnorm(20))
 #' hull <- convex_hull2d(pts)
